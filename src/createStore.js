@@ -10,6 +10,7 @@ export default function createStore(initial_state) {
     updateTree: (props) => {
       state.tree = calcTree();
       if (!state.main_id) updateMainId(state.tree.main_id)
+      if (state.transition_time) props.transition_time = state.transition_time;
       if (onUpdate) onUpdate(props)
     },
     updateData: data => state.data = data,
@@ -33,7 +34,8 @@ export default function createStore(initial_state) {
   function calcTree() {
     return CalculateTree({
       data: state.data, main_id: state.main_id,
-      node_separation: state.node_separation, level_separation: state.level_separation,
+      node_separation: state.node_separation, 
+      level_separation: state.level_separation,
       single_parent_empty_card: state.single_parent_empty_card,
       is_horizontal: state.is_horizontal
     })

@@ -4,7 +4,8 @@ fetch("./data.json").then(r => r.json()).then(data => {
   const store = f3.createStore({
       data,
       node_separation: 250,
-      level_separation: 150
+      level_separation: 150,
+      transition_time: 1000
     }),
     svg = f3.createSvg(document.querySelector("#FamilyChart")),
     Card = f3.elements.Card({
