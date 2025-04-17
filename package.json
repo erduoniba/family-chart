@@ -32,16 +32,17 @@
     "dist/styles/**"
   ],
   "scripts": {
-    "build": "node build.js",
+    "build": "node scripts/build.js",
     "test": "yarn run cypress open --project tests",
     "dev": "http-server",
-    "prepublishOnly": "node build.js"
+    "prepublishOnly": "node scripts/build.js"
   },
   "sideEffects": false,
   "dependencies": {
     "d3": "6"
   },
   "devDependencies": {
+    "archiver": "^7.0.1",
     "cypress": "^9.1.0",
     "http-server": "^14.1.1",
     "rollup": "2",

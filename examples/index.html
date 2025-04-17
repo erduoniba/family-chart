@@ -5,10 +5,43 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>f3 examples</title>
   <link rel="shortcut icon" type="image/svg" href="/examples/logo.svg">
-
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    .nav-links {
+      margin-bottom: 30px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: #0066cc;
+      margin: 0 5px;
+    }
+    .examples-list {
+      list-style: none;
+      padding: 0;
+    }
+    .examples-list li {
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #f5f5f5;
+    }
+    .example-title {
+      font-weight: bold;
+      color: #333;
+    }
+    .example-desc {
+      margin-top: 5px;
+      color: #666;
+    }
+  </style>
 </head>
 <body>
-  <div>
+  <div class="nav-links">
     <a href="1-basic-tree/index.html">1-basic-tree</a>
     | <a href="2-basic-tree-aristotle">2-basic-tree-aristotle</a>
     | <a href="3-custom-card-tree">3-custom-card-tree</a>
@@ -18,5 +51,40 @@
     | <a href="7-custom-elements-and-actions/">7-custom-elements-and-actions</a>
     | <a href="8-zoom-to-card/">8-zoom-to-card</a>
   </div>
+  
+  <ul class="examples-list">
+    <li>
+      <div class="example-title">1-basic-tree</div>
+      <div class="example-desc">展示基础家谱树功能，包含基本的节点和连接线展示。</div>
+    </li>
+    <li>
+      <div class="example-title">2-basic-tree-aristotle</div>
+      <div class="example-desc">使用亚里士多德家族的历史数据展示家谱树结构。</div>
+    </li>
+    <li>
+      <div class="example-title">3-custom-card-tree</div>
+      <div class="example-desc">展示如何自定义节点卡片的样式和布局。</div>
+    </li>
+    <li>
+      <div class="example-title">4-custom-main-node</div>
+      <div class="example-desc">演示主节点的自定义功能，可以特别突出显示重要家族成员。</div>
+    </li>
+    <li>
+      <div class="example-title">5-custom-text-display</div>
+      <div class="example-desc">展示如何自定义节点中文本的显示方式和样式。</div>
+    </li>
+    <li>
+      <div class="example-title">6-html-cards</div>
+      <div class="example-desc">使用HTML方式创建更丰富的卡片内容展示。</div>
+    </li>
+    <li>
+      <div class="example-title">7-custom-elements-and-actions</div>
+      <div class="example-desc">展示自定义元素和交互操作的实现方式。</div>
+    </li>
+    <li>
+      <div class="example-title">8-zoom-to-card</div>
+      <div class="example-desc">演示如何实现缩放到特定卡片的功能。</div>
+    </li>
+  </ul>
 </body>
 </html>
