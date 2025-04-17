@@ -1,8 +1,25 @@
 // 导入家谱图库
 import f3 from '../../src/index.js'
 
-// 从JSON文件加载家谱数据
-fetch("./data.json").then(r => r.json()).then(data => {
+if (window.personNodeHandler) {
+  const params = {
+    "kId": "1231231"
+    };
+  window.personNodeHandlerCallback = function(result) {
+       const data = JSON.parse(result);
+       refresh(data);
+  };
+  personNodeHandler.personList(params, 'personNodeHandlerCallback');
+}
+else {
+  // 从JSON文件加载家谱数据
+  fetch("./data.json").then(r => r.json()).then(data => {
+    refresh(data);
+  })
+}
+
+
+function refresh(data) {
   let tree, main_id;
 
   // 创建SVG容器
@@ -30,8 +47,7 @@ fetch("./data.json").then(r => r.json()).then(data => {
     updateMainId(d.data.id)
     updateTree()
   }
-
-})
+}
 
 // 自定义卡片组件
 function Card(tree, svg, onCardClick) {
