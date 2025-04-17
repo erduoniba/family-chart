@@ -13,7 +13,7 @@ function CreateChart(cont, data) {
   this.level_separation = 150
   this.is_horizontal = false
   this.single_parent_empty_card = true
-  this.transition_time = 2000
+  this.transition_time = 1000
 
   this.is_card_html = false
 

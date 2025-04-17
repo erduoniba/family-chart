@@ -13,10 +13,6 @@ fetch("./data.json").then(r => r.json()).then(data => {
 
   // 更新树形图的函数
   function updateTree(props) {
-    // 设置过渡时间和样式 
-    props.transition_time = 200;
-    // 设置卡片样式为圆形
-    props.style = 'imageCircle';
     // 根据数据和主节点ID计算树形结构
     tree = f3.CalculateTree({ data, main_id })
     // 渲染树形图，使用自定义的Card组件

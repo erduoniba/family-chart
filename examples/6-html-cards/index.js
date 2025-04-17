@@ -25,10 +25,8 @@ fetch("./data.json").then(r => r.json()).then(data => {
 
   function updateTree(props) {
     props.style = 'imageCircle';
-    props.transition_time = 200;    
     tree = f3.CalculateTree({ data, main_id })
     props = Object.assign({}, props || {}, {cardHtml: cardHtml.node()})
-
     f3.view(tree, svg, Card(tree, svg), props || {})
   }
 

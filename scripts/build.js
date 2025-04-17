@@ -187,17 +187,12 @@ function afterRollup() {
   const tempDirPath = path.join(CONFIG.DIST_DIR, tempDirName);
   const zipFileName = `${tempDirName}.zip`;
   const zipFilePath = path.join(CONFIG.DIST_DIR, zipFileName);
-  
+
     // 创建临时目录
     FileUtils.ensureDir(tempDirPath);
 
     // 复制源代码和样式
     FileUtils.copyDir(CONFIG.SRC_DIR, path.join(tempDirPath, 'src'));
-    
-    const distStylesPath = path.join(tempDirPath, 'styles');
-    if (!fs.existsSync(distStylesPath)) {
-      FileUtils.copyDir(path.join(CONFIG.SRC_DIR, 'styles'), distStylesPath);
-    }
 
     // 处理示例7
     const example7Dir = path.join(tempDirPath, 'examples', CONFIG.EXAMPLE_7_DIR);
