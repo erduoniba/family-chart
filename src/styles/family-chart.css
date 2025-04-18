@@ -38,9 +38,9 @@
 .f3 g.card_add text {
   fill: #fff;
 }
-.f3 .card-main-outline {
+.f3 .card-main-outline, .f3 .card-outline {
   stroke: currentColor;
-  stroke-width: 3px;
+  stroke-width: 4px;
 }
 .f3 .card_family_tree rect {
   transition: 0.3s;
@@ -68,7 +68,7 @@
 }
 .f3 .card_break_link, .f3 .link_upper, .f3 .link_lower, .f3 .link_particles {
   transform-origin: 50% 50%;
-  transition: 1s;
+  transition: 0.6s;
 }
 .f3 .card_break_link {
   color: #fff;

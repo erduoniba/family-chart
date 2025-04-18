@@ -57,7 +57,7 @@ function refresh(data) {
 // 自定义卡片组件
 function Card(tree, svg, onCardClick) {
   // 定义卡片尺寸和布局参数
-  const card_dim = {w:140,h:200,text_x:10,text_y:150,img_w:130,img_h:130,img_x:5,img_y:5}
+  const card_dim = {w:140,h:200,text_x:0,text_y:150,img_w:130,img_h:130,img_x:5,img_y:5}
   
   return function (d) {
     // 返回f3库的Card组件，配置各种属性和回调函数
@@ -80,6 +80,28 @@ function Card(tree, svg, onCardClick) {
 
   // 卡片更新处理函数
   function onCardUpdate(d) {
+    const rxy = '10px'
+
+    const card_outline = d3.select(this).select('.card-outline')
+    card_outline.attr('rx', rxy)
+    card_outline.attr('ry', rxy)
+
+    const card_body_rect = d3.select(this).select(".card-inner .card-body-rect")
+    card_body_rect.attr('rx', rxy)
+    card_body_rect.attr('ry', rxy)
+
+    const text_overflow_mask = d3.select(this).select(".card-inner .text-overflow-mask")
+    text_overflow_mask.attr('rx', rxy)
+    text_overflow_mask.attr('ry', rxy)
+    text_overflow_mask.attr('width', card_dim.w)
+
+    const text = d3.select(this).select('.card-inner .card-text')
+    text.attr('text-anchor', 'middle')
+    text.attr('font-size', '14px')
+    text.attr('font-weight', 'bold')
+    const tspan = text.select('tspan')
+    tspan.attr('x', (card_dim.w-card_dim.text_x)/2)
+
     // 在卡片内部添加自定义元素
     const g = d3.select(this).select(".card-inner").append('g')
     // 添加点击事件

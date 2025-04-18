@@ -20,7 +20,7 @@ export default function updateLinks(svg, tree, props={}) {
   link_update.each(linkUpdate)
 
   function linkEnter(d) {
-    d3.select(this).attr("fill", "none").attr("stroke", "#222").attr("stroke-width", 1).style("opacity", 0)
+    d3.select(this).attr("fill", "none").attr("stroke", "#333").attr("stroke-width", 1).style("opacity", 0)
       .attr("d", createPath(d, true))
   }
 
