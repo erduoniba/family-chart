@@ -1,4 +1,5 @@
 // 导入家谱图库
+import { cardEdit } from '../../src/handlers.js';
 import f3 from '../../src/index.js'
 
 if (window.personNodeHandler) {
@@ -73,9 +74,26 @@ function Card(tree, svg, onCardClick) {
       // 启用迷你树形图
       mini_tree: true,
       onMiniTreeClick: onCardClick,
-      // 卡片更新时的回调函数
+      
+      // 启用卡片编辑表单
+      cardEditForm: true,
+
+      // 接收点击编辑的事件回调
+      cardEditForm: cardEditForm,
+
+      // 接收点击添加的事件回调
+      addRelative: addRelative,
+      
       onCardUpdate
     }).call(this, d)
+  }
+
+  function addRelative(d) {
+    console.log('add relative', d)
+  }
+
+  function cardEditForm(d) {
+    console.log('card cardEditForm', d)
   }
 
   // 卡片更新处理函数
@@ -102,36 +120,9 @@ function Card(tree, svg, onCardClick) {
     const tspan = text.select('tspan')
     tspan.attr('x', (card_dim.w-card_dim.text_x)/2)
 
-    // 在卡片内部添加自定义元素
-    const g = d3.select(this).select(".card-inner").append('g')
-    // 添加点击事件
-    g.on('click', () => {
-      console.log('custom element clicked', d)
-      // 在这里可以添加自定义操作
-    })
-    // 添加自定义按钮
-    g.html(customAddBtn(card_dim))
+    // const card_image = d3.select(this).select('.card_image')
+    // card_image.on('click', () => {
+    //   console.log('card image clicked', d)
+    // })
   }
-}
-
-
-// 自定义添加按钮的SVG图形
-function customAddBtn(card_dim) {
-  return (`
-    <g class="customAddBtn" style="cursor: pointer">
-      <g transform="translate(${card_dim.w-12},${card_dim.h-12})scale(.08)">
-        <circle r="100" fill="#fff" />
-        <g transform="translate(-50,-45)">
-          <line
-            x1="10" x2="90" y1="50" y2="50"
-            stroke="currentColor" stroke-width="20" stroke-linecap="round"
-          />
-          <line
-            x1="50" x2="50" y1="10" y2="90"
-            stroke="currentColor" stroke-width="20" stroke-linecap="round"
-          />
-        </g>
-      </g>
-    </g>
-  `)
 }
