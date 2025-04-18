@@ -31,7 +31,12 @@ function refresh(data) {
   // 更新树形图的函数
   function updateTree(props) {
     // 根据数据和主节点ID计算树形结构
-    tree = f3.CalculateTree({ data, main_id })
+    tree = f3.CalculateTree({
+      data,
+      main_id,
+      node_separation: 200,  // 水平间距
+      level_separation: 250  // 垂直间距
+    })
     // 渲染树形图，使用自定义的Card组件
     f3.view(tree, svg, Card(tree, svg, onCardClick), props || {})
   }
@@ -52,7 +57,7 @@ function refresh(data) {
 // 自定义卡片组件
 function Card(tree, svg, onCardClick) {
   // 定义卡片尺寸和布局参数
-  const card_dim = {w:220,h:90,text_x:75,text_y:15,img_w:60,img_h:60,img_x:5,img_y:5}
+  const card_dim = {w:140,h:200,text_x:10,text_y:150,img_w:130,img_h:130,img_x:5,img_y:5}
   
   return function (d) {
     // 返回f3库的Card组件，配置各种属性和回调函数
