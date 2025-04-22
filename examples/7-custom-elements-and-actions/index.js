@@ -109,21 +109,32 @@ function Card(tree, svg, onCardClick) {
     console.log('add relative', d)
     const parent = d.d.data
     // 创建新的家庭成员数据
-    const newPersonData = {
-      data: {
+    const rels = {
+      spouses: [],
+      children: []
+    }
+    if (parent.gender === 'M') {
+      rels.father = parent.id
+      if (parent.spouses && parent.spouses.length > 0) {
+        rels.mother = parent.spouses[0]
+      }
+    } else {
+      if (parent.spouses && parent.spouses.length > 0) {
+        rels.father = parent.spouses[0]
+      }
+      rels.mother = parent.id
+    }
+    const nData = {
         "first name": "New",
         "last name": "Person",
-        "gender": "M",
-        "birthday": "",
-        "avatar": ""
-      },
-      rels: {
-        father: parent.id,  // 设置父子关系
-        children: []
-      }
+        gender: "M",
+        birthday: "",
+        avatar: ""
     }
 
-    let person = createNewPerson(newPersonData)
+    let person = createNewPerson({data: nData, rels: rels})
+    person.to_add = false
+    person.main = false
     
     // 更新当前节点的children关系
     if (!parent.rels) parent.rels = {}
@@ -132,6 +143,9 @@ function Card(tree, svg, onCardClick) {
 
     // 更新数据到视图
     const currentData = tree.data.map(item => item.data)
+    // 找到并替换parent对象
+    // const parentIndex = currentData.findIndex(item => item.id === parent.id)
+    // if (parentIndex !== -1) currentData[parentIndex] = parent
     currentData.push(person)
     const nodes = f3.CalculateTree({
       data: currentData,

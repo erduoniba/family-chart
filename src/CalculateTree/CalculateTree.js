@@ -30,7 +30,7 @@ export default function CalculateTree({data, main_id=null, node_separation=250, 
       d3_tree = d3.tree().nodeSize([node_separation, level_separation]).separation(separation),
       root = d3.hierarchy(datum, hierarchyGetter);
     d3_tree(root);
-    return root.descendants()
+    return root.descendants().filter(d => d.data)
 
     function separation(a, b) {
       let offset = 1;
@@ -53,7 +53,7 @@ export default function CalculateTree({data, main_id=null, node_separation=250, 
       // 使用扩展运算符 ... 来创建一个新的数组
       // 这样做可以确保我们总是在处理一个数组，即使原始的 d.rels.children 不是数组
       // 对子节点 id 数组进行 map 操作
-      return [...(d.rels.children || [])].map(id =>
+      return [...(d?.rels?.children || [])].map(id =>
           // data_stash 应该是包含所有节点数据的数组
           data_stash.find(d => 
             d.id === id
@@ -149,7 +149,7 @@ export default function CalculateTree({data, main_id=null, node_separation=250, 
 
     function findDatum(id) {
       if (!id) return null
-      return tree.find(d => d.data.id === id)
+      return tree.find(d => d.data?.id === id)
     }
   }
 
@@ -190,6 +190,7 @@ export default function CalculateTree({data, main_id=null, node_separation=250, 
 
         d.rels.children.forEach(d0 => {
           const child = data.find(d1 => d1.id === d0)
+          if (!child) return
           if (child.rels[is_father ? 'father' : 'mother'] !== d.id) return
           if (child.rels[!is_father ? 'father' : 'mother']) return
           if (!spouse) {
