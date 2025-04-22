@@ -50,7 +50,15 @@ export default function CalculateTree({data, main_id=null, node_separation=250, 
     function someSpouses(a, b) {return hasSpouses(a) || hasSpouses(b)}
 
     function hierarchyGetterChildren(d) {
-      return [...(d.rels.children || [])].map(id => data_stash.find(d => d.id === id))
+      // 使用扩展运算符 ... 来创建一个新的数组
+      // 这样做可以确保我们总是在处理一个数组，即使原始的 d.rels.children 不是数组
+      // 对子节点 id 数组进行 map 操作
+      return [...(d.rels.children || [])].map(id =>
+          // data_stash 应该是包含所有节点数据的数组
+          data_stash.find(d => 
+            d.id === id
+          )
+        )
     }
 
     function hierarchyGetterParents(d) {

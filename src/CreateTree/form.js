@@ -2,12 +2,15 @@ import {checkIfRelativesConnectedWithoutPerson} from "./checkIfRelativesConnecte
 import {createTreeDataWithMainNode} from "./newPerson.js"
 
 export function createForm({datum, store, fields, postSubmit, addRelative, deletePerson, onCancel, editFirst}) {
+  // 初始化 form_creator 对象，包含 fields（空数组）和 onSubmit（指向 submitFormChanges 函数）属性。
   const form_creator = {
     fields: [],
     onSubmit: submitFormChanges,
   }
   if (!datum._new_rel_data) {
+    // 添加删除功能，指向 deletePersonWithPostSubmit 函数。
     form_creator.onDelete = deletePersonWithPostSubmit
+    // 当 form_creator.addRelative() 被调用时，它会执行 addRelative.activate(datum)
     form_creator.addRelative = () => addRelative.activate(datum),
     form_creator.addRelativeCancel = () => addRelative.onCancel()
     form_creator.addRelativeActive = addRelative.is_active
