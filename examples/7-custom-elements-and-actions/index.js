@@ -107,32 +107,41 @@ function Card(tree, svg, onCardClick) {
 
   function addRelative(d) {
     console.log('add relative', d)
-    // const parent = d.d.data
-    // // 创建新的家庭成员数据
-    // const newPersonData = {
-    //   data: {
-    //     "first name": "New",
-    //     "last name": "Person",
-    //     "gender": "M",
-    //     "birthday": "",
-    //     "avatar": ""
-    //   },
-    //   rels: {
-    //     father: parent.id  // 设置父子关系
-    //   }
-    // }
+    const parent = d.d.data
+    // 创建新的家庭成员数据
+    const newPersonData = {
+      data: {
+        "first name": "New",
+        "last name": "Person",
+        "gender": "M",
+        "birthday": "",
+        "avatar": ""
+      },
+      rels: {
+        father: parent.id,  // 设置父子关系
+        children: []
+      }
+    }
 
-    // let person = createNewPerson(newPersonData)
+    let person = createNewPerson(newPersonData)
     
-    // // 更新当前节点的children关系
-    // if (!parent.rels) parent.rels = {}
-    // if (!parent.rels.children) parent.rels.children = []
-    // parent.rels.children.push(person.id)
+    // 更新当前节点的children关系
+    if (!parent.rels) parent.rels = {}
+    if (!parent.rels.children) parent.rels.children = []
+    parent.rels.children.push(person.id)
 
-    // // 更新数据到视图
-    // const currentData = tree.data.map(item => item)
-    // currentData.push(person)
-    // tree.data = currentData
+    // 更新数据到视图
+    const currentData = tree.data.map(item => item.data)
+    currentData.push(person)
+    const nodes = f3.CalculateTree({
+      data: currentData,
+      main_id,
+      node_separation: 200,  // 水平间距
+      level_separation: 250  // 垂直间距
+    }).data
+ 
+    tree.data = nodes;
+    f3.view(tree, svg, Card(tree, svg, onCardClick), {initial: false})
   }
 
   function cardEditForm(d) {
