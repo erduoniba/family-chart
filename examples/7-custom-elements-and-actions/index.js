@@ -126,16 +126,23 @@ function Card(tree, svg, onCardClick) {
 
   function addRelative(d) {
     console.log("add relative", d);
+    const parent = d.d.data;
 
     if (window.personNodeHandler) {
       const params = {
         kId: "1231231",
+        // 0: 都可以添加，1：只能添加孩子
+        addType: 0,
       };
-      window.personNodeHandlerCallback = function (result) {
+
+      if (parent.rels.mother, parent.rels.father) {
+        params['addType'] = 1
+      }
+      window.addPersonActionCallback = function (result) {
         let nData = JSON.parse(result);
         addPersonAction(nData);
       };
-      personNodeHandler.addPerson(params, "personNodeHandlerCallback");
+      personNodeHandler.addPerson(params, "addPersonActionCallback");
     } else {
       let nData = {
         "first name": "New",
@@ -148,42 +155,62 @@ function Card(tree, svg, onCardClick) {
     }
 
     function addPersonAction(nData) {
-      const parent = d.d.data;
       // 创建新的家庭成员数据
       const rels = {
         spouses: [],
         children: [],
       };
-
-      // 处理父母关系
+  
+      // 获取当前节点的配偶关系
       const spouses = parent.rels.spouses || [];
-      if (parent.gender === "M") {
-        rels.father = parent.id;
-        if (spouses.length > 0) {
-          rels.mother = spouses[0];
+  
+      // 根据添加类型处理关系
+      if (nData.relationType === 'spouse') {
+        // 添加配偶
+        rels.spouses = [parent.id];
+        parent.rels.spouses = parent.rels.spouses || [];
+        parent.rels.spouses.push(person.id);
+      } else if (nData.relationType === 'child') {
+        // 添加子女
+        if (parent.gender === "M") {
+          rels.father = parent.id;
+          if (spouses.length > 0) {
+            rels.mother = spouses[0];
+          }
+        } else {
+          rels.mother = parent.id;
+          if (spouses.length > 0) {
+            rels.father = spouses[0];
+          }
         }
-      } else {
-        rels.mother = parent.id;
-        if (spouses.length > 0) {
-          rels.father = spouses[0];
+      } else if (nData.relationType === 'parent') {
+        // 添加父母
+        if (nData.gender === "M") {
+          rels.children = [parent.id];
+          parent.rels.father = person.id;
+        } else {
+          rels.children = [parent.id];
+          parent.rels.mother = person.id;
         }
       }
-
+  
       // 创建新成员并设置属性
       const person = createNewPerson({ data: nData, rels: rels });
       person.to_add = false;
       updateMainId(parent.id);
-
-      // 更新父母节点的子女关系
-      updateParentChildrenRels(parent, person.id);
-
-      // 更新另一位父母的子女关系
+  
+      // 更新关系数据
       const currentData = tree.data.map((item) => item.data);
-      const other_parent = currentData.find((item) => item.id === spouses[0]);
-      if (other_parent) {
-        updateParentChildrenRels(other_parent, person.id);
+  
+      if (nData.relationType === 1) {
+        // 更新父母的子女关系
+        updateParentChildrenRels(parent, person.id);
+        const other_parent = currentData.find((item) => item.id === spouses[0]);
+        if (other_parent) {
+          updateParentChildrenRels(other_parent, person.id);
+        }
       }
-
+  
       // 更新数据并重新渲染
       currentData.push(person);
       updateTreeData(currentData);
