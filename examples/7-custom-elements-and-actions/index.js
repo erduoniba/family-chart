@@ -7,9 +7,7 @@ import { createNewPerson } from "../../src/handlers.js";
 import f3 from "../../src/index.js";
 
 if (window.personNodeHandler) {
-  const params = {
-    kId: "1231231",
-  };
+  const params = {};
   window.personNodeHandlerCallback = function (result) {
     const data = JSON.parse(result);
     refresh(data);
@@ -34,7 +32,10 @@ function refresh(data) {
   jsonData = data;
 
   // 初始化树形图
-  updateTree({ initial: true });
+  updateTree({ 
+    initial: true,
+    transition_time: 0,
+  });
 
   // 更新树形图的函数
   /*
@@ -55,17 +56,22 @@ function refresh(data) {
     f3.view(tree, svg, Card(tree, svg, onCardClick), props || {});
   }
 
-  // 更新主节点ID的函数
-  function updateMainId(_main_id) {
-    main_id = _main_id;
-  }
+  
 
   // 卡片点击事件处理函数
   function onCardClick(e, d) {
     // 更新主节点ID并重新渲染树形图
     updateMainId(d.data.id);
-    updateTree();
+    updateTree({ 
+      tree_position: 'fit',
+      transition_time: 1000,
+    });
   }
+}
+
+// 更新主节点ID的函数
+function updateMainId(_main_id) {
+  main_id = _main_id;
 }
 
 // 自定义卡片组件
@@ -120,54 +126,68 @@ function Card(tree, svg, onCardClick) {
 
   function addRelative(d) {
     console.log("add relative", d);
-    const parent = d.d.data;
-    // 创建新的家庭成员数据
-    const rels = {
-      spouses: [],
-      children: [],
-    };
 
-    // 处理父母关系
-    const spouses = parent.rels.spouses || [];
-    if (parent.gender === "M") {
-      rels.father = parent.id;
-      if (spouses.length > 0) {
-        rels.mother = spouses[0];
-      }
+    if (window.personNodeHandler) {
+      const params = {
+        kId: "1231231",
+      };
+      window.personNodeHandlerCallback = function (result) {
+        let nData = JSON.parse(result);
+        addPersonAction(nData);
+      };
+      personNodeHandler.addPerson(params, "personNodeHandlerCallback");
     } else {
-      rels.mother = parent.id;
-      if (spouses.length > 0) {
-        rels.father = spouses[0];
+      let nData = {
+        "first name": "New",
+        "last name": "Person",
+        gender: "M",
+        birthday: "",
+        avatar: "",
+      };
+      addPersonAction(nData);
+    }
+
+    function addPersonAction(nData) {
+      const parent = d.d.data;
+      // 创建新的家庭成员数据
+      const rels = {
+        spouses: [],
+        children: [],
+      };
+
+      // 处理父母关系
+      const spouses = parent.rels.spouses || [];
+      if (parent.gender === "M") {
+        rels.father = parent.id;
+        if (spouses.length > 0) {
+          rels.mother = spouses[0];
+        }
+      } else {
+        rels.mother = parent.id;
+        if (spouses.length > 0) {
+          rels.father = spouses[0];
+        }
       }
+
+      // 创建新成员并设置属性
+      const person = createNewPerson({ data: nData, rels: rels });
+      person.to_add = false;
+      updateMainId(parent.id);
+
+      // 更新父母节点的子女关系
+      updateParentChildrenRels(parent, person.id);
+
+      // 更新另一位父母的子女关系
+      const currentData = tree.data.map((item) => item.data);
+      const other_parent = currentData.find((item) => item.id === spouses[0]);
+      if (other_parent) {
+        updateParentChildrenRels(other_parent, person.id);
+      }
+
+      // 更新数据并重新渲染
+      currentData.push(person);
+      updateTreeData(currentData);
     }
-
-    // 创建新成员数据
-    const nData = {
-      "first name": "New",
-      "last name": "Person",
-      gender: "M",
-      birthday: "",
-      avatar: "",
-    };
-
-    // 创建新成员并设置属性
-    const person = createNewPerson({ data: nData, rels: rels });
-    person.to_add = false;
-    person.main = false;
-
-    // 更新父母节点的子女关系
-    updateParentChildrenRels(parent, person.id);
-
-    // 更新另一位父母的子女关系
-    const currentData = tree.data.map((item) => item.data);
-    const other_parent = currentData.find((item) => item.id === spouses[0]);
-    if (other_parent) {
-      updateParentChildrenRels(other_parent, person.id);
-    }
-
-    // 更新数据并重新渲染
-    currentData.push(person);
-    updateTreeData(currentData);
   }
 
   /**
@@ -196,7 +216,12 @@ function Card(tree, svg, onCardClick) {
     tree.data = nTree.data;
     tree.data_stash = nTree.data_stash; // 添加这行，同步更新 data_stash
     jsonData = nTree.data.map((item) => item.data);
-    f3.view(tree, svg, Card(tree, svg, onCardClick), { initial: false });
+    let props = {
+      initial: false,
+      tree_position: "fit",
+      transition_time: 1000,
+    };
+    f3.view(tree, svg, Card(tree, svg, onCardClick), props);
   }
 
   /**
