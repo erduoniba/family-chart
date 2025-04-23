@@ -188,30 +188,36 @@ function Card(tree, svg, onCardClick) {
     f3.view(tree, svg, Card(tree, svg, onCardClick), {initial: false})
 }
 
+  /**
+   * 处理卡片编辑表单
+   * @param {Object} d - 节点数据
+   */
   function cardEditForm(d) {
     console.log('card cardEditForm', d)
+    const person = d.datum
 
-    // 获取当前数据
-    const currentData = tree.data
+    // 获取当前数据并创建新的数据数组
+    const currentData = tree.data.map(item => item.data)
     
     // 找到要更新的节点
-    const nodeToUpdate = currentData.find(node => node.id === d.data.id)
-    if (!nodeToUpdate) return
+    const nodeToUpdate = currentData.find(node => node.id === person.id)
+    if (!nodeToUpdate) {
+      console.error('未找到要更新的节点')
+      return
+    }
 
-    // 更新节点数据
+    // 更新节点数据，保持原有数据的完整性
     nodeToUpdate.data = {
-      ...nodeToUpdate.data,
       "gender": "F",
       "first name": "Andrea",
       "last name": "",
       "birthday": "",
-      "avatar": ""
+      "avatar": "",
     }
+    nodeToUpdate.to_add = false
 
-    // 使用tree.store更新数据
-    tree.store.updateData(currentData)
-    // 更新树形图显示
-    updateTree()
+    // 更新数据并重新渲染树形图
+    updateTreeData(currentData)
   }
 
   // 卡片更新处理函数
