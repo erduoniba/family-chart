@@ -115,58 +115,74 @@ function Card(tree, svg, onCardClick) {
       spouses: [],
       children: []
     }
-    let spouses = parent.rels.spouses
+    
+    // 处理父母关系
+    const spouses = parent.rels.spouses || []
     if (parent.gender === 'M') {
       rels.father = parent.id
-      if (spouses && spouses.length > 0) {
+      if (spouses.length > 0) {
         rels.mother = spouses[0]
       }
     } else {
-      if (spouses && spouses.length > 0) {
+      rels.mother = parent.id
+      if (spouses.length > 0) {
         rels.father = spouses[0]
       }
-      rels.mother = parent.id
     }
 
+    // 创建新成员数据
     const nData = {
-        "first name": "New",
-        "last name": "Person",
-        gender: "M",
-        birthday: "",
-        avatar: ""
+      "first name": "New",
+      "last name": "Person",
+      gender: "M",
+      birthday: "",
+      avatar: ""
     }
 
-    let person = createNewPerson({data: nData, rels: rels})
+    // 创建新成员并设置属性
+    const person = createNewPerson({data: nData, rels: rels})
     person.to_add = false
     person.main = false
     
-    // 更新当前节点的children关系
-    if (!parent.rels) parent.rels = {}
-    if (!parent.rels.children) parent.rels.children = []
-    parent.rels.children.push(person.id)
-
-    // 更新数据到视图
+    // 更新父母节点的子女关系
+    updateParentChildrenRels(parent, person.id)
+    
+    // 更新另一位父母的子女关系
     const currentData = tree.data.map(item => item.data)
-
     const other_parent = currentData.find(item => item.id === spouses[0])
     if (other_parent) {
-      if (!other_parent.rels) other_parent.rels = {}
-      if (!other_parent.rels.children) other_parent.rels.children = []
-      other_parent.rels.children.push(person.id)
+      updateParentChildrenRels(other_parent, person.id)
     }
 
-    // 找到并替换parent对象
-    // const parentIndex = currentData.findIndex(item => item.id === parent.id)
-    // if (parentIndex !== -1) currentData[parentIndex] = parent
+    // 更新数据并重新渲染
     currentData.push(person)
+    updateTreeData(currentData)
+  }
+
+  /**
+   * 更新父母节点的子女关系
+   * @param {Object} parent - 父母节点数据
+   * @param {string} childId - 子女ID
+   */
+  function updateParentChildrenRels(parent, childId) {
+    if (!parent.rels) parent.rels = {}
+    if (!parent.rels.children) parent.rels.children = []
+    parent.rels.children.push(childId)
+  }
+
+  /**
+   * 更新树形图数据并重新渲染
+   * @param {Array} currentData - 更新后的数据
+   */
+  function updateTreeData(currentData) {
     const nodes = f3.CalculateTree({
       data: currentData,
       main_id,
-      node_separation: 200,  // 水平间距
-      level_separation: 250  // 垂直间距
+      node_separation: 200,
+      level_separation: 250
     }).data
  
-    tree.data = nodes;
+    tree.data = nodes
     jsonData = nodes.map(item => item.data)
     f3.view(tree, svg, Card(tree, svg, onCardClick), {initial: false})
   }
