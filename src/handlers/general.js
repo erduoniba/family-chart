@@ -7,7 +7,16 @@ export function manualZoom({amount, svg, transition_time=500}) {
 }
 
 export function isAllRelativeDisplayed(d, data) {
-  const r = d.data.rels,
-    all_rels = [r.father, r.mother, ...(r.spouses || []), ...(r.children || [])].filter(v => v)
-  return all_rels.every(rel_id => data.some(d => d.data.id === rel_id))
+  // 检查d和d.data是否存在
+  if (!d || !d.data || !d.data.rels) return false
+  const r = d.data.rels;
+  const all_rels = [r.father, r.mother, ...(r.spouses || []), ...(r.children || [])].filter(v => v)
+  // 确保data数组存在且非空
+  if (!data || !Array.isArray(data)) return false
+  return all_rels.every((rel_id) =>  {
+    return data.some((d) => {
+      if (!d.data) return false;
+      return d.data.id === rel_id;
+    });
+  });
 }

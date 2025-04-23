@@ -25,12 +25,13 @@ else {
 
 
 // 定义全局变量
-let tree, main_id;
+let tree, main_id, jsonData;
 
 function refresh(data) {
   // 创建SVG容器
   // 在HTML文档中找到id为"FamilyChart"的元素。
   const svg = f3.createSvg(document.querySelector("#FamilyChart"))
+  jsonData = data
 
   // 初始化树形图
   updateTree({initial: true})
@@ -44,8 +45,9 @@ function refresh(data) {
   function updateTree(props) {
     // 根据数据和主节点ID计算树形结构
     tree = f3.CalculateTree({
-      data,
+      data: jsonData,
       main_id,
+      single_parent_empty_card: true,
       node_separation: 200,  // 水平间距
       level_separation: 250  // 垂直间距
     })
@@ -113,17 +115,19 @@ function Card(tree, svg, onCardClick) {
       spouses: [],
       children: []
     }
+    let spouses = parent.rels.spouses
     if (parent.gender === 'M') {
       rels.father = parent.id
-      if (parent.spouses && parent.spouses.length > 0) {
-        rels.mother = parent.spouses[0]
+      if (spouses && spouses.length > 0) {
+        rels.mother = spouses[0]
       }
     } else {
-      if (parent.spouses && parent.spouses.length > 0) {
-        rels.father = parent.spouses[0]
+      if (spouses && spouses.length > 0) {
+        rels.father = spouses[0]
       }
       rels.mother = parent.id
     }
+
     const nData = {
         "first name": "New",
         "last name": "Person",
@@ -143,6 +147,14 @@ function Card(tree, svg, onCardClick) {
 
     // 更新数据到视图
     const currentData = tree.data.map(item => item.data)
+
+    const other_parent = currentData.find(item => item.id === spouses[0])
+    if (other_parent) {
+      if (!other_parent.rels) other_parent.rels = {}
+      if (!other_parent.rels.children) other_parent.rels.children = []
+      other_parent.rels.children.push(person.id)
+    }
+
     // 找到并替换parent对象
     // const parentIndex = currentData.findIndex(item => item.id === parent.id)
     // if (parentIndex !== -1) currentData[parentIndex] = parent
@@ -155,6 +167,7 @@ function Card(tree, svg, onCardClick) {
     }).data
  
     tree.data = nodes;
+    jsonData = nodes.map(item => item.data)
     f3.view(tree, svg, Card(tree, svg, onCardClick), {initial: false})
   }
 

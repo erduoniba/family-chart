@@ -44,9 +44,21 @@ export default function CalculateTree({data, main_id=null, node_separation=250, 
 
     function hasCh(d) {return !!d.children}
     function sameParent(a, b) {return a.parent == b.parent}
-    function sameBothParents(a, b) {return (a.data.rels.father === b.data.rels.father) && (a.data.rels.mother === b.data.rels.mother)}
+    function sameBothParents(a, b) {
+      if (!a.data ||!b.data) {
+        console.error('no d.data', a, b)
+        return false
+      }
+      return (a.data.rels.father === b.data.rels.father) && (a.data.rels.mother === b.data.rels.mother)
+    }
     function someChildren(a, b) {return hasCh(a) || hasCh(b)}
-    function hasSpouses(d) {return d.data.rels.spouses && d.data.rels.spouses.length > 0}
+    function hasSpouses(d) {
+      if (!d.data) {
+        console.error('no d.data', d)
+        return false
+      }
+      return d.data.rels.spouses && d.data.rels.spouses.length > 0
+    }
     function someSpouses(a, b) {return hasSpouses(a) || hasSpouses(b)}
 
     function hierarchyGetterChildren(d) {
@@ -99,6 +111,16 @@ export default function CalculateTree({data, main_id=null, node_separation=250, 
         const side = d.data.data.gender === "M" ? -1 : 1;  // female on right
         d.x += d.data.rels.spouses.length/2*node_separation*side;
         d.data.rels.spouses.forEach((sp_id, i) => {
+          // 查找配偶数据并进行验证
+          const spouseData = data_stash.find(function(d0) {
+            return d0.id === sp_id;
+          });
+          // 如果没有找到配偶数据，跳过当前循环
+          if (!spouseData) {
+            console.warn(`配偶数据未找到，ID: ${sp_id}`);
+            return;
+          }
+
           const spouse = {data: data_stash.find(d0 => d0.id === sp_id), added: true}
 
           spouse.x = d.x-(node_separation*(i+1))*side;
