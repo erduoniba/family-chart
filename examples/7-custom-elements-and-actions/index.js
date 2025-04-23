@@ -175,17 +175,18 @@ function Card(tree, svg, onCardClick) {
    * @param {Array} currentData - 更新后的数据
    */
   function updateTreeData(currentData) {
-    const nodes = f3.CalculateTree({
+    const nTree = f3.CalculateTree({
       data: currentData,
       main_id,
       node_separation: 200,
       level_separation: 250
-    }).data
+    })
  
-    tree.data = nodes
-    jsonData = nodes.map(item => item.data)
+    tree.data = nTree.data
+    tree.data_stash = nTree.data_stash  // 添加这行，同步更新 data_stash
+    jsonData = nTree.data.map(item => item.data)
     f3.view(tree, svg, Card(tree, svg, onCardClick), {initial: false})
-  }
+}
 
   function cardEditForm(d) {
     console.log('card cardEditForm', d)

@@ -78,8 +78,11 @@ export default function CalculateTree({data, main_id=null, node_separation=250, 
         .filter(d => d).map(id => data_stash.find(d => d.id === id))
     }
 
-    function offsetOnPartners(a,b) {
-      return ((a.data.rels.spouses || []).length + (b.data.rels.spouses || []).length)*.5
+    function offsetOnPartners(a, b) {
+      // 获取配偶数量，如果data不存在则返回空数组
+      const aSpouses = (a?.data?.rels?.spouses || []).length;
+      const bSpouses = (b?.data?.rels?.spouses || []).length;
+      return (aSpouses + bSpouses) * 0.5;
     }
   }
 
