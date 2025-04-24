@@ -3,7 +3,6 @@
 你可以通过 f3 对象访问所有这些导入的函数和对象。
 这种方式提供了一个统一的入口点来访问模块的所有功能，同时保持了良好的命名空间隔离。
 */
-import { createNewPerson } from "../../src/handlers.js";
 import f3 from "../../src/index.js";
 
 if (window.personNodeHandler) {
@@ -146,6 +145,7 @@ function Card(tree, svg, onCardClick) {
       personNodeHandler.addPerson(params, "addPersonActionCallback");
     } else {
       let nData = {
+        "id": generateUUID(),
         "first name": "New",
         "last name": "Person",
         gender: "M",
@@ -164,8 +164,9 @@ function Card(tree, svg, onCardClick) {
   
       // 获取当前节点的配偶关系
       const spouses = parent.rels.spouses || [];
+      const id =  nData.id ? nData.id : generateUUID();
       // 创建新成员并设置属性
-      const person = createNewPerson({ data: nData, rels: rels });
+      const person = {id: id, data: nData || {}, rels: rels || {}}
   
       // 根据添加类型处理关系
       if (nData.relationType === 'spouse') {
@@ -206,9 +207,10 @@ function Card(tree, svg, onCardClick) {
       updateMainId(parent.id);
   
       // 更新关系数据
-      const treeData = tree.data.map((item) => item.data);
-      const treeStashData = tree.data_stash.map((item) => item);
-      const currentData = [...treeData, ...treeStashData];
+      const currentData = [...new Set([
+        ...tree.data.map(item => item.data),
+        ...tree.data_stash.map(item => item)
+      ])];
   
       if (nData.relationType === 'child') {
         // 更新父母的子女关系
@@ -274,6 +276,10 @@ function Card(tree, svg, onCardClick) {
 
       window.editPersonActionCallback = function (result) {
         let nData = JSON.parse(result);
+        if (nData["editType"] == "delete") {
+          deletePersonAction(nData["personIds"]);
+          return
+        }
         editPersonAction(nData);
       };
       personNodeHandler.editPerson(params, "editPersonActionCallback");
@@ -289,11 +295,40 @@ function Card(tree, svg, onCardClick) {
       editPersonAction(nData);
     }
 
+    function deletePersonAction(personIds) {
+      if (!personIds || personIds.length === 0) {
+        return;
+      }
+
+      // 获取当前数据
+      const currentData = [...new Set([
+        ...tree.data.map(item => item.data),
+        ...tree.data_stash.map(item => item)
+      ])];
+      
+      // 过滤掉要删除的数据
+      const filteredData = currentData.filter(item => {
+        // 检查节点ID是否在要删除的列表中
+        if (personIds.includes(item.id)) {
+          return false;
+        }
+        // 检查节点的子女关系是否包含要删除的ID
+        if (item.rels && item.rels.children) {
+          item.rels.children = item.rels.children.filter(childId => !personIds.includes(childId));
+        }
+        return true;
+      });
+      
+      // 更新数据并重新渲染树形图
+      updateTreeData(filteredData);
+}
+
     function editPersonAction(nData) {
       // 获取当前数据并创建新的数据数组
-      const treeData = tree.data.map((item) => item.data);
-      const treeStashData = tree.data_stash.map((item) => item);
-      const currentData = [...treeData, ...treeStashData];
+      const currentData = [...new Set([
+        ...tree.data.map(item => item.data),
+        ...tree.data_stash.map(item => item)
+      ])];
 
       // 找到要更新的节点
       const nodeToUpdate = currentData.find((node) => node.id === person.id);
