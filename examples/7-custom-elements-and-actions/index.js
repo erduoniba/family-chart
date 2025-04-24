@@ -130,7 +130,8 @@ function Card(tree, svg, onCardClick) {
 
     if (window.personNodeHandler) {
       const params = {
-        kId: "1231231",
+        currentId: parent.id,
+        gender: parent.data.gender === "M" ? "M" : "F",
         // 0: 都可以添加，1：只能添加孩子
         addType: 0,
       };
@@ -163,13 +164,20 @@ function Card(tree, svg, onCardClick) {
   
       // 获取当前节点的配偶关系
       const spouses = parent.rels.spouses || [];
+      // 创建新成员并设置属性
+      const person = createNewPerson({ data: nData, rels: rels });
   
       // 根据添加类型处理关系
       if (nData.relationType === 'spouse') {
         // 添加配偶
-        rels.spouses = [parent.id];
+        if (!rels.spouses.includes(parent.id)) {
+          rels.spouses = [parent.id];
+        }
         parent.rels.spouses = parent.rels.spouses || [];
-        parent.rels.spouses.push(person.id);
+        if (!parent.rels.spouses.includes(person.id)) {
+          parent.rels.spouses.push(person.id);
+        }
+        rels.children = parent.rels.children || [];
       } else if (nData.relationType === 'child') {
         // 添加子女
         if (parent.gender === "M") {
@@ -194,15 +202,13 @@ function Card(tree, svg, onCardClick) {
         }
       }
   
-      // 创建新成员并设置属性
-      const person = createNewPerson({ data: nData, rels: rels });
       person.to_add = false;
       updateMainId(parent.id);
   
       // 更新关系数据
       const currentData = tree.data.map((item) => item.data);
   
-      if (nData.relationType === 1) {
+      if (nData.relationType === 'child') {
         // 更新父母的子女关系
         updateParentChildrenRels(parent, person.id);
         const other_parent = currentData.find((item) => item.id === spouses[0]);
@@ -225,7 +231,9 @@ function Card(tree, svg, onCardClick) {
   function updateParentChildrenRels(parent, childId) {
     if (!parent.rels) parent.rels = {};
     if (!parent.rels.children) parent.rels.children = [];
-    parent.rels.children.push(childId);
+    if (!parent.rels.children.includes(childId)) {
+      parent.rels.children.push(childId);
+    }
   }
 
   /**
@@ -233,16 +241,14 @@ function Card(tree, svg, onCardClick) {
    * @param {Array} currentData - 更新后的数据
    */
   function updateTreeData(currentData) {
-    const nTree = f3.CalculateTree({
+    tree = f3.CalculateTree({
       data: currentData,
       main_id,
-      node_separation: 200,
-      level_separation: 250,
+      single_parent_empty_card: true,
+      node_separation: 200, // 水平间距
+      level_separation: 250, // 垂直间距
     });
-
-    tree.data = nTree.data;
-    tree.data_stash = nTree.data_stash; // 添加这行，同步更新 data_stash
-    jsonData = nTree.data.map((item) => item.data);
+    jsonData = currentData;
     let props = {
       initial: false,
       tree_position: "fit",
