@@ -206,7 +206,9 @@ function Card(tree, svg, onCardClick) {
       updateMainId(parent.id);
   
       // 更新关系数据
-      const currentData = tree.data.map((item) => item.data);
+      const treeData = tree.data.map((item) => item.data);
+      const treeStashData = tree.data_stash.map((item) => item);
+      const currentData = [...treeData, ...treeStashData];
   
       if (nData.relationType === 'child') {
         // 更新父母的子女关系
@@ -265,29 +267,55 @@ function Card(tree, svg, onCardClick) {
     console.log("card cardEditForm", d);
     const person = d.datum;
 
-    // 获取当前数据并创建新的数据数组
-    const currentData = tree.data.map((item) => item.data);
+    if (window.personNodeHandler) {
+      const params = {
+        currentId: person.id,
+      };
 
-    // 找到要更新的节点
-    const nodeToUpdate = currentData.find((node) => node.id === person.id);
-    if (!nodeToUpdate) {
-      console.error("未找到要更新的节点");
-      return;
+      window.editPersonActionCallback = function (result) {
+        let nData = JSON.parse(result);
+        editPersonAction(nData);
+      };
+      personNodeHandler.editPerson(params, "editPersonActionCallback");
+    } else {
+      // 本地测试用的默认编辑数据
+      let nData = {
+        gender: "F",
+        "first name": "Andrea",
+        "last name": "",
+        birthday: "",
+        avatar: ""
+      };
+      editPersonAction(nData);
     }
 
-    // 更新节点数据，保持原有数据的完整性
-    nodeToUpdate.data = {
-      gender: "F",
-      "first name": "Andrea",
-      "last name": "",
-      birthday: "",
-      avatar: "",
-    };
-    nodeToUpdate.to_add = false;
+    function editPersonAction(nData) {
+      // 获取当前数据并创建新的数据数组
+      const treeData = tree.data.map((item) => item.data);
+      const treeStashData = tree.data_stash.map((item) => item);
+      const currentData = [...treeData, ...treeStashData];
 
-    // 更新数据并重新渲染树形图
-    updateTreeData(currentData);
-  }
+      // 找到要更新的节点
+      const nodeToUpdate = currentData.find((node) => node.id === person.id);
+      if (!nodeToUpdate) {
+        console.error("未找到要更新的节点");
+        return;
+      }
+
+      // 更新节点数据
+      nodeToUpdate.data = {
+        gender: nData.gender,
+        "first name": nData["first name"],
+        "last name": nData["last name"],
+        birthday: nData.birthday,
+        avatar: nData.avatar
+      };
+      nodeToUpdate.to_add = false;
+
+      // 更新数据并重新渲染树形图
+      updateTreeData(currentData);
+    }
+}
 
   // 卡片更新处理函数
   function onCardUpdate(d) {
