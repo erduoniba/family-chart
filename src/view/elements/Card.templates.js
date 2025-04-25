@@ -1,28 +1,49 @@
 export function CardBody({d,card_dim,card_display}) {
+  const gender = d.data.data.gender;
+  const bgColor = gender === "F" ? "rgba(196, 138, 146)" : // 女性使用淡粉色
+                 gender === "M" ? "rgba(120, 159, 172)" :    // 男性使用淡蓝色
+                 "rgba(33, 33, 33)";                     // 默认使用淡灰色
+  
   return {template: (`
     <g class="card-body">
-      <rect width="${card_dim.w}" height="${card_dim.h}" class="card-body-rect" />
+      <rect width="${card_dim.w}" height="${card_dim.h}" class="card-body-rect" fill="${bgColor}" />
       ${CardText({d,card_dim,card_display}).template}
     </g>
   `)
   }
 }
 
+// 隐藏文字颜色的背景
 export function CardText({d,card_dim,card_display}) {
   return {template: (`
     <g>
       <g class="card-text" clip-path="url(#card_text_clip)">
         <g transform="translate(${card_dim.text_x}, ${card_dim.text_y})">
-          <text>
+          <text fill="#ffffff">
             ${Array.isArray(card_display) ? card_display.map(cd => `<tspan x="${0}" dy="${14}">${cd(d.data)}</tspan>`).join('\n') : card_display(d.data)}
           </text>
         </g>
       </g>
-      <rect width="${card_dim.w-10}" height="${card_dim.h}" style="mask: url(#fade)" class="text-overflow-mask" /> 
     </g>
   `)
   }
 }
+
+// export function CardText({d,card_dim,card_display}) {
+//   return {template: (`
+//     <g>
+//       <g class="card-text" clip-path="url(#card_text_clip)">
+//         <g transform="translate(${card_dim.text_x}, ${card_dim.text_y})">
+//           <text fill="#ffffff">
+//             ${Array.isArray(card_display) ? card_display.map(cd => `<tspan x="${0}" dy="${14}">${cd(d.data)}</tspan>`).join('\n') : card_display(d.data)}
+//           </text>
+//         </g>
+//       </g>
+//       <rect width="${card_dim.w-10}" height="${card_dim.h}" style="mask: url(#fade)" class="text-overflow-mask" /> 
+//     </g>
+//   `)
+//   }
+// }
 
 export function CardBodyAddNew({d,card_dim,card_add,label}) {
   return {template: (`

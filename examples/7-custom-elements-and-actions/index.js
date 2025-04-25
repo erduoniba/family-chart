@@ -4,7 +4,7 @@
 这种方式提供了一个统一的入口点来访问模块的所有功能，同时保持了良好的命名空间隔离。
 */
 import f3 from "../../src/index.js";
-import { handlePersonList, handleAddPerson, handleEditPerson } from './personNodeHandler.js';
+import { handlePersonList, handleAddPerson, handleEditPerson, handleSaveSVGAsImage } from './personNodeHandler.js';
 
 // 初始化数据加载
 handlePersonList({}, refresh);
@@ -17,6 +17,31 @@ function refresh(data) {
   // 在HTML文档中找到id为"FamilyChart"的元素。
   const svg = f3.createSvg(document.querySelector("#FamilyChart"));
   jsonData = data;
+
+  // 添加保存按钮
+  const saveButton = document.createElement('button');
+  saveButton.textContent = '保存家谱图';
+  saveButton.style.position = 'fixed';
+  saveButton.style.top = '20px';
+  saveButton.style.right = '20px';
+  saveButton.style.padding = '8px 16px';
+  saveButton.style.backgroundColor = '#4CAF50';
+  saveButton.style.color = 'white';
+  saveButton.style.border = 'none';
+  saveButton.style.borderRadius = '4px';
+  saveButton.style.cursor = 'pointer';
+  
+  saveButton.addEventListener('click', () => {
+    handleSaveSVGAsImage((result) => {
+      if (result.success) {
+        alert('家谱图保存成功！');
+      } else {
+        alert('保存失败：' + result.message);
+      }
+    });
+  });
+  
+  document.body.appendChild(saveButton);
 
   // 初始化树形图
   updateTree({ 
