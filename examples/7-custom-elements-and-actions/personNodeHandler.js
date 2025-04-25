@@ -140,10 +140,12 @@ export function handleSaveSVGAsImage(callback) {
       img.onload = function() {
         // 创建 canvas
         const canvas = document.createElement('canvas');
-        const scale = 6; // 缩放比例
+        const scale = 4; // 缩放比例
         // 设置 canvas 尺寸为实际尺寸的 2 倍以提高清晰度
         canvas.width = width * scale;
         canvas.height = height * scale;
+        const x = bbox.x;
+        const y = bbox.y;
         
         // 获取 canvas 上下文并设置白色背景
         const ctx = canvas.getContext('2d');
@@ -152,7 +154,7 @@ export function handleSaveSVGAsImage(callback) {
         ctx.fillRect(0, 0, width, height);
         
         // 绘制图片
-        ctx.drawImage(img, 0, 0, width, height);
+        ctx.drawImage(img, -x, -y, width, height);
         
         // 获取 PNG 格式的 base64 数据
         // 获取图片数据
