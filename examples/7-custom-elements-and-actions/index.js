@@ -35,7 +35,7 @@ function refresh(data) {
     tree = f3.CalculateTree({
       data: jsonData,
       main_id,
-      single_parent_empty_card: true,
+      single_parent_empty_card: false,
       node_separation: 200, // 水平间距
       level_separation: 250, // 垂直间距
     });
@@ -135,6 +135,11 @@ function Card(tree, svg, onCardClick) {
       const id =  nData.id ? nData.id : generateUUID();
       // 创建新成员并设置属性
       const person = {id: id, data: nData || {}, rels: rels || {}}
+      // 更新关系数据
+      const currentData = [...new Set([
+        ...tree.data.map(item => item.data),
+        ...tree.data_stash.map(item => item)
+      ])];
   
       // 根据添加类型处理关系
       if (nData.relationType === 'spouse') {
@@ -147,9 +152,25 @@ function Card(tree, svg, onCardClick) {
           parent.rels.spouses.push(person.id);
         }
         rels.children = parent.rels.children || [];
+
+        // 更新子女的父母关系
+        if (parent.rels.children && parent.rels.children.length > 0) {
+          parent.rels.children.forEach(childId => {
+            const child = currentData.find(item => item.id === childId);
+            if (child) {
+              if (parent.data.gender === "M") {
+                // 如果当前节点是父亲，新配偶是母亲
+                child.rels.mother = person.id;
+              } else {
+                // 如果当前节点是母亲，新配偶是父亲
+                child.rels.father = person.id;
+              }
+            }
+          });
+        }
       } else if (nData.relationType === 'child') {
         // 添加子女
-        if (parent.gender === "M") {
+        if (parent.data.gender === "M") {
           rels.father = parent.id;
           if (spouses.length > 0) {
             rels.mother = spouses[0];
@@ -174,11 +195,7 @@ function Card(tree, svg, onCardClick) {
       person.to_add = false;
       updateMainId(parent.id);
   
-      // 更新关系数据
-      const currentData = [...new Set([
-        ...tree.data.map(item => item.data),
-        ...tree.data_stash.map(item => item)
-      ])];
+      
   
       if (nData.relationType === 'child') {
         // 更新父母的子女关系
@@ -216,7 +233,7 @@ function Card(tree, svg, onCardClick) {
     tree = f3.CalculateTree({
       data: currentData,
       main_id,
-      single_parent_empty_card: true,
+      single_parent_empty_card: false,
       node_separation: 200, // 水平间距
       level_separation: 250, // 垂直间距
     });
