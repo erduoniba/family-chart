@@ -36,7 +36,7 @@ function refresh(data) {
       data: jsonData,
       main_id,
       single_parent_empty_card: false,
-      node_separation: 200, // 水平间距
+      node_separation: 180, // 水平间距
       level_separation: 250, // 垂直间距
     });
     // 渲染树形图，使用自定义的Card组件
@@ -234,7 +234,7 @@ function Card(tree, svg, onCardClick) {
       data: currentData,
       main_id,
       single_parent_empty_card: false,
-      node_separation: 200, // 水平间距
+      node_separation: 180, // 水平间距
       level_separation: 250, // 垂直间距
     });
     jsonData = currentData;
