@@ -4,22 +4,10 @@
 这种方式提供了一个统一的入口点来访问模块的所有功能，同时保持了良好的命名空间隔离。
 */
 import f3 from "../../src/index.js";
+import { handlePersonList, handleAddPerson, handleEditPerson } from './personNodeHandler.js';
 
-if (window.personNodeHandler) {
-  const params = {};
-  window.personNodeHandlerCallback = function (result) {
-    const data = JSON.parse(result);
-    refresh(data);
-  };
-  personNodeHandler.personList(params, "personNodeHandlerCallback");
-} else {
-  // 从JSON文件加载家谱数据
-  fetch("./data.json")
-    .then((r) => r.json())
-    .then((data) => {
-      refresh(data);
-    });
-}
+// 初始化数据加载
+handlePersonList({}, refresh);
 
 // 定义全局变量
 let tree, main_id, jsonData;
@@ -126,35 +114,15 @@ function Card(tree, svg, onCardClick) {
   function addRelative(d) {
     console.log("add relative", d);
     const parent = d.d.data;
-
-    if (window.personNodeHandler) {
-      const params = {
-        currentId: parent.id,
-        gender: parent.data.gender === "M" ? "M" : "F",
-        // 0: 都可以添加，1：只能添加孩子
-        addType: 0,
-      };
-
-      if (parent.rels.mother, parent.rels.father) {
-        params['addType'] = 1
-      }
-      window.addPersonActionCallback = function (result) {
-        let nData = JSON.parse(result);
-        addPersonAction(nData);
-      };
-      personNodeHandler.addPerson(params, "addPersonActionCallback");
-    } else {
-      let nData = {
-        "id": generateUUID(),
-        "first name": "New",
-        "last name": "Person",
-        gender: "M",
-        birthday: "",
-        avatar: "",
-      };
-      addPersonAction(nData);
-    }
-
+    
+    const params = {
+      currentId: parent.id,
+      gender: parent.data.gender === "M" ? "M" : "F",
+      addType: parent.rels.mother && parent.rels.father ? 1 : 0
+    };
+    
+    handleAddPerson(params, addPersonAction);
+    
     function addPersonAction(nData) {
       // 创建新的家庭成员数据
       const rels = {
@@ -268,33 +236,19 @@ function Card(tree, svg, onCardClick) {
   function cardEditForm(d) {
     console.log("card cardEditForm", d);
     const person = d.datum;
-
-    if (window.personNodeHandler) {
-      const params = {
-        currentId: person.id,
-      };
-
-      window.editPersonActionCallback = function (result) {
-        let nData = JSON.parse(result);
-        if (nData["editType"] == "delete") {
-          deletePersonAction(nData["personIds"]);
-          return
-        }
-        editPersonAction(nData);
-      };
-      personNodeHandler.editPerson(params, "editPersonActionCallback");
-    } else {
-      // 本地测试用的默认编辑数据
-      let nData = {
-        gender: "F",
-        "first name": "Andrea",
-        "last name": "",
-        birthday: "",
-        avatar: ""
-      };
+    
+    const params = {
+      currentId: person.id,
+    };
+    
+    handleEditPerson(params, (nData) => {
+      if (nData["editType"] == "delete") {
+        deletePersonAction(nData["personIds"]);
+        return;
+      }
       editPersonAction(nData);
-    }
-
+    });
+    
     function deletePersonAction(personIds) {
       if (!personIds || personIds.length === 0) {
         return;
