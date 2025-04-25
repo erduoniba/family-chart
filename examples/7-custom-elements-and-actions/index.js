@@ -14,34 +14,13 @@ let tree, main_id, jsonData;
 
 function refresh(data) {
   // 创建SVG容器
-  // 在HTML文档中找到id为"FamilyChart"的元素。
   const svg = f3.createSvg(document.querySelector("#FamilyChart"));
   jsonData = data;
 
-  // 添加保存按钮
-  const saveButton = document.createElement('button');
-  saveButton.textContent = '保存家谱图';
-  saveButton.style.position = 'fixed';
-  saveButton.style.top = '20px';
-  saveButton.style.right = '20px';
-  saveButton.style.padding = '8px 16px';
-  saveButton.style.backgroundColor = '#4CAF50';
-  saveButton.style.color = 'white';
-  saveButton.style.border = 'none';
-  saveButton.style.borderRadius = '4px';
-  saveButton.style.cursor = 'pointer';
-  
-  saveButton.addEventListener('click', () => {
-    handleSaveSVGAsImage((result) => {
-      if (result.success) {
-        alert('家谱图保存成功！');
-      } else {
-        alert('保存失败：' + result.message);
-      }
-    });
-  });
-  
-  document.body.appendChild(saveButton);
+  if (window.personNodeHandler == null) {
+    // 添加保存按钮
+    createSaveButton();
+  }
 
   // 初始化树形图
   updateTree({ 
@@ -382,4 +361,53 @@ function Card(tree, svg, onCardClick) {
       onCardClick(event, d);
     });
   }
+}
+
+/**
+ * 创建并添加保存按钮
+ */
+function createSaveButton() {
+  // 如果已存在保存按钮，先移除
+  const existingButton = document.querySelector('#saveChartButton');
+  if (existingButton) {
+    existingButton.remove();
+  }
+
+  const saveButton = document.createElement('button');
+  saveButton.id = 'saveChartButton';
+  saveButton.textContent = window.personNodeHandler ? '保存家谱图' : '下载家谱图';
+  
+  // 设置按钮样式
+  Object.assign(saveButton.style, {
+    position: 'fixed',
+    top: '20px',
+    right: '20px',
+    padding: '8px 16px',
+    backgroundColor: '#4CAF50',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer'
+  });
+  
+  // 添加悬停效果
+  saveButton.addEventListener('mouseover', () => {
+    saveButton.style.backgroundColor = '#45a049';
+  });
+  
+  saveButton.addEventListener('mouseout', () => {
+    saveButton.style.backgroundColor = '#4CAF50';
+  });
+  
+  saveButton.addEventListener('click', () => {
+    handleSaveSVGAsImage((result) => {
+      if (result.success) {
+        alert(window.personNodeHandler ? '家谱图保存成功！' : '家谱图下载成功！');
+      } else {
+        alert('保存失败：' + result.message);
+      }
+    });
+  });
+  
+  document.body.appendChild(saveButton);
 }

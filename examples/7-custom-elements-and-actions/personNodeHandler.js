@@ -60,64 +60,104 @@ export function handleEditPerson(params, callback) {
 }
 
 export function handleSaveSVGAsImage(callback) {
-  if (window.personNodeHandler) {
-    window.saveSVGCallback = function (result) {
-      callback(result);
-    };
-    personNodeHandler.saveSVG("saveSVGCallback");
-  } else {
-    // 本地测试模式下的 SVG 导出实现
-    try {
-      const svgElement = document.querySelector('.main_svg');
-      if (!svgElement) {
-        callback({ success: false, message: "未找到 SVG 元素" });
-        return;
-      }
-
-      // 创建一个 SVG 的副本
-      const clonedSvg = svgElement.cloneNode(true);
-      
-      // 移除所有编辑按钮元素
-      const editButtons = clonedSvg.querySelectorAll('.card_edit.pencil_icon');
-      editButtons.forEach(button => button.remove());
-      
-      const card_add_relative = clonedSvg.querySelectorAll('.card_add_relative');
-      card_add_relative.forEach(button => button.remove());
-
-      const card_family_tree = clonedSvg.querySelectorAll('.card_family_tree');
-      card_family_tree.forEach(button => button.remove());
-      
-      // 获取 SVG 的尺寸
-      const bbox = svgElement.getBBox();
-      const width = bbox.width;
-      const height = bbox.height;
-      
-      // 设置克隆 SVG 的属性
-      clonedSvg.setAttribute("width", width);
-      clonedSvg.setAttribute("height", height);
-      
-      // 将 SVG 转换为字符串
-      const serializer = new XMLSerializer();
-      const svgString = serializer.serializeToString(clonedSvg);
-      
-      // 创建 Blob
-      const svgBlob = new Blob([svgString], { type: "image/svg+xml" });
-      const url = URL.createObjectURL(svgBlob);
-      
-      // 创建下载链接
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "family-tree.svg";
-      document.body.appendChild(link);
-      link.click();
-      
-      // 清理
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-      
-      callback({ success: true, message: "SVG 已成功保存" });
-    } catch (error) {
-      callback({ success: false, message: error.message });
-    }
+  // 获取 SVG 元素
+  const svgElement = document.querySelector('.main_svg');
+  if (!svgElement) {
+    callback({ success: false, message: "未找到 SVG 元素" });
+    return;
   }
+
+  // 创建一个 SVG 的副本
+  const clonedSvg = svgElement.cloneNode(true);
+  
+  // 移除所有编辑按钮元素
+  const editButtons = clonedSvg.querySelectorAll('.card_edit.pencil_icon');
+  editButtons.forEach(button => button.remove());
+  
+  const card_add_relative = clonedSvg.querySelectorAll('.card_add_relative');
+  card_add_relative.forEach(button => button.remove());
+
+  const card_family_tree = clonedSvg.querySelectorAll('.card_family_tree');
+  card_family_tree.forEach(button => button.remove());
+
+  // 处理所有的 defs 元素（保留 clipPath 定义）
+  const defs = clonedSvg.querySelector('defs');
+  if (!defs) {
+    const newDefs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+    clonedSvg.insertBefore(newDefs, clonedSvg.firstChild);
+  }
+
+  // 处理所有带有 clip-path 的图片元素
+  const imageElements = clonedSvg.querySelectorAll('image');
+  const promises = Array.from(imageElements).map(async (img) => {
+    const href = img.getAttribute('href');
+    if (href && href.startsWith('http')) {
+      try {
+        // 获取图片数据并转换为 base64
+        const response = await fetch(href);
+        const blob = await response.blob();
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            img.setAttribute('href', reader.result);
+            resolve();
+          };
+          reader.readAsDataURL(blob);
+        });
+      } catch (error) {
+        console.error('图片加载失败:', error);
+        // 如果图片加载失败，使用默认的占位图
+        img.setAttribute('href', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2NjYyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2Ij5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=');
+      }
+    }
+  });
+
+  // 等待所有图片处理完成后再继续
+  Promise.all(promises).then(() => {
+    // 获取 SVG 的尺寸
+    const bbox = svgElement.getBBox();
+    const width = bbox.width;
+    const height = bbox.height;
+    
+    // 设置克隆 SVG 的属性
+    clonedSvg.setAttribute("width", width);
+    clonedSvg.setAttribute("height", height);
+    
+    // 将 SVG 转换为字符串
+    const serializer = new XMLSerializer();
+    const svgString = serializer.serializeToString(clonedSvg);
+
+    if (window.personNodeHandler) {
+      // 设置回调函数
+      window.saveSVGCallback = function (result) {
+        callback(result);
+      };
+      
+      // 调用原生方法保存到相册
+      personNodeHandler.saveSVG(svgString, "saveSVGCallback");
+    } else {
+      // 本地测试模式下的 SVG 导出实现
+      try {
+        const svgBlob = new Blob([svgString], { type: "image/svg+xml" });
+        const url = URL.createObjectURL(svgBlob);
+        
+        // 创建下载链接
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "family-tree.svg";
+        document.body.appendChild(link);
+        link.click();
+        
+        // 清理
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        
+        callback({ success: true, message: "SVG 已成功保存" });
+      } catch (error) {
+        callback({ success: false, message: error.message });
+      }
+    }
+  }).catch(error => {
+    callback({ success: false, message: "处理图片时出错：" + error.message });
+  });
 }
