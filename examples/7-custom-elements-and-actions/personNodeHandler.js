@@ -114,10 +114,10 @@ export function handleSaveSVGAsImage(callback) {
 
   // 等待所有图片处理完成后再继续
   Promise.all(promises).then(() => {
-    // 获取 SVG 的尺寸
+  // 获取 SVG 的尺寸
     const bbox = svgElement.getBBox();
     const width = bbox.width;
-    const height = bbox.height;
+    const height = bbox.height
     
     // 设置克隆 SVG 的属性
     clonedSvg.setAttribute("width", width);
@@ -126,20 +126,66 @@ export function handleSaveSVGAsImage(callback) {
     // 将 SVG 转换为字符串
     const serializer = new XMLSerializer();
     const svgString = serializer.serializeToString(clonedSvg);
+    const svgBlob = new Blob([svgString], { type: "image/svg+xml" });
+    const url = URL.createObjectURL(svgBlob);
 
     if (window.personNodeHandler) {
       // 设置回调函数
       window.saveSVGCallback = function (result) {
         callback(result);
       };
+            
+      // 创建图片元素
+      const img = new Image();
+      img.onload = function() {
+        // 创建 canvas
+        const canvas = document.createElement('canvas');
+        const scale = 6; // 缩放比例
+        // 设置 canvas 尺寸为实际尺寸的 2 倍以提高清晰度
+        canvas.width = width * scale;
+        canvas.height = height * scale;
+        
+        // 获取 canvas 上下文并设置白色背景
+        const ctx = canvas.getContext('2d');
+        ctx.scale(scale, scale); // 缩放以匹配更大的画布
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, width, height);
+        
+        // 绘制图片
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        // 获取 PNG 格式的 base64 数据
+        // 获取图片数据
+        const base64Data = canvas.toDataURL('image/png');
+        
+        const params = {
+          width: width,
+          height: height,
+          imageData: base64Data,
+          format: 'png'
+        };
+        
+        // 清理资源
+        URL.revokeObjectURL(url);
+        
+        // 使用 personNodeHandler 对象调用原生方法
+        if (typeof personNodeHandler.saveSVG === 'function') {
+          personNodeHandler.saveSVG(params, "saveSVGCallback");
+        } else {
+          callback({ success: false, message: "原生保存方法不可用" });
+        }
+      };
       
-      // 调用原生方法保存到相册
-      personNodeHandler.saveSVG(svgString, "saveSVGCallback");
+      img.onerror = function() {
+        URL.revokeObjectURL(url);
+        callback({ success: false, message: "图片转换失败" });
+      };
+      
+      // 加载 SVG
+      img.src = url;
     } else {
       // 本地测试模式下的 SVG 导出实现
       try {
-        const svgBlob = new Blob([svgString], { type: "image/svg+xml" });
-        const url = URL.createObjectURL(svgBlob);
         
         // 创建下载链接
         const link = document.createElement("a");
@@ -157,7 +203,8 @@ export function handleSaveSVGAsImage(callback) {
         callback({ success: false, message: error.message });
       }
     }
-  }).catch(error => {
-    callback({ success: false, message: "处理图片时出错：" + error.message });
   });
 }
+
+// 将函数挂载到 window 对象
+window.handleSaveSVGAsImage = handleSaveSVGAsImage;
