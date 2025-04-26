@@ -4,7 +4,7 @@
 这种方式提供了一个统一的入口点来访问模块的所有功能，同时保持了良好的命名空间隔离。
 */
 import f3 from "../../src/index.js";
-import { handlePersonList, handleAddPerson, handleEditPerson, handleSaveSVGAsImage } from './personNodeHandler.js';
+import { handlePersonList, handleAddPerson, handleEditPerson, handleSaveSVGAsImage, handleUpdateCardImage } from './personNodeHandler.js';
 
 // 初始化数据加载
 handlePersonList({}, refresh);
@@ -360,6 +360,19 @@ function Card(tree, svg, onCardClick) {
       console.log("card image clicked", d);
       onCardClick(event, d);
     });
+
+    handleUpdateCardImage(d, function (result) {
+      try {
+        const imageData = JSON.parse(result);
+        if (imageData.imageData) {
+          // 更新图片源
+          card_image.select('image')
+          .attr('href', imageData.imageData);
+        }
+      } catch (error) {
+        console.error('处理图片数据失败:', error);
+      }
+    })
   }
 }
 

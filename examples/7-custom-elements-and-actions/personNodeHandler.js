@@ -1,5 +1,8 @@
 import { generateUUID } from "../../src/CreateTree/newPerson.js";
 
+// 将函数挂载到 window 对象
+window.handleSaveSVGAsImage = handleSaveSVGAsImage;
+
 // personNodeHandler 相关的代码管理
 export function handlePersonList(params, callback) {
   if (window.personNodeHandler) {
@@ -177,5 +180,22 @@ export function handleSaveSVGAsImage(callback) {
   });
 }
 
-// 将函数挂载到 window 对象
-window.handleSaveSVGAsImage = handleSaveSVGAsImage;
+
+export function handleUpdateCardImage(d, callback) {
+  // 处理头像图片
+  if (d.data.data && d.data.data.avatar) {
+    const avatarPath = d.data.data.avatar;
+    if (window.personNodeHandler) {
+      // 设置回调函数接收图片数据
+      const imageId = `avatar_${d.data.id}`;
+      window[imageId + '_callback'] = callback;
+      // 调用原生方法获取图片数据
+      const params = {
+        imagePath: avatarPath,
+        imageType: 'avatar',
+        id: d.data.id
+      }
+      personNodeHandler.getImageData(params, `${imageId}_callback`);
+    }
+  }
+}
