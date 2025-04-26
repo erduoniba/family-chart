@@ -190,9 +190,37 @@ function Card(tree, svg, onCardClick) {
         if (nData.gender === "M") {
           rels.children = [parent.id];
           parent.rels.father = person.id;
+          
+          // 如果已有母亲，建立配偶关系
+          if (parent.rels.mother) {
+            rels.spouses = [parent.rels.mother];
+            // 在母亲节点中也添加配偶关系
+            const mother = currentData.find(item => item.id === parent.rels.mother);
+            if (mother) {
+              mother.rels = mother.rels || {};
+              mother.rels.spouses = mother.rels.spouses || [];
+              if (!mother.rels.spouses.includes(person.id)) {
+                mother.rels.spouses.push(person.id);
+              }
+            }
+          }
         } else {
           rels.children = [parent.id];
           parent.rels.mother = person.id;
+          
+          // 如果已有父亲，建立配偶关系
+          if (parent.rels.father) {
+            rels.spouses = [parent.rels.father];
+            // 在父亲节点中也添加配偶关系
+            const father = currentData.find(item => item.id === parent.rels.father);
+            if (father) {
+              father.rels = father.rels || {};
+              father.rels.spouses = father.rels.spouses || [];
+              if (!father.rels.spouses.includes(person.id)) {
+                father.rels.spouses.push(person.id);
+              }
+            }
+          }
         }
       }
   

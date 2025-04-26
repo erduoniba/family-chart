@@ -142,6 +142,6 @@ function svgWrapper(icon, viewBox='0 0 24 24') {
 
 function bgCircle() {
   return (`
-    <circle r="12" cx="12" cy="12" style="fill: rgba(0,0,0,0)" />
+    <circle r="12" cx="12" cy="12" style="fill: rgba(233, 228, 228, 1)" />
   `)
 }
