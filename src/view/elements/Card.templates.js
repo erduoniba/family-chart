@@ -202,7 +202,7 @@ export function CardImage({d, image, card_dim, maleIcon, femaleIcon}) {
       <text x="${card_dim.img_w/2}" y="${card_dim.img_h/2}" 
             text-anchor="middle" 
             dominant-baseline="middle" 
-            fill="${gender === "F" ? "#FF69B4" : gender === "M" ? "#4169E1" : "#ffffff"}" 
+            fill="#ffffff"
             font-size="24px">
         ${getInitials(d.data.data)}
       </text>

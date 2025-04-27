@@ -17,6 +17,11 @@ function refresh(data) {
   const svg = f3.createSvg(document.querySelector("#FamilyChart"));
   jsonData = data;
 
+  // 从缓存中获取 main_id
+  if (!main_id) {
+    main_id = localStorage.getItem('family_chart_main_id');
+  }
+
   if (window.personNodeHandler == null) {
     // 添加保存按钮
     createSaveButton();
@@ -63,6 +68,11 @@ function refresh(data) {
 // 更新主节点ID的函数
 function updateMainId(_main_id) {
   main_id = _main_id;
+  
+  // 将 main_id 保存到 localStorage 中进行缓存
+  if (_main_id) {
+    localStorage.setItem('family_chart_main_id', _main_id);
+  }
 }
 
 // 自定义卡片组件
@@ -226,8 +236,6 @@ function Card(tree, svg, onCardClick) {
   
       person.to_add = false;
       updateMainId(parent.id);
-  
-      
   
       if (nData.relationType === 'child') {
         // 更新父母的子女关系
