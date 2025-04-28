@@ -30,7 +30,7 @@ function refresh(data) {
   // 初始化树形图
   updateTree({ 
     initial: true,
-    transition_time: 0,
+    transition_time: 600,
   });
 
   // 更新树形图的函数
@@ -323,10 +323,29 @@ function Card(tree, svg, onCardClick) {
         if (personIds.includes(item.id)) {
           return false;
         }
-        // 检查节点的子女关系是否包含要删除的ID
-        if (item.rels && item.rels.children) {
-          item.rels.children = item.rels.children.filter(childId => !personIds.includes(childId));
+        
+        // 检查并更新关系
+        if (item.rels) {
+          // 移除子女关系
+          if (item.rels.children) {
+            item.rels.children = item.rels.children.filter(childId => !personIds.includes(childId));
+          }
+          
+          // 移除配偶关系
+          if (item.rels.spouses) {
+            item.rels.spouses = item.rels.spouses.filter(spouseId => !personIds.includes(spouseId));
+          }
+          
+          // 移除父母关系
+          if (item.rels.father && personIds.includes(item.rels.father)) {
+            delete item.rels.father;
+          }
+          
+          if (item.rels.mother && personIds.includes(item.rels.mother)) {
+            delete item.rels.mother;
+          }
         }
+        
         return true;
       });
       
