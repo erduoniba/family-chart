@@ -17,7 +17,22 @@ export function sortChildrenWithSpouses(data) {
 }
 
 function otherParent(d, p1, data) {
-  return data.find(d0 => (d0.id !== p1.id) && ((d0.id === d.rels.mother) || (d0.id === d.rels.father)))
+  if (!d || !p1 || !data) return null;
+  
+  const motherId = d.rels?.mother;
+  const fatherId = d.rels?.father;
+  
+  if (!motherId && !fatherId) return null;
+  
+  for (const d0 of data) {
+    if (d0.id === p1.id) continue;
+    
+    if (d0.id === motherId || d0.id === fatherId) {
+      return d0;
+    }
+  }
+  
+  return null;
 }
 
 export function calculateEnterAndExitPositions(d, entering, exiting) {

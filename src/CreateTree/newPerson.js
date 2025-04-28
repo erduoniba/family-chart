@@ -175,7 +175,7 @@ export function addNewPersonAndHandleRels({datum, data_stash, rel_type, rel_datu
   handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum})
 }
 
-function generateUUID() {
+export function generateUUID() {
   var d = new Date().getTime();
   var d2 = (performance && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

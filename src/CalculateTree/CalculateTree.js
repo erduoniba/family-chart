@@ -30,7 +30,7 @@ export default function CalculateTree({data, main_id=null, node_separation=250, 
       d3_tree = d3.tree().nodeSize([node_separation, level_separation]).separation(separation),
       root = d3.hierarchy(datum, hierarchyGetter);
     d3_tree(root);
-    return root.descendants()
+    return root.descendants().filter(d => d.data)
 
     function separation(a, b) {
       let offset = 1;
@@ -44,13 +44,33 @@ export default function CalculateTree({data, main_id=null, node_separation=250, 
 
     function hasCh(d) {return !!d.children}
     function sameParent(a, b) {return a.parent == b.parent}
-    function sameBothParents(a, b) {return (a.data.rels.father === b.data.rels.father) && (a.data.rels.mother === b.data.rels.mother)}
+    function sameBothParents(a, b) {
+      if (!a.data ||!b.data) {
+        console.error('no d.data', a, b)
+        return false
+      }
+      return (a.data.rels.father === b.data.rels.father) && (a.data.rels.mother === b.data.rels.mother)
+    }
     function someChildren(a, b) {return hasCh(a) || hasCh(b)}
-    function hasSpouses(d) {return d.data.rels.spouses && d.data.rels.spouses.length > 0}
+    function hasSpouses(d) {
+      if (!d.data) {
+        console.error('no d.data', d)
+        return false
+      }
+      return d.data.rels.spouses && d.data.rels.spouses.length > 0
+    }
     function someSpouses(a, b) {return hasSpouses(a) || hasSpouses(b)}
 
     function hierarchyGetterChildren(d) {
-      return [...(d.rels.children || [])].map(id => data_stash.find(d => d.id === id))
+      // 使用扩展运算符 ... 来创建一个新的数组
+      // 这样做可以确保我们总是在处理一个数组，即使原始的 d.rels.children 不是数组
+      // 对子节点 id 数组进行 map 操作
+      return [...(d?.rels?.children || [])].map(id =>
+          // data_stash 应该是包含所有节点数据的数组
+          data_stash.find(d => 
+            d.id === id
+          )
+        )
     }
 
     function hierarchyGetterParents(d) {
@@ -58,8 +78,11 @@ export default function CalculateTree({data, main_id=null, node_separation=250, 
         .filter(d => d).map(id => data_stash.find(d => d.id === id))
     }
 
-    function offsetOnPartners(a,b) {
-      return ((a.data.rels.spouses || []).length + (b.data.rels.spouses || []).length)*.5
+    function offsetOnPartners(a, b) {
+      // 获取配偶数量，如果data不存在则返回空数组
+      const aSpouses = (a?.data?.rels?.spouses || []).length;
+      const bSpouses = (b?.data?.rels?.spouses || []).length;
+      return (aSpouses + bSpouses) * 0.5;
     }
   }
 
@@ -91,6 +114,16 @@ export default function CalculateTree({data, main_id=null, node_separation=250, 
         const side = d.data.data.gender === "M" ? -1 : 1;  // female on right
         d.x += d.data.rels.spouses.length/2*node_separation*side;
         d.data.rels.spouses.forEach((sp_id, i) => {
+          // 查找配偶数据并进行验证
+          const spouseData = data_stash.find(function(d0) {
+            return d0.id === sp_id;
+          });
+          // 如果没有找到配偶数据，跳过当前循环
+          if (!spouseData) {
+            console.warn(`配偶数据未找到，ID: ${sp_id}`);
+            return;
+          }
+
           const spouse = {data: data_stash.find(d0 => d0.id === sp_id), added: true}
 
           spouse.x = d.x-(node_separation*(i+1))*side;
@@ -141,7 +174,7 @@ export default function CalculateTree({data, main_id=null, node_separation=250, 
 
     function findDatum(id) {
       if (!id) return null
-      return tree.find(d => d.data.id === id)
+      return tree.find(d => d.data?.id === id)
     }
   }
 
@@ -182,6 +215,7 @@ export default function CalculateTree({data, main_id=null, node_separation=250, 
 
         d.rels.children.forEach(d0 => {
           const child = data.find(d1 => d1.id === d0)
+          if (!child) return
           if (child.rels[is_father ? 'father' : 'mother'] !== d.id) return
           if (child.rels[!is_father ? 'father' : 'mother']) return
           if (!spouse) {

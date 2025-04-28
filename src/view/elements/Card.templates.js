@@ -1,28 +1,49 @@
 export function CardBody({d,card_dim,card_display}) {
+  const gender = d.data.data.gender;
+  const bgColor = gender === "F" ? "rgba(196, 138, 146)" : // 女性使用淡粉色
+                 gender === "M" ? "rgba(120, 159, 172)" :    // 男性使用淡蓝色
+                 "rgba(33, 33, 33)";                     // 默认使用淡灰色
+  
   return {template: (`
     <g class="card-body">
-      <rect width="${card_dim.w}" height="${card_dim.h}" class="card-body-rect" />
+      <rect width="${card_dim.w}" height="${card_dim.h}" class="card-body-rect" fill="${bgColor}" />
       ${CardText({d,card_dim,card_display}).template}
     </g>
   `)
   }
 }
 
+// 隐藏文字颜色的背景
 export function CardText({d,card_dim,card_display}) {
   return {template: (`
     <g>
       <g class="card-text" clip-path="url(#card_text_clip)">
         <g transform="translate(${card_dim.text_x}, ${card_dim.text_y})">
-          <text>
+          <text fill="#ffffff">
             ${Array.isArray(card_display) ? card_display.map(cd => `<tspan x="${0}" dy="${14}">${cd(d.data)}</tspan>`).join('\n') : card_display(d.data)}
           </text>
         </g>
       </g>
-      <rect width="${card_dim.w-10}" height="${card_dim.h}" style="mask: url(#fade)" class="text-overflow-mask" /> 
     </g>
   `)
   }
 }
+
+// export function CardText({d,card_dim,card_display}) {
+//   return {template: (`
+//     <g>
+//       <g class="card-text" clip-path="url(#card_text_clip)">
+//         <g transform="translate(${card_dim.text_x}, ${card_dim.text_y})">
+//           <text fill="#ffffff">
+//             ${Array.isArray(card_display) ? card_display.map(cd => `<tspan x="${0}" dy="${14}">${cd(d.data)}</tspan>`).join('\n') : card_display(d.data)}
+//           </text>
+//         </g>
+//       </g>
+//       <rect width="${card_dim.w-10}" height="${card_dim.h}" style="mask: url(#fade)" class="text-overflow-mask" /> 
+//     </g>
+//   `)
+//   }
+// }
 
 export function CardBodyAddNew({d,card_dim,card_add,label}) {
   return {template: (`
@@ -47,7 +68,7 @@ export function PencilIcon({d,card_dim,x,y}) {
   return ({template: (`
     <g transform="translate(${x || card_dim.w-20},${y || card_dim.h-20})scale(.6)" style="cursor: pointer" class="card_edit pencil_icon">
       <circle fill="rgba(0,0,0,0)" r="17" cx="8.5" cy="8.5" />
-      <path fill="currentColor" transform="translate(-1.5, -1.5)"
+      <path fill="white" transform="translate(-1.5, -1.5)"
          d="M19.082,2.123L17.749,0.79c-1.052-1.052-2.766-1.054-3.819,0L1.925,12.794c-0.06,0.06-0.104,0.135-0.127,0.216
           l-1.778,6.224c-0.05,0.175-0.001,0.363,0.127,0.491c0.095,0.095,0.223,0.146,0.354,0.146c0.046,0,0.092-0.006,0.137-0.02
           l6.224-1.778c0.082-0.023,0.156-0.066,0.216-0.127L19.082,5.942C20.134,4.89,20.134,3.176,19.082,2.123z M3.076,13.057l9.428-9.428
@@ -95,11 +116,11 @@ export function PlusIcon({d,card_dim,x,y}) {
         <g transform="translate(-10, -8)">
           <line
             x1="10" x2="90" y1="50" y2="50"
-            stroke="currentColor" stroke-width="15" stroke-linecap="round"
+            stroke="white" stroke-width="15" stroke-linecap="round"
           />
           <line
             x1="50" x2="50" y1="10" y2="90"
-            stroke="currentColor" stroke-width="15" stroke-linecap="round"
+            stroke="white" stroke-width="15" stroke-linecap="round"
           />
         </g>
       </g>
@@ -155,27 +176,44 @@ export function LinkBreakIconWrapper({d,card_dim}) {
 
 export function CardImage({d, image, card_dim, maleIcon, femaleIcon}) {
   return ({template: (`
-    <g style="transform: translate(${card_dim.img_x}px,${card_dim.img_y}px);" class="card_image" clip-path="url(#card_image_clip)">
-      ${image 
-        ? `<image href="${image}" height="${card_dim.img_h}" width="${card_dim.img_w}" preserveAspectRatio="xMidYMin slice" />`
-        : (d.data.data.gender === "F" && !!femaleIcon) ? femaleIcon({card_dim}) 
-        : (d.data.data.gender === "M" && !!maleIcon) ? maleIcon({card_dim}) 
-        : GenderlessIcon()
-      }      
+    <g style="transform: translate(${card_dim.img_x}px,${card_dim.img_y}px);" class="card_image">
+      <defs>
+        <clipPath id="card_image_clip">
+          <rect width="${card_dim.img_w}" height="${card_dim.img_h}" rx="10" ry="10" />
+        </clipPath>
+      </defs>
+      <g clip-path="url(#card_image_clip)">
+        ${image 
+          ? `<image href="${image}" rx="10" ry="10" height="${card_dim.img_h}" width="${card_dim.img_w}" preserveAspectRatio="xMidYMin slice" style="stroke: #ffffff; stroke-width: 2px;" />`
+          : generateNameAvatar(d, card_dim)
+        }      
+      </g>
     </g>
   `)})
 
-  function GenderlessIcon() {
-    return (`
-      <g class="genderless-icon">
-        <rect height="${card_dim.img_h}" width="${card_dim.img_w}" fill="rgb(59, 85, 96)" />
-        <g transform="scale(${card_dim.img_w*0.001616})">
-         <path transform="translate(50,40)" fill="lightgrey" d="M256 288c79.5 0 144-64.5 144-144S335.5 0 256 0 112 
-            64.5 112 144s64.5 144 144 144zm128 32h-55.1c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16H128C57.3 320 0 377.3 
-            0 448v16c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48v-16c0-70.7-57.3-128-128-128z" />
-        </g>
-      </g>
-    `)
+  // 生成用户名称头像
+  function generateNameAvatar(d, card_dim) {
+    const gender = d.data.data.gender;
+    const bgColor = "rgba(255, 192, 203, 0.0)"
+    
+    return `<g class="name-avatar">
+      <rect rx="10" ry="10" height="${card_dim.img_h}" width="${card_dim.img_w}" 
+            fill="${bgColor}" style="stroke: #ffffff; stroke-width: 2px;" />
+      <text x="${card_dim.img_w/2}" y="${card_dim.img_h/2}" 
+            text-anchor="middle" 
+            dominant-baseline="middle" 
+            fill="#ffffff"
+            font-size="24px">
+        ${getInitials(d.data.data)}
+      </text>
+    </g>`
+  }
+
+  // 获取用户名称首字母
+  function getInitials(data) {
+    const firstName = data["first name"] ? data["first name"].charAt(0).toUpperCase() : "";
+    const lastName = data["last name"] ? data["last name"] : "";
+    return firstName + lastName;
   }
 }
 
