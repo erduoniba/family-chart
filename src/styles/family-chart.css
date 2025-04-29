@@ -40,7 +40,7 @@
 }
 .f3 .card-main-outline, .f3 .card-outline {
   stroke: currentColor;
-  stroke-width: 4px;
+  stroke-width: 8px;
 }
 .f3 .card_family_tree rect {
   transition: 0.3s;

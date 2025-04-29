@@ -413,6 +413,11 @@ function Card(tree, svg, onCardClick) {
     const tspan = text.select("tspan");
     tspan.attr("x", (card_dim.w - card_dim.text_x) / 2);
 
+    // 卡片的边框视图
+    const card_main_outline = d3.select(this).select(".card-main-outline");
+    card_main_outline.style("stroke", "#fff");
+    card_main_outline.style("stroke-width", "16px");
+          
     const card_image = d3.select(this).select(".card_image");
     card_image.on("click", function (event, d) {
       console.log("card image clicked", d);
