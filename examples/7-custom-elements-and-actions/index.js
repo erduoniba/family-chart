@@ -11,11 +11,11 @@ handlePersonList({}, refresh);
 
 // 定义全局变量
 export let treeData;
-let main_id, tree;
+let main_id, tree, svg;
 
 function refresh(data) {
   // 创建SVG容器
-  const svg = f3.createSvg(document.querySelector("#FamilyChart"));
+  svg = f3.createSvg(document.querySelector("#FamilyChart"));
   
   // 从缓存中获取 main_id
   if (!main_id) {
@@ -35,25 +35,37 @@ function refresh(data) {
   updateTree(data, svg, onCardClick, props);
   
   // 卡片点击事件处理函数
-  function onCardClick(e, d) {
-    // 更新主节点ID并重新渲染树形图
-    updateMainId(d.data.id);
+  
+}
 
-    const props = {
-      tree_position: 'fit',
-      transition_time: 1000,
-    };
-    updateTree(treeData, svg, onCardClick, props);
-  }
+function onCardClick(e, d) {
+  // 更新主节点ID并重新渲染树形图
+  updateMainId(d.data.id);
+
+  const props = {
+    tree_position: 'fit',
+    transition_time: 1000,
+  };
+  updateTree(treeData, svg, onCardClick, props);
 }
 
 // 更新主节点ID的函数
-function updateMainId(_main_id) {
+export function updateMainId(_main_id, refreshTree = false) {
   main_id = _main_id;
   
   // 将 main_id 保存到 localStorage 中进行缓存
   if (_main_id) {
     localStorage.setItem('family_chart_main_id', _main_id);
+  }
+
+  if (refreshTree) {
+    // 更新树形图
+    const props = {
+      initial: false,
+      tree_position: 'fit',
+      transition_time: 1000,
+    };
+    updateTree(treeData, svg, onCardClick, props);
   }
 }
 

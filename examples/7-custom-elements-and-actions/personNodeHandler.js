@@ -1,11 +1,12 @@
 import { generateUUID } from "../../src/CreateTree/newPerson.js";
 
-import {treeData} from "./index.js";
+import {treeData, updateMainId} from "./index.js";
 import f3 from "../../src/index.js";
 
 // 将函数挂载到 window 对象
 window.handleSaveSVGAsImage = handleSaveSVGAsImage;
 window.handleTreNodes = handleTreNodes;
+window.personSelect = personSelect;
 
 // personNodeHandler 相关的代码管理
 export function handlePersonList(params, callback) {
@@ -229,4 +230,9 @@ function handleTreNodes(params) {
   });
   
   return nodesByDepth;
+}
+
+function personSelect(params) {
+  let main_id = params.mainId;
+  updateMainId(main_id, true);
 }
