@@ -10,7 +10,8 @@ import { handlePersonList, handleAddPerson, handleEditPerson, handleSaveSVGAsIma
 handlePersonList({}, refresh);
 
 // 定义全局变量
-let tree, main_id, treeData;
+export let treeData;
+let main_id, tree;
 
 function refresh(data) {
   // 创建SVG容器
@@ -331,12 +332,11 @@ function Card(tree, svg, onCardClick) {
       
       // 更新数据并重新渲染树形图
       const props = {
-        data: filteredData,
         initial: false,
         tree_position: "fit",
         transition_time: 1000,
       };
-      updateTree(svg, onCardClick, props);
+      updateTree(filteredData, svg, onCardClick, props);
 }
 
     function editPersonAction(nData) {
@@ -365,12 +365,11 @@ function Card(tree, svg, onCardClick) {
 
       // 更新数据并重新渲染树形图
       const props = {
-        data: currentData,
         initial: false,
         tree_position: "fit",
         transition_time: 1000,
       };
-      updateTree(svg, onCardClick, props);
+      updateTree(currentData, svg, onCardClick, props);
     }
 }
 
