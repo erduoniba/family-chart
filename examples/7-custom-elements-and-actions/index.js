@@ -28,40 +28,22 @@ function refresh(data) {
   }
 
   // 初始化树形图
-  updateTree({ 
+  const props = {
     initial: true,
-    transition_time: 600,
-  });
-
-  // 更新树形图的函数
-  /*
-  封装性更好：updateTree 只在需要刷新时才被定义和使用。
-  可以访问 refresh 方法的局部变量和参数。
-  如果 updateTree 的逻辑需要根据 refresh 的状态变化，这种方式更灵活。
-  */
-  function updateTree(props) {
-    // 根据数据和主节点ID计算树形结构
-    tree = f3.CalculateTree({
-      data: jsonData,
-      main_id,
-      single_parent_empty_card: false,
-      node_separation: 180, // 水平间距
-      level_separation: 250, // 垂直间距
-    });
-    // 渲染树形图，使用自定义的Card组件
-    f3.view(tree, svg, Card(tree, svg, onCardClick), props || {});
-  }
-
+    transition_time: 1000,
+  };
+  updateTree(svg, onCardClick, props);
   
-
   // 卡片点击事件处理函数
   function onCardClick(e, d) {
     // 更新主节点ID并重新渲染树形图
     updateMainId(d.data.id);
-    updateTree({ 
+
+    const props = {
       tree_position: 'fit',
       transition_time: 1000,
-    });
+    };
+    updateTree(svg, onCardClick, props);
   }
 }
 
@@ -73,6 +55,19 @@ function updateMainId(_main_id) {
   if (_main_id) {
     localStorage.setItem('family_chart_main_id', _main_id);
   }
+}
+
+function updateTree(svg, onCardClick, props) {
+  // 根据数据和主节点ID计算树形结构
+  tree = f3.CalculateTree({
+    data: jsonData,
+    main_id,
+    single_parent_empty_card: false,
+    node_separation: 180, // 水平间距
+    level_separation: 250, // 垂直间距
+  });
+  // 渲染树形图，使用自定义的Card组件
+  f3.view(tree, svg, Card(tree, svg, onCardClick), props || {});
 }
 
 // 自定义卡片组件
@@ -118,7 +113,6 @@ function Card(tree, svg, onCardClick) {
         onCardUpdate,
       })
       .call(this, d);
-
     /*
       .call() 是 JavaScript 中所有函数对象都具有的一个方法。它允许你调用一个函数,并明确指定函数执行时的 this 值,以及传递参数。
       调用 f3.elements.Card() 函数,该函数返回一个新函数，然后立即调用这个新返回的函数,使用 .call()
@@ -248,7 +242,15 @@ function Card(tree, svg, onCardClick) {
   
       // 更新数据并重新渲染
       currentData.push(person);
-      updateTreeData(currentData);
+      
+      // 更新数据并重新渲染树形图
+      jsonData = currentData;
+      const props = {
+        initial: false,
+        tree_position: "fit",
+        transition_time: 1000,
+      };
+      updateTree(svg, onCardClick, props);
     }
   }
 
@@ -263,27 +265,6 @@ function Card(tree, svg, onCardClick) {
     if (!parent.rels.children.includes(childId)) {
       parent.rels.children.push(childId);
     }
-  }
-
-  /**
-   * 更新树形图数据并重新渲染
-   * @param {Array} currentData - 更新后的数据
-   */
-  function updateTreeData(currentData) {
-    tree = f3.CalculateTree({
-      data: currentData,
-      main_id,
-      single_parent_empty_card: false,
-      node_separation: 180, // 水平间距
-      level_separation: 250, // 垂直间距
-    });
-    jsonData = currentData;
-    let props = {
-      initial: false,
-      tree_position: "fit",
-      transition_time: 1000,
-    };
-    f3.view(tree, svg, Card(tree, svg, onCardClick), props);
   }
 
   /**
@@ -350,7 +331,13 @@ function Card(tree, svg, onCardClick) {
       });
       
       // 更新数据并重新渲染树形图
-      updateTreeData(filteredData);
+      jsonData = filteredData;
+      const props = {
+        initial: false,
+        tree_position: "fit",
+        transition_time: 1000,
+      };
+      updateTree(svg, onCardClick, props);
 }
 
     function editPersonAction(nData) {
@@ -378,7 +365,13 @@ function Card(tree, svg, onCardClick) {
       nodeToUpdate.to_add = false;
 
       // 更新数据并重新渲染树形图
-      updateTreeData(currentData);
+      jsonData = currentData;
+      const props = {
+        initial: false,
+        tree_position: "fit",
+        transition_time: 1000,
+      };
+      updateTree(svg, onCardClick, props);
     }
 }
 
