@@ -10,13 +10,12 @@ import { handlePersonList, handleAddPerson, handleEditPerson, handleSaveSVGAsIma
 handlePersonList({}, refresh);
 
 // 定义全局变量
-let tree, main_id, jsonData;
+let tree, main_id, treeData;
 
 function refresh(data) {
   // 创建SVG容器
   const svg = f3.createSvg(document.querySelector("#FamilyChart"));
-  jsonData = data;
-
+  
   // 从缓存中获取 main_id
   if (!main_id) {
     main_id = localStorage.getItem('family_chart_main_id');
@@ -32,7 +31,7 @@ function refresh(data) {
     initial: true,
     transition_time: 1000,
   };
-  updateTree(svg, onCardClick, props);
+  updateTree(data, svg, onCardClick, props);
   
   // 卡片点击事件处理函数
   function onCardClick(e, d) {
@@ -43,7 +42,7 @@ function refresh(data) {
       tree_position: 'fit',
       transition_time: 1000,
     };
-    updateTree(svg, onCardClick, props);
+    updateTree(treeData, svg, onCardClick, props);
   }
 }
 
@@ -57,10 +56,11 @@ function updateMainId(_main_id) {
   }
 }
 
-function updateTree(svg, onCardClick, props) {
+function updateTree(data, svg, onCardClick, props) {
+  treeData = data;
   // 根据数据和主节点ID计算树形结构
   tree = f3.CalculateTree({
-    data: jsonData,
+    data: treeData,
     main_id,
     single_parent_empty_card: false,
     node_separation: 180, // 水平间距
@@ -244,13 +244,12 @@ function Card(tree, svg, onCardClick) {
       currentData.push(person);
       
       // 更新数据并重新渲染树形图
-      jsonData = currentData;
       const props = {
         initial: false,
         tree_position: "fit",
         transition_time: 1000,
       };
-      updateTree(svg, onCardClick, props);
+      updateTree(currentData, svg, onCardClick, props);
     }
   }
 
@@ -331,8 +330,8 @@ function Card(tree, svg, onCardClick) {
       });
       
       // 更新数据并重新渲染树形图
-      jsonData = filteredData;
       const props = {
+        data: filteredData,
         initial: false,
         tree_position: "fit",
         transition_time: 1000,
@@ -365,8 +364,8 @@ function Card(tree, svg, onCardClick) {
       nodeToUpdate.to_add = false;
 
       // 更新数据并重新渲染树形图
-      jsonData = currentData;
       const props = {
+        data: currentData,
         initial: false,
         tree_position: "fit",
         transition_time: 1000,
