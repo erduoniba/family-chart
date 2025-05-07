@@ -10,13 +10,13 @@ import { handlePersonList, handleAddPerson, handleEditPerson, handleSaveSVGAsIma
 handlePersonList({}, refresh);
 
 // 定义全局变量
-let tree, main_id, jsonData;
+export let treeData;
+let main_id, tree, svg;
 
 function refresh(data) {
   // 创建SVG容器
-  const svg = f3.createSvg(document.querySelector("#FamilyChart"));
-  jsonData = data;
-
+  svg = f3.createSvg(document.querySelector("#FamilyChart"));
+  
   // 从缓存中获取 main_id
   if (!main_id) {
     main_id = localStorage.getItem('family_chart_main_id');
@@ -28,51 +28,59 @@ function refresh(data) {
   }
 
   // 初始化树形图
-  updateTree({ 
+  const props = {
     initial: true,
-    transition_time: 0,
-  });
-
-  // 更新树形图的函数
-  /*
-  封装性更好：updateTree 只在需要刷新时才被定义和使用。
-  可以访问 refresh 方法的局部变量和参数。
-  如果 updateTree 的逻辑需要根据 refresh 的状态变化，这种方式更灵活。
-  */
-  function updateTree(props) {
-    // 根据数据和主节点ID计算树形结构
-    tree = f3.CalculateTree({
-      data: jsonData,
-      main_id,
-      single_parent_empty_card: false,
-      node_separation: 180, // 水平间距
-      level_separation: 250, // 垂直间距
-    });
-    // 渲染树形图，使用自定义的Card组件
-    f3.view(tree, svg, Card(tree, svg, onCardClick), props || {});
-  }
-
+    transition_time: 1000,
+  };
+  updateTree(data, svg, onCardClick, props);
   
-
   // 卡片点击事件处理函数
-  function onCardClick(e, d) {
-    // 更新主节点ID并重新渲染树形图
-    updateMainId(d.data.id);
-    updateTree({ 
-      tree_position: 'fit',
-      transition_time: 1000,
-    });
-  }
+  
+}
+
+function onCardClick(e, d) {
+  // 更新主节点ID并重新渲染树形图
+  updateMainId(d.data.id);
+
+  const props = {
+    tree_position: 'fit',
+    transition_time: 1000,
+  };
+  updateTree(treeData, svg, onCardClick, props);
 }
 
 // 更新主节点ID的函数
-function updateMainId(_main_id) {
+export function updateMainId(_main_id, refreshTree = false) {
   main_id = _main_id;
   
   // 将 main_id 保存到 localStorage 中进行缓存
   if (_main_id) {
     localStorage.setItem('family_chart_main_id', _main_id);
   }
+
+  if (refreshTree) {
+    // 更新树形图
+    const props = {
+      initial: false,
+      tree_position: 'fit',
+      transition_time: 1000,
+    };
+    updateTree(treeData, svg, onCardClick, props);
+  }
+}
+
+function updateTree(data, svg, onCardClick, props) {
+  treeData = data;
+  // 根据数据和主节点ID计算树形结构
+  tree = f3.CalculateTree({
+    data: treeData,
+    main_id,
+    single_parent_empty_card: false,
+    node_separation: 180, // 水平间距
+    level_separation: 250, // 垂直间距
+  });
+  // 渲染树形图，使用自定义的Card组件
+  f3.view(tree, svg, Card(tree, svg, onCardClick), props || {});
 }
 
 // 自定义卡片组件
@@ -118,7 +126,6 @@ function Card(tree, svg, onCardClick) {
         onCardUpdate,
       })
       .call(this, d);
-
     /*
       .call() 是 JavaScript 中所有函数对象都具有的一个方法。它允许你调用一个函数,并明确指定函数执行时的 this 值,以及传递参数。
       调用 f3.elements.Card() 函数,该函数返回一个新函数，然后立即调用这个新返回的函数,使用 .call()
@@ -248,7 +255,14 @@ function Card(tree, svg, onCardClick) {
   
       // 更新数据并重新渲染
       currentData.push(person);
-      updateTreeData(currentData);
+      
+      // 更新数据并重新渲染树形图
+      const props = {
+        initial: false,
+        tree_position: "fit",
+        transition_time: 1000,
+      };
+      updateTree(currentData, svg, onCardClick, props);
     }
   }
 
@@ -263,27 +277,6 @@ function Card(tree, svg, onCardClick) {
     if (!parent.rels.children.includes(childId)) {
       parent.rels.children.push(childId);
     }
-  }
-
-  /**
-   * 更新树形图数据并重新渲染
-   * @param {Array} currentData - 更新后的数据
-   */
-  function updateTreeData(currentData) {
-    tree = f3.CalculateTree({
-      data: currentData,
-      main_id,
-      single_parent_empty_card: false,
-      node_separation: 180, // 水平间距
-      level_separation: 250, // 垂直间距
-    });
-    jsonData = currentData;
-    let props = {
-      initial: false,
-      tree_position: "fit",
-      transition_time: 1000,
-    };
-    f3.view(tree, svg, Card(tree, svg, onCardClick), props);
   }
 
   /**
@@ -323,15 +316,39 @@ function Card(tree, svg, onCardClick) {
         if (personIds.includes(item.id)) {
           return false;
         }
-        // 检查节点的子女关系是否包含要删除的ID
-        if (item.rels && item.rels.children) {
-          item.rels.children = item.rels.children.filter(childId => !personIds.includes(childId));
+        
+        // 检查并更新关系
+        if (item.rels) {
+          // 移除子女关系
+          if (item.rels.children) {
+            item.rels.children = item.rels.children.filter(childId => !personIds.includes(childId));
+          }
+          
+          // 移除配偶关系
+          if (item.rels.spouses) {
+            item.rels.spouses = item.rels.spouses.filter(spouseId => !personIds.includes(spouseId));
+          }
+          
+          // 移除父母关系
+          if (item.rels.father && personIds.includes(item.rels.father)) {
+            delete item.rels.father;
+          }
+          
+          if (item.rels.mother && personIds.includes(item.rels.mother)) {
+            delete item.rels.mother;
+          }
         }
+        
         return true;
       });
       
       // 更新数据并重新渲染树形图
-      updateTreeData(filteredData);
+      const props = {
+        initial: false,
+        tree_position: "fit",
+        transition_time: 1000,
+      };
+      updateTree(filteredData, svg, onCardClick, props);
 }
 
     function editPersonAction(nData) {
@@ -359,7 +376,12 @@ function Card(tree, svg, onCardClick) {
       nodeToUpdate.to_add = false;
 
       // 更新数据并重新渲染树形图
-      updateTreeData(currentData);
+      const props = {
+        initial: false,
+        tree_position: "fit",
+        transition_time: 1000,
+      };
+      updateTree(currentData, svg, onCardClick, props);
     }
 }
 
@@ -391,6 +413,11 @@ function Card(tree, svg, onCardClick) {
     const tspan = text.select("tspan");
     tspan.attr("x", (card_dim.w - card_dim.text_x) / 2);
 
+    // 卡片的边框视图
+    const card_main_outline = d3.select(this).select(".card-main-outline");
+    card_main_outline.style("stroke", "#fff");
+    card_main_outline.style("stroke-width", "16px");
+          
     const card_image = d3.select(this).select(".card_image");
     card_image.on("click", function (event, d) {
       console.log("card image clicked", d);

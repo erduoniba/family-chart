@@ -1,7 +1,12 @@
 import { generateUUID } from "../../src/CreateTree/newPerson.js";
 
+import {treeData, updateMainId} from "./index.js";
+import f3 from "../../src/index.js";
+
 // 将函数挂载到 window 对象
 window.handleSaveSVGAsImage = handleSaveSVGAsImage;
+window.handleTreNodes = handleTreNodes;
+window.personSelect = personSelect;
 
 // personNodeHandler 相关的代码管理
 export function handlePersonList(params, callback) {
@@ -198,4 +203,36 @@ export function handleUpdateCardImage(d, callback) {
       personNodeHandler.getImageData(params, `${imageId}_callback`);
     }
   }
+}
+
+
+function handleTreNodes(params) {
+  let main_id = params.mainId;
+  const nodes = f3.CalculateTree({
+    data: treeData,
+    main_id,
+  }).data;
+  
+  // 按深度分组节点
+  const nodesByDepth = {};
+  
+  nodes.forEach(node => {
+    const depth = node.depth;
+    const id = node.data.id;
+    
+    // 如果该深度还没有数组，则创建一个
+    if (!nodesByDepth[depth]) {
+      nodesByDepth[depth] = [];
+    }
+    
+    // 将节点ID添加到对应深度的数组中
+    nodesByDepth[depth].push(id);
+  });
+  
+  return nodesByDepth;
+}
+
+function personSelect(params) {
+  let main_id = params.mainId;
+  updateMainId(main_id, true);
 }
