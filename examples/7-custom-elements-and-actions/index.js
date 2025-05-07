@@ -30,12 +30,9 @@ function refresh(data) {
   // 初始化树形图
   const props = {
     initial: true,
-    transition_time: 1000,
+    transition_time: 500,
   };
   updateTree(data, svg, onCardClick, props);
-  
-  // 卡片点击事件处理函数
-  
 }
 
 function onCardClick(e, d) {

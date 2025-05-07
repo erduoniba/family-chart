@@ -44,14 +44,20 @@ export default function createSvg(cont, props={}) {
 function setupZoom(el, props={}) {
   if (el.__zoom) return
   const view = el.querySelector('.view'),
-    zoom = d3.zoom().on("zoom", (props.onZoom || zoomed))
+    zoom = d3.zoom()
+      .scaleExtent([0.1, 3]) // 直接在zoom对象上设置缩放范围
+      .on("zoom", (props.onZoom || zoomed))
 
+  // 初始化缩放位置，防止首次拖动时位置不正确
+  const initialTransform = d3.zoomIdentity.translate(0, 0).scale(1);
+  d3.select(el).call(zoom.transform, initialTransform);
   d3.select(el).call(zoom)
   el.__zoomObj = zoom
 
   if (props.zoom_polite) zoom.filter(zoomFilter)
 
   function zoomed(e) {
+    // 直接使用d3.zoom的scaleExtent限制，不需要手动检查
     d3.select(view).attr("transform", e.transform);
   }
 
