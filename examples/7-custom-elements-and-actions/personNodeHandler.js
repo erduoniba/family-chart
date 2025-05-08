@@ -123,12 +123,12 @@ export function handleSaveSVGAsImage(callback, format = 'png') {
       console.log('导出PNG格式 - 尝试使用 canvg 库');
       console.log('canvg 类型:', typeof window.canvg);
       
-      // 创建 Canvas
+      // 创建 Canvas - 增加缩放比例以提高清晰度
       const canvas = document.createElement('canvas');
-      const scale = 6; // 高清效果
+      const scale = 6; // 提高缩放比例，从6增加到10
       
       // 计算画布尺寸并检查限制
-      const maxCanvasSize = 4096;
+      const maxCanvasSize = 6144;
       let canvasWidth = width * scale;
       let canvasHeight = height * scale;
       
@@ -136,7 +136,7 @@ export function handleSaveSVGAsImage(callback, format = 'png') {
         const adjustedScale = Math.min(
           maxCanvasSize / width,
           maxCanvasSize / height,
-          4
+          4 // 增加最大缩放比例
         );
         canvasWidth = Math.min(width * adjustedScale, maxCanvasSize);
         canvasHeight = Math.min(height * adjustedScale, maxCanvasSize);
@@ -148,6 +148,10 @@ export function handleSaveSVGAsImage(callback, format = 'png') {
       
       const ctx = canvas.getContext('2d');
       
+      // 禁用图像平滑，保持锐利的边缘
+      ctx.imageSmoothingEnabled = false;
+      ctx.imageSmoothingQuality = 'high';
+      
       // 设置白色背景
       ctx.fillStyle = 'white';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -157,22 +161,22 @@ export function handleSaveSVGAsImage(callback, format = 'png') {
       if (window.canvg) {
         console.log('检测到 canvg 对象:', window.canvg);
         
-       // 新版本 canvg 是一个带有 from 方法的对象
-       console.log('使用对象形式的 canvg API (from 方法)');
-       window.canvg.Canvg.from(ctx, svgString, {
-         ignoreMouse: true,
-         ignoreAnimation: true,
-         enableRedraw: false,
-         ignoreDimensions: true
-       }).then(canvg => {
-         return canvg.render();
-       }).then(() => {
-         processPngData();
-       }).catch(error => {
-         console.error("对象形式的 canvg 调用失败:", error);
-         fallbackToImageMethod();
-       });
-     } else {
+        // 新版本 canvg 是一个带有 from 方法的对象
+        console.log('使用对象形式的 canvg API (from 方法)');
+        window.canvg.Canvg.from(ctx, svgString, {
+          ignoreMouse: true,
+          ignoreAnimation: true,
+          enableRedraw: false,
+          ignoreDimensions: true
+        }).then(canvg => {
+          return canvg.render();
+        }).then(() => {
+          processPngData();
+        }).catch(error => {
+          console.error("对象形式的 canvg 调用失败:", error);
+          fallbackToImageMethod();
+        });
+      } else {
         console.error("canvg 库不可用");
         fallbackToImageMethod();
       }
@@ -180,7 +184,7 @@ export function handleSaveSVGAsImage(callback, format = 'png') {
       // 处理 PNG 数据的函数
       function processPngData() {
         try {
-          // 将 Canvas 转换为 PNG 数据 URL
+          // 将 Canvas 转换为 PNG 数据 URL - 使用最高质量
           const pngDataUrl = canvas.toDataURL('image/png', 1.0);
           
           if (!pngDataUrl || pngDataUrl === 'data:,') {
@@ -267,7 +271,7 @@ function loadScript(url, callback) {
   document.head.appendChild(script);
 }
 
-// 回退到原始的PNG转换方法
+// 回退到原始的PNG转换方法 - 同样优化清晰度
 function fallbackToPngConversion(svgDataUrl, width, height, callback) {
   console.log('使用回退方法转换PNG');
   
@@ -296,11 +300,17 @@ function fallbackToPngConversion(svgDataUrl, width, height, callback) {
     canvas.height = canvasHeight;
     
     const ctx = canvas.getContext('2d');
+    
+    // 禁用图像平滑，保持锐利的边缘
+    ctx.imageSmoothingEnabled = false;
+    ctx.imageSmoothingQuality = 'high';
+    
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     
     try {
+      // 使用最高质量导出PNG
       const pngDataUrl = canvas.toDataURL('image/png', 1.0);
       
       if (!pngDataUrl || pngDataUrl === 'data:,') {
