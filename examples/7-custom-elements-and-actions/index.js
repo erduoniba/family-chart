@@ -30,7 +30,7 @@ function refresh(data) {
   // 初始化树形图
   const props = {
     initial: true,
-    transition_time: 500,
+    transition_time: 0,
   };
   updateTree(data, svg, onCardClick, props);
 }
@@ -479,7 +479,7 @@ function createSaveButton() {
       } else {
         alert('保存失败：' + result.message);
       }
-    });
+    }, 'png');
   });
   
   document.body.appendChild(saveButton);

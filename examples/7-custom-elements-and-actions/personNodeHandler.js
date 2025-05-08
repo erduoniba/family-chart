@@ -67,7 +67,9 @@ export function handleEditPerson(params, callback) {
   }
 }
 
-export function handleSaveSVGAsImage(callback) {
+export function handleSaveSVGAsImage(callback, format = 'png') {
+  console.log('开始导出图片，格式:', format);
+  
   // 获取 SVG 元素
   const svgElement = document.querySelector('.main_svg');
   if (!svgElement) {
@@ -95,58 +97,130 @@ export function handleSaveSVGAsImage(callback) {
     clonedSvg.insertBefore(newDefs, clonedSvg.firstChild);
   }
 
-  // 处理所有带有 clip-path 的图片元素
-  const imageElements = clonedSvg.querySelectorAll('image');
-  const promises = Array.from(imageElements).map(async (img) => {
-    const href = img.getAttribute('href');
-    if (href && href.startsWith('http')) {
-      try {
-        // 获取图片数据并转换为 base64
-        const response = await fetch(href);
-        const blob = await response.blob();
-        return new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            img.setAttribute('href', reader.result);
-            resolve();
-          };
-          reader.readAsDataURL(blob);
-        });
-      } catch (error) {
-        console.error('图片加载失败:', error);
-        // 如果图片加载失败，使用默认的占位图
-        img.setAttribute('href', 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2NjYyIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2Ij5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=');
-      }
-    }
-  });
-
-  // 等待所有图片处理完成后再继续
-  Promise.all(promises).then(() => {
-    // 获取 SVG 的尺寸和边界
-    const bbox = svgElement.getBBox();
-    const width = bbox.width;
-    const height = bbox.height;
-    const x = bbox.x;
-    const y = bbox.y;
+  // 获取 SVG 的尺寸和边界
+  const bbox = svgElement.getBBox();
+  const width = bbox.width;
+  const height = bbox.height;
+  const x = bbox.x;
+  const y = bbox.y;
+  
+  // 设置克隆 SVG 的属性，确保内容完全填充并居中
+  clonedSvg.setAttribute("width", width);
+  clonedSvg.setAttribute("height", height);
+  clonedSvg.setAttribute("viewBox", `${x} ${y} ${width} ${height}`);
+  
+  // 将 SVG 转换为字符串
+  const serializer = new XMLSerializer();
+  const svgString = serializer.serializeToString(clonedSvg);
+  
+  if (window.personNodeHandler) {
+    // 设置回调函数
+    window.saveSVGCallback = function (result) {
+      callback(result);
+    };
     
-    // 设置克隆 SVG 的属性，确保内容完全填充并居中
-    clonedSvg.setAttribute("width", width);
-    clonedSvg.setAttribute("height", height);
-    clonedSvg.setAttribute("viewBox", `${x} ${y} ${width} ${height}`);
-    
-    // 将 SVG 转换为字符串
-    const serializer = new XMLSerializer();
-    const svgString = serializer.serializeToString(clonedSvg);
-    const svgBlob = new Blob([svgString], { type: "image/svg+xml" });
-    const url = URL.createObjectURL(svgBlob);
-
-
-    if (window.personNodeHandler) {
-      // 设置回调函数
-      window.saveSVGCallback = function (result) {
-        callback(result);
-      };
+    if (format === 'png') {
+      console.log('导出PNG格式 - 尝试使用 canvg 库');
+      console.log('canvg 类型:', typeof window.canvg);
       
+      // 创建 Canvas
+      const canvas = document.createElement('canvas');
+      const scale = 6; // 高清效果
+      
+      // 计算画布尺寸并检查限制
+      const maxCanvasSize = 4096;
+      let canvasWidth = width * scale;
+      let canvasHeight = height * scale;
+      
+      if (canvasWidth > maxCanvasSize || canvasHeight > maxCanvasSize) {
+        const adjustedScale = Math.min(
+          maxCanvasSize / width,
+          maxCanvasSize / height,
+          4
+        );
+        canvasWidth = Math.min(width * adjustedScale, maxCanvasSize);
+        canvasHeight = Math.min(height * adjustedScale, maxCanvasSize);
+        console.log(`画布尺寸过大，已自动调整缩放比例为: ${adjustedScale}`);
+      }
+      
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+      
+      const ctx = canvas.getContext('2d');
+      
+      // 设置白色背景
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.scale(canvasWidth/width, canvasHeight/height);
+      
+      // 检查 canvg 的可用性和类型
+      if (window.canvg) {
+        console.log('检测到 canvg 对象:', window.canvg);
+        
+       // 新版本 canvg 是一个带有 from 方法的对象
+       console.log('使用对象形式的 canvg API (from 方法)');
+       window.canvg.Canvg.from(ctx, svgString, {
+         ignoreMouse: true,
+         ignoreAnimation: true,
+         enableRedraw: false,
+         ignoreDimensions: true
+       }).then(canvg => {
+         return canvg.render();
+       }).then(() => {
+         processPngData();
+       }).catch(error => {
+         console.error("对象形式的 canvg 调用失败:", error);
+         fallbackToImageMethod();
+       });
+     } else {
+        console.error("canvg 库不可用");
+        fallbackToImageMethod();
+      }
+      
+      // 处理 PNG 数据的函数
+      function processPngData() {
+        try {
+          // 将 Canvas 转换为 PNG 数据 URL
+          const pngDataUrl = canvas.toDataURL('image/png', 1.0);
+          
+          if (!pngDataUrl || pngDataUrl === 'data:,') {
+            console.error("生成的PNG数据URL无效");
+            callback({ success: false, message: "生成的PNG数据URL无效" });
+            return;
+          }
+          
+          console.log('成功生成PNG数据，准备返回给原生端');
+          
+          // 将 PNG 数据返回给原生端
+          const params = {
+            width: width,
+            height: height,
+            svgString: pngDataUrl,
+            format: 'png'
+          };
+          
+          if (typeof personNodeHandler.saveSVG === 'function') {
+            personNodeHandler.saveSVG(params, "saveSVGCallback");
+          } else {
+            callback({ success: false, message: "原生保存方法不可用" });
+          }
+        } catch (error) {
+          console.error("Canvas转PNG失败:", error);
+          callback({ success: false, message: "Canvas转PNG失败: " + error.message });
+          fallbackToImageMethod();
+        }
+      }
+      
+      // 回退到图像方法
+      function fallbackToImageMethod() {
+        console.log('使用回退方法转换PNG');
+        const svgBase64 = btoa(unescape(encodeURIComponent(svgString)));
+        const svgDataUrl = `data:image/svg+xml;charset=utf-8;base64,${svgBase64}`;
+        fallbackToPngConversion(svgDataUrl, width, height, callback);
+      }
+    } else {
+      // 原始SVG格式
+      console.log('导出SVG格式');
       const params = {
         width: width,
         height: height,
@@ -160,31 +234,103 @@ export function handleSaveSVGAsImage(callback) {
       } else {
         callback({ success: false, message: "原生保存方法不可用" });
       }
-    } else {
-      // 本地测试模式下的 SVG 导出实现
-      try {
-        
-        // 创建下载链接
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "family-tree.svg";
-        document.body.appendChild(link);
-        link.click();
-        
-        // 清理
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-        
-        callback({ success: true, message: "SVG 已成功保存" });
-      } catch (error) {
-        callback({ success: false, message: error.message });
-      }
     }
-  }).catch(error => {
-    callback({ success: false, message: "处理图片时出错：" + error.message });
-  });
+  } else {
+    // 本地测试模式 - 创建下载链接
+    const svgBlob = new Blob([svgString], { type: "image/svg+xml" });
+    const url = URL.createObjectURL(svgBlob);
+    
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = format === 'png' ? "family-tree.png" : "family-tree.svg";
+    document.body.appendChild(link);
+    link.click();
+    
+    // 清理
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    callback({ success: true, message: `${format.toUpperCase()} 已成功保存` });
+  }
 }
 
+// 动态加载脚本的辅助函数
+function loadScript(url, callback) {
+  const script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = url;
+  script.onload = callback;
+  script.onerror = function() {
+    console.error('加载脚本失败:', url);
+    callback();
+  };
+  document.head.appendChild(script);
+}
+
+// 回退到原始的PNG转换方法
+function fallbackToPngConversion(svgDataUrl, width, height, callback) {
+  console.log('使用回退方法转换PNG');
+  
+  const img = new Image();
+  img.crossOrigin = "Anonymous";
+  
+  img.onload = function() {
+    const canvas = document.createElement('canvas');
+    const scale = 6;
+    
+    const maxCanvasSize = 4096;
+    let canvasWidth = width * scale;
+    let canvasHeight = height * scale;
+    
+    if (canvasWidth > maxCanvasSize || canvasHeight > maxCanvasSize) {
+      const adjustedScale = Math.min(
+        maxCanvasSize / width,
+        maxCanvasSize / height,
+        4
+      );
+      canvasWidth = Math.min(width * adjustedScale, maxCanvasSize);
+      canvasHeight = Math.min(height * adjustedScale, maxCanvasSize);
+    }
+    
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    
+    try {
+      const pngDataUrl = canvas.toDataURL('image/png', 1.0);
+      
+      if (!pngDataUrl || pngDataUrl === 'data:,') {
+        callback({ success: false, message: "生成的PNG数据URL无效" });
+        return;
+      }
+      
+      const params = {
+        width: width,
+        height: height,
+        svgString: pngDataUrl,
+        format: 'png'
+      };
+      
+      if (typeof personNodeHandler.saveSVG === 'function') {
+        personNodeHandler.saveSVG(params, "saveSVGCallback");
+      } else {
+        callback({ success: false, message: "原生保存方法不可用" });
+      }
+    } catch (error) {
+      callback({ success: false, message: "Canvas转PNG失败: " + error.message });
+    }
+  };
+  
+  img.onerror = function(error) {
+    callback({ success: false, message: "SVG图片加载失败" });
+  };
+  
+  img.src = svgDataUrl;
+}
 
 export function handleUpdateCardImage(d, callback) {
   // 处理头像图片
