@@ -59,7 +59,7 @@ export function updateMainId(_main_id, refreshTree = false) {
     // 更新树形图
     const props = {
       initial: false,
-      tree_position: 'fit',
+      tree_position: 'main_to_middle',
       transition_time: 1000,
     };
     updateTree(treeData, svg, onCardClick, props);
