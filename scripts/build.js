@@ -19,8 +19,8 @@ const CONFIG = {
   COMPRESSION_LEVEL: 9,
   VERSION_FILE: path.join(__dirname, 'version.json'),
   EXAMPLE_7_DIR: '7-custom-elements-and-actions',
-  EXAMPLE_7_FILES: ['index.html', 'index.js',  'personNodeHandler.js'],
-  PLUGIN_FILES: ['d3.v6.js']
+  EXAMPLE_7_FILES: ['index.html', 'index.js', 'personNodeHandler.js'],
+  PLUGIN_FILES: ['d3.v6.js', 'umd.min.js']
 };
 
 /**
