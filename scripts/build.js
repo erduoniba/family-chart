@@ -11,6 +11,10 @@ const execSync = require('child_process').execSync;
 const archiver = require('archiver');
 const path = require('path');
 
+// 引入压缩工具
+const terser = require('terser');
+const CleanCSS = require('clean-css');
+
 // 全局常量配置
 const CONFIG = {
   DIST_DIR: './dist',
@@ -176,9 +180,81 @@ function createZipArchive(tempDirPath, zipFilePath) {
 }
 
 /**
- * 构建后处理函数
- * 在rollup打包完成后执行的任务
+ * 压缩 JavaScript 文件
+ * @param {string} filePath - JS文件路径
+ * @returns {Promise<void>}
  */
+async function minifyJavaScript(filePath) {
+  try {
+    const code = fs.readFileSync(filePath, 'utf8');
+    const result = await terser.minify(code, {
+      compress: {
+        drop_console: false, // 保留 console 语句以便调试
+        drop_debugger: true
+      },
+      mangle: true
+    });
+    
+    if (result.error) throw new Error(result.error);
+    
+    fs.writeFileSync(filePath, result.code);
+    console.log(`✅ 压缩JS文件: ${path.basename(filePath)}`);
+  } catch (error) {
+    console.error(`❌ 压缩JS文件失败: ${path.basename(filePath)}`, error.message);
+  }
+}
+
+/**
+ * 压缩 CSS 文件
+ * @param {string} filePath - CSS文件路径
+ */
+function minifyCSS(filePath) {
+  try {
+    const code = fs.readFileSync(filePath, 'utf8');
+    const result = new CleanCSS({ 
+      level: {
+        1: {
+          all: true
+        },
+        2: {
+          all: true,
+          restructureRules: false // 避免可能的布局问题
+        }
+      }
+    }).minify(code);
+    
+    fs.writeFileSync(filePath, result.styles);
+    console.log(`✅ 压缩CSS文件: ${path.basename(filePath)}`);
+  } catch (error) {
+    console.error(`❌ 压缩CSS文件失败: ${path.basename(filePath)}`, error.message);
+  }
+}
+
+/**
+ * 递归处理目录中的所有JS和CSS文件
+ * @param {string} dir - 目录路径
+ * @returns {Promise<void>}
+ */
+async function processDirectory(dir) {
+  const files = fs.readdirSync(dir);
+  
+  for (const file of files) {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+    
+    if (stat.isDirectory()) {
+      await processDirectory(filePath);
+    } else if (file.endsWith('.js') && !file.endsWith('.min.js') && !file.includes('d3.v6.js')) {
+      // 跳过已经压缩的文件和第三方库
+      await minifyJavaScript(filePath);
+    } else if (file.endsWith('.css') && !file.endsWith('.min.css')) {
+      // 跳过已经压缩的CSS文件
+      minifyCSS(filePath);
+    }
+  }
+}
+
+// 在 afterRollup 函数中添加压缩步骤
 function afterRollup() {
   console.log('📝 开始后处理任务...');
   
@@ -188,36 +264,45 @@ function afterRollup() {
   const zipFileName = `${tempDirName}.zip`;
   const zipFilePath = path.join(CONFIG.DIST_DIR, zipFileName);
 
-    // 创建临时目录
-    FileUtils.ensureDir(tempDirPath);
+  // 创建临时目录
+  FileUtils.ensureDir(tempDirPath);
 
-    // 复制源代码和样式
-    FileUtils.copyDir(CONFIG.SRC_DIR, path.join(tempDirPath, 'src'));
+  // 复制源代码和样式
+  FileUtils.copyDir(CONFIG.SRC_DIR, path.join(tempDirPath, 'src'));
 
-    // 处理示例7
-    const example7Dir = path.join(tempDirPath, 'examples', CONFIG.EXAMPLE_7_DIR);
-    FileUtils.ensureDir(example7Dir);
+  // 处理示例7
+  const example7Dir = path.join(tempDirPath, 'examples', CONFIG.EXAMPLE_7_DIR);
+  FileUtils.ensureDir(example7Dir);
 
-    CONFIG.EXAMPLE_7_FILES.forEach(file => {
-      const srcPath = path.join(CONFIG.EXAMPLES_DIR, CONFIG.EXAMPLE_7_DIR, file);
-      const destPath = path.join(example7Dir, file);
-      FileUtils.copyFile(srcPath, destPath);
-    });
+  CONFIG.EXAMPLE_7_FILES.forEach(file => {
+    const srcPath = path.join(CONFIG.EXAMPLES_DIR, CONFIG.EXAMPLE_7_DIR, file);
+    const destPath = path.join(example7Dir, file);
+    FileUtils.copyFile(srcPath, destPath);
+  });
 
-    // 处理插件
-    const pluginsDir = path.join(tempDirPath, 'examples/plugins');
-    FileUtils.ensureDir(pluginsDir);
-    
-    CONFIG.PLUGIN_FILES.forEach(file => {
-      const srcPath = path.join(CONFIG.EXAMPLES_DIR, 'plugins', file);
-      const destPath = path.join(pluginsDir, file);
-      FileUtils.copyFile(srcPath, destPath);
-    });
-
-    // 创建ZIP压缩包
-    createZipArchive(tempDirPath, zipFilePath);
+  // 处理插件
+  const pluginsDir = path.join(tempDirPath, 'examples/plugins');
+  FileUtils.ensureDir(pluginsDir);
   
+  CONFIG.PLUGIN_FILES.forEach(file => {
+    const srcPath = path.join(CONFIG.EXAMPLES_DIR, 'plugins', file);
+    const destPath = path.join(pluginsDir, file);
+    FileUtils.copyFile(srcPath, destPath);
+  });
 
+  // 添加压缩步骤
+  console.log('🔍 开始压缩 JavaScript 和 CSS 文件...');
+  processDirectory(tempDirPath)
+    .then(() => {
+      console.log('✅ 文件压缩完成');
+      // 创建ZIP压缩包
+      createZipArchive(tempDirPath, zipFilePath);
+    })
+    .catch(error => {
+      console.error('❌ 文件压缩过程中出错:', error);
+      // 即使压缩出错，仍然创建ZIP压缩包
+      createZipArchive(tempDirPath, zipFilePath);
+    });
 }
 
 // 按顺序执行构建流程

@@ -43,9 +43,11 @@
   },
   "devDependencies": {
     "archiver": "^7.0.1",
+    "clean-css": "^5.3.3",
     "cypress": "^9.1.0",
     "http-server": "^14.1.1",
     "rollup": "2",
-    "rollup-plugin-terser": "7"
+    "rollup-plugin-terser": "7",
+    "terser": "^5.39.0"
   }
 }
