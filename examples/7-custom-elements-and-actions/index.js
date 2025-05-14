@@ -169,35 +169,12 @@ function Card(tree, svg, onCardClick) {
         if (!parent.rels.spouses.includes(person.id)) {
           parent.rels.spouses.push(person.id);
         }
-        rels.children = parent.rels.children || [];
-
-        // 更新子女的父母关系
-        if (parent.rels.children && parent.rels.children.length > 0) {
-          parent.rels.children.forEach(childId => {
-            const child = currentData.find(item => item.id === childId);
-            if (child) {
-              if (parent.data.gender === "M") {
-                // 如果当前节点是父亲，新配偶是母亲
-                child.rels.mother = person.id;
-              } else {
-                // 如果当前节点是母亲，新配偶是父亲
-                child.rels.father = person.id;
-              }
-            }
-          });
-        }
       } else if (nData.relationType === 'child') {
         // 添加子女
         if (parent.data.gender === "M") {
           rels.father = parent.id;
-          if (spouses.length > 0) {
-            rels.mother = spouses[0];
-          }
         } else {
           rels.mother = parent.id;
-          if (spouses.length > 0) {
-            rels.father = spouses[0];
-          }
         }
       } else if (nData.relationType === 'parent') {
         // 添加父母
@@ -244,10 +221,6 @@ function Card(tree, svg, onCardClick) {
       if (nData.relationType === 'child') {
         // 更新父母的子女关系
         updateParentChildrenRels(parent, person.id);
-        const other_parent = currentData.find((item) => item.id === spouses[0]);
-        if (other_parent) {
-          updateParentChildrenRels(other_parent, person.id);
-        }
       }
   
       // 更新数据并重新渲染
