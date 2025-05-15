@@ -40,13 +40,14 @@
             const avatar = getAvatar(data);
             const id = data.id;
 
+            // 处理子女数据
             const children = data.children;
             const childrenIds = [];
             const childrenData = [];
 
             if (children) {
                 children.forEach(child => {
-                    if (child.emperor === true) {
+                    if (child.emperor === true || 1) {
                         const childGender = getGender(child);
                         const childAvatar = getAvatar(child);
                         const childData = {
@@ -67,6 +68,34 @@
                 });
             }
 
+            // 处理父母数据
+            const parents = data.parents;
+            const parentsIds = {
+                father: null,
+                mother: null
+            };
+
+            if (parents) {
+                parents.forEach(parent => {
+                    const parentGender = getGender(parent);
+                    if (parentGender === 'M') {
+                        parentsIds.father = parent.id;
+                    } else if (parentGender === 'F') {
+                        parentsIds.mother = parent.id;
+                    }
+                });
+            }
+
+            // 处理配偶数据
+            const spouses = data.spouses;
+            const spousesIds = [];
+
+            if (spouses) {
+                spouses.forEach(spouse => {
+                    spousesIds.push(spouse.id);
+                });
+            }
+
             return {
                 data: {
                     'first name': data.name,
@@ -76,7 +105,10 @@
                 },
                 id: id,
                 refs: {
-                    children: childrenIds
+                    children: childrenIds,
+                    father: parentsIds.father,
+                    mother: parentsIds.mother,
+                    spouses: spousesIds
                 }
             };
         }

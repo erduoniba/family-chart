@@ -1,0 +1,485 @@
+{
+    "code": 200,
+    "message": "成功",
+    "data": {
+        "authorInfo": null,
+        "lastEditTime": null,
+        "id": "591e65ad977fd52c045b359e",
+        "name": "黄帝",
+        "birth": {
+            "startTime": null,
+            "timeDesc": null,
+            "endTime": null,
+            "startAccuracy": null,
+            "startNote": null,
+            "endAccuracy": null,
+            "endNote": null
+        },
+        "death": {
+            "startTime": null,
+            "timeDesc": null,
+            "endTime": null,
+            "startAccuracy": null,
+            "startNote": null,
+            "endAccuracy": null,
+            "endNote": null
+        },
+        "reignTime": [
+            "不详"
+        ],
+        "emperor": true,
+        "gender": "male",
+        "imageUrl": "//pic.allhistory.com/T1EAWvB_bT1RCvBVdK.jpg",
+        "summary": "<p><b>黄帝</b>是远古时期中国神话人物，华夏部落联盟首领，中国远古时代华夏民族的共主,为《<a data-id=\"57eccf1a0bd1be0e7a8b4567\" data-type=\"entry\" href=\"/detail/57eccf1a0bd1be0e7a8b4567\" target=\"_blank\">史记</a>》中的五帝之首，被尊为中华&ldquo;人文初祖&rdquo;。神话传说其父亲<a data-id=\"592422fe55b54278ac00cd99\" data-type=\"entry\" href=\"/detail/592422fe55b54278ac00cd99\" target=\"_blank\">少典</a>为有熊国君，黄帝本姓<a data-id=\"59104c3d55b542257a011029\" data-type=\"entry\" href=\"/detail/59104c3d55b542257a011029\" target=\"_blank\">公孙</a>，因居<a data-id=\"5924a33155b54278ac05c26e\" data-type=\"entry\" href=\"/detail/5924a33155b54278ac05c26e\" target=\"_blank\">轩辕之丘</a>，故号<b>轩辕</b>，长居姬水，后改<a data-id=\"59104c3855b542257a010f8a\" data-type=\"entry\" href=\"/detail/59104c3855b542257a010f8a\" target=\"_blank\">姬姓</a>，国于有熊（今<a data-id=\"5910579855b542257a021c41\" data-type=\"entry\" href=\"/detail/5910579855b542257a021c41\" target=\"_blank\">河南</a><a data-id=\"591042d855b542257a002a36\" data-type=\"entry\" href=\"/detail/591042d855b542257a002a36\" target=\"_blank\">新郑</a>），又称<b>有熊氏</b>。也有人称之为&ldquo;<strong>帝鸿氏</strong>&rdquo;。中国历代<a data-id=\"592412d655b54278ac00044d\" data-type=\"entry\" href=\"/detail/592412d655b54278ac00044d\" target=\"_blank\">皇帝</a>多为黄帝设庙祭陵等来取得象征的统治正当性，是<a data-id=\"5924931555b54278ac0513cb\" data-type=\"entry\" href=\"/detail/5924931555b54278ac0513cb\" target=\"_blank\">中国文化</a>的重要标志性人物，被称为<a data-id=\"5924129855b54278ac00016f\" data-type=\"entry\" href=\"/detail/5924129855b54278ac00016f\" target=\"_blank\">中华民族</a>的<a data-id=\"592424f755b54278ac00e748\" data-type=\"entry\" href=\"/detail/592424f755b54278ac00e748\" target=\"_blank\">祖先</a>。</p>\n\n<p>史载黄帝因有土德之瑞，故号黄帝。黄帝以统一华夏部落与征服<a data-id=\"5924212055b54278ac00b313\" href=\"/detail/5924212055b54278ac00b313\" target=\"_blank\">东夷</a>、<a data-id=\"59241f2e55b54278ac009d4b\" href=\"/detail/59241f2e55b54278ac009d4b\" target=\"_blank\">九黎族</a>而统一中华的伟绩载入史册。黄帝在位期间，播百谷草木，大力发展生产，始制衣冠、建舟车、制音律、创医学等。</p>\n\n<p>黄帝和<a data-id=\"592412a555b54278ac000238\" data-type=\"entry\" href=\"/detail/592412a555b54278ac000238\" target=\"_blank\">炎帝</a>并列的说法例如炎黄后裔、<a data-id=\"592420ff55b54278ac00b12c\" data-type=\"entry\" href=\"/detail/592420ff55b54278ac00b12c\" target=\"_blank\">炎黄子孙</a>也成为了<a data-id=\"5910434055b542257a0032f9\" data-type=\"entry\" href=\"/detail/5910434055b542257a0032f9\" target=\"_blank\">汉人</a>以至清朝以后全体<a data-id=\"5924128455b54278ac00009c\" data-type=\"entry\" href=\"/detail/5924128455b54278ac00009c\" target=\"_blank\">中国人</a>自称的说法之一。但从<a data-id=\"5924129555b54278ac00014d\" data-type=\"entry\" href=\"/detail/5924129555b54278ac00014d\" target=\"_blank\">人类学</a>的社会演进观点的推测，炎帝实为苗人的先祖，<a data-id=\"5924131655b54278ac0006f2\" data-type=\"entry\" href=\"/detail/5924131655b54278ac0006f2\" target=\"_blank\">神话</a>中的炎帝及黄帝可能为<a data-id=\"592412da55b54278ac000469\" data-type=\"entry\" href=\"/detail/592412da55b54278ac000469\" target=\"_blank\">远古</a><a data-id=\"5924144255b54278ac0017f0\" data-type=\"entry\" href=\"/detail/5924144255b54278ac0017f0\" target=\"_blank\">部落</a>联盟共主。根据《<a data-id=\"5924131d55b54278ac00073d\" data-type=\"entry\" href=\"/detail/5924131d55b54278ac00073d\" target=\"_blank\">山海经</a>》，炎帝在<a data-id=\"5924149555b54278ac001bc7\" data-type=\"entry\" href=\"/detail/5924149555b54278ac001bc7\" target=\"_blank\">阪泉之战</a>败给黄帝而后<a data-id=\"59241b7e55b54278ac006ca2\" data-type=\"entry\" href=\"/detail/59241b7e55b54278ac006ca2\" target=\"_blank\">蚩尤</a>纠集炎帝的部属再于<a data-id=\"591049b355b542257a00d7fa\" data-type=\"entry\" href=\"/detail/591049b355b542257a00d7fa\" target=\"_blank\">涿鹿之战</a>败给黄帝。</p>\n",
+        "disambiguations": "",
+        "aliases": [
+            "缙云氏",
+            "黄帝征服中原各族之战",
+            "姬軒轅",
+            "黃帝",
+            "轩辕氏",
+            "黃帝軒轅氏",
+            "Yellow Emperor",
+            "公孙轩辕",
+            "轩辕黄帝",
+            "帝鸿氏",
+            "帝轩氏",
+            "黄帝氏",
+            "有熊氏"
+        ],
+        "tags": [
+            "中国传说时代君主",
+            "新郑市",
+            "道教尊神",
+            "公孙氏",
+            "有熊国君",
+            "轩辕之丘",
+            "姬姓",
+            "有熊氏",
+            "新郑",
+            "中华民族祖先",
+            "中国文化",
+            "逐鹿之战",
+            "中华始祖",
+            "神话传说人物"
+        ],
+        "parents": [
+            {
+                "authorInfo": {
+                    "id": 0,
+                    "name": "",
+                    "avatar": "",
+                    "grade": 0,
+                    "background": null,
+                    "phone": null,
+                    "avatarFrame": null,
+                    "signature": null,
+                    "identification": null,
+                    "userAllHistoryType": null
+                },
+                "lastEditTime": null,
+                "id": "5924471055b54278ac025799",
+                "name": "附宝",
+                "birth": {
+                    "startTime": null,
+                    "timeDesc": null,
+                    "endTime": null,
+                    "startAccuracy": null,
+                    "startNote": null,
+                    "endAccuracy": null,
+                    "endNote": null
+                },
+                "death": {
+                    "startTime": null,
+                    "timeDesc": null,
+                    "endTime": null,
+                    "startAccuracy": null,
+                    "startNote": null,
+                    "endAccuracy": null,
+                    "endNote": null
+                },
+                "reignTime": [
+                    "不详"
+                ],
+                "emperor": false,
+                "gender": "female",
+                "imageUrl": "//pic.allhistory.com/T1hFKvBXWT1RCvBVdK.jpeg?ch=178&cw=283&cx=0&cy=0",
+                "summary": "<p><b>附宝</b>是<a data-id=\"591e65ad977fd52c045b359e\" data-type=\"entry\" href=\"/detail/591e65ad977fd52c045b359e\" target=\"_blank\">黄帝</a>的母亲。</p>\n\n<p>附宝是<a data-id=\"5924a50c55b54278ac05d89f\" data-type=\"entry\" href=\"/detail/5924a50c55b54278ac05d89f\" target=\"_blank\">有蟜氏</a>之女，后来嫁给有熊国国君<a data-id=\"592422fe55b54278ac00cd99\" data-type=\"entry\" href=\"/detail/592422fe55b54278ac00cd99\" target=\"_blank\">少典</a>。附宝在<a data-id=\"591059c655b542257a025115\" data-type=\"entry\" href=\"/detail/591059c655b542257a025115\" target=\"_blank\">天水</a>生下<a data-id=\"591e65ad977fd52c045b359e\" data-type=\"entry\" href=\"/detail/591e65ad977fd52c045b359e\" target=\"_blank\">黄帝</a>，又据《<a data-id=\"59192e2f55b5421554000253\" data-type=\"entry\" href=\"/detail/59192e2f55b5421554000253\" target=\"_blank\">竹书纪年</a>》记载附宝郊外田间散步，见万丈光芒，&ldquo;大电绕北斗枢星，光照郊野&rdquo;，便怀孕了，二十五个月后生下黄帝。</p>\n",
+                "disambiguations": "",
+                "aliases": [
+                    "有嬌氏"
+                ],
+                "tags": [
+                    "中国上古人物",
+                    "先秦君主配偶"
+                ],
+                "hasParents": false,
+                "referenceData": "",
+                "referenceUrl": ""
+            },
+            {
+                "authorInfo": {
+                    "id": 0,
+                    "name": "",
+                    "avatar": "",
+                    "grade": 0,
+                    "background": null,
+                    "phone": null,
+                    "avatarFrame": null,
+                    "signature": null,
+                    "identification": null,
+                    "userAllHistoryType": null
+                },
+                "lastEditTime": null,
+                "id": "592422fe55b54278ac00cd99",
+                "name": "少典",
+                "birth": {
+                    "startTime": null,
+                    "timeDesc": null,
+                    "endTime": null,
+                    "startAccuracy": null,
+                    "startNote": null,
+                    "endAccuracy": null,
+                    "endNote": null
+                },
+                "death": {
+                    "startTime": null,
+                    "timeDesc": null,
+                    "endTime": null,
+                    "startAccuracy": null,
+                    "startNote": null,
+                    "endAccuracy": null,
+                    "endNote": null
+                },
+                "reignTime": [
+                    "不详"
+                ],
+                "emperor": true,
+                "gender": "male",
+                "imageUrl": "//img.allhistory.com/5f8f00d58513910001e3989a.png",
+                "summary": "<p><b>少典</b>，华夏族，汉族先祖之一，也称<strong>有熊氏</strong>，上古有熊部落的首领，《<a data-id=\"5acb4176c3666e3b9a0a4696\" href=\"/detail/5acb4176c3666e3b9a0a4696\" target=\"_blank\">国语</a>》记载其嫡子为<a data-id=\"592412a555b54278ac000238\" href=\"/detail/592412a555b54278ac000238\" target=\"_blank\">炎帝</a>神农氏和<a data-id=\"591e65ad977fd52c045b359e\" href=\"/detail/591e65ad977fd52c045b359e\" target=\"_blank\">黄帝</a>轩辕氏。</p>\n\n<p>《<a data-id=\"57eccf1a0bd1be0e7a8b4567\" data-type=\"entry\" href=\"/detail/57eccf1a0bd1be0e7a8b4567\" target=\"_blank\">史记</a>&middot;五帝本纪》：&ldquo;黄帝者，少典之子&rdquo;。《<a data-id=\"59244cf955b54278ac02a13c\" data-type=\"entry\" href=\"/detail/59244cf955b54278ac02a13c\" target=\"_blank\">史记集解</a>》<a data-id=\"590fd1fe977fd51d4baf081f\" data-type=\"entry\" href=\"/detail/590fd1fe977fd51d4baf081f\" target=\"_blank\">谯周</a>：&ldquo;有熊国君，少典之子也。&rdquo;《国语&middot;晋语四》：&ldquo;昔少典娶于<a data-id=\"5924a50c55b54278ac05d89f\" data-type=\"entry\" href=\"/detail/5924a50c55b54278ac05d89f\" target=\"_blank\">有蟜氏</a>，生黄帝、炎帝&rdquo;。</p>\n",
+                "disambiguations": "",
+                "aliases": [
+                    "有熊氏"
+                ],
+                "tags": [
+                    "中国传说时代君主",
+                    "神话传说人物"
+                ],
+                "hasParents": true,
+                "referenceData": "",
+                "referenceUrl": ""
+            }
+        ],
+        "spouses": [
+            {
+                "authorInfo": {
+                    "id": 0,
+                    "name": "",
+                    "avatar": "",
+                    "grade": 0,
+                    "background": null,
+                    "phone": null,
+                    "avatarFrame": null,
+                    "signature": null,
+                    "identification": null,
+                    "userAllHistoryType": null
+                },
+                "lastEditTime": null,
+                "id": "5924142255b54278ac001675",
+                "name": "嫘祖",
+                "birth": {
+                    "startTime": null,
+                    "timeDesc": null,
+                    "endTime": null,
+                    "startAccuracy": null,
+                    "startNote": null,
+                    "endAccuracy": null,
+                    "endNote": null
+                },
+                "death": {
+                    "startTime": null,
+                    "timeDesc": null,
+                    "endTime": null,
+                    "startAccuracy": null,
+                    "startNote": null,
+                    "endAccuracy": null,
+                    "endNote": null
+                },
+                "reignTime": [
+                    "不详"
+                ],
+                "emperor": false,
+                "gender": "female",
+                "imageUrl": "//pic.allhistory.com/T1Q1DvBXhv1RCvBVdK.jpeg?ch=160&cw=160&cx=0&cy=0",
+                "summary": "<p><b>嫘祖</b> （<span style=\"font-size:;\">&ldquo;嫘&rdquo;，<a data-id=\"592412be55b54278ac000328\" data-type=\"entry\" href=\"/detail/592412be55b54278ac000328\" target=\"_blank\">拼音</a>：<span>l&eacute;i</span>，<a data-id=\"59105dd155b542257a02b098\" data-type=\"entry\" href=\"/detail/59105dd155b542257a02b098\" target=\"_blank\">注音</a>：<span>ㄌㄟˊ</span>，<a data-id=\"57c3a2c00bd1bead78a0bda4\" data-type=\"entry\" href=\"/detail/57c3a2c00bd1bead78a0bda4\" target=\"_blank\">中古拟音</a>：<span class=\"IPA\" style=\"font-family: 'Charis SIL', 'Doulos SIL', 'Linux Libertine', 'Segoe UI', 'Lucida Sans Unicode', 'Code2000', 'Gentium', 'Gentium Alternative', 'TITUS Cyberbit Basic', 'Arial Unicode MS', 'IPAPANNEW', 'Chrysanthi Unicode', 'GentiumAlt', 'Bitstream Vera', 'Bitstream Cyberbit', 'Hiragino Kaku Gothic Pro', 'Lucida Grande', sans-serif; text-decoration:none!important\">lyi</span></span>）是中国上古人物，是黄帝的正妻。 《<a data-id=\"57eccf1a0bd1be0e7a8b4567\" data-type=\"entry\" href=\"/detail/57eccf1a0bd1be0e7a8b4567\" target=\"_blank\">史记</a>》提到<a data-id=\"591e65ad977fd52c045b359e\" data-type=\"entry\" href=\"/detail/591e65ad977fd52c045b359e\" target=\"_blank\">黄帝</a>娶西陵氏之女嫘祖为妻，她发明养<a data-id=\"591ab0c255b5427dfa005fcb\" data-type=\"entry\" href=\"/detail/591ab0c255b5427dfa005fcb\" target=\"_blank\">蚕</a>，为&ldquo;嫘祖始蚕&rdquo;，由此开启了中国数千年养蚕和制造丝绸的历史。嫘祖是传说中的北方部落首领黄帝轩辕氏的元妃，她生了<a data-id=\"58f883bb55b54258e70003e8\" data-type=\"entry\" href=\"/detail/58f883bb55b54258e70003e8\" target=\"_blank\">玄嚣</a>（少昊）、<a data-id=\"59241fee55b54278ac00a4d6\" data-type=\"entry\" href=\"/detail/59241fee55b54278ac00a4d6\" target=\"_blank\">昌意</a>二子。昌意娶蜀山氏女为妻<sup class=\"sup-reference\" ref-id=\"ref-1\">[1]</sup>，生高阳继承天下，这就是五帝中的&ldquo;<a data-id=\"58f883bb55b54258e70003e7\" data-type=\"entry\" href=\"/detail/58f883bb55b54258e70003e7\" target=\"_blank\">颛顼</a>帝&rdquo;，后来玄嚣的孙子继承颛顼帝为<a data-id=\"5910547555b542257a01d0d2\" href=\"/detail/5910547555b542257a01d0d2\" target=\"_blank\">帝喾</a>。</p>\n\n<p>据《<a data-id=\"5924175a55b54278ac003aef\" data-type=\"entry\" href=\"/detail/5924175a55b54278ac003aef\" target=\"_blank\">隋书</a>&middot;礼仪志》记载，北周尊嫘祖为&ldquo;先蚕&rdquo;（即始蚕之神），此后王朝立<a data-id=\"5924178255b54278ac003cb2\" href=\"/detail/5924178255b54278ac003cb2\" target=\"_blank\">先蚕坛</a>祭祀。《<a data-id=\"5924274355b54278ac0103ac\" data-type=\"entry\" href=\"/detail/5924274355b54278ac0103ac\" target=\"_blank\">通鉴外纪</a>》记载：&ldquo;西陵氏之女嫘祖为帝之妃，始教民育蚕，治丝萝以供衣服。&rdquo;</p>\n",
+                "disambiguations": "",
+                "aliases": [
+                    "Leizu"
+                ],
+                "tags": [
+                    "中国上古人物",
+                    "中国女神",
+                    "其他"
+                ],
+                "marriage": null,
+                "hasParents": false,
+                "referenceData": "",
+                "referenceUrl": ""
+            },
+            {
+                "authorInfo": {
+                    "id": 0,
+                    "name": "",
+                    "avatar": "",
+                    "grade": 0,
+                    "background": null,
+                    "phone": null,
+                    "avatarFrame": null,
+                    "signature": null,
+                    "identification": null,
+                    "userAllHistoryType": null
+                },
+                "lastEditTime": null,
+                "id": "591abdaf55b5427dfa016192",
+                "name": "女节",
+                "birth": {
+                    "startTime": null,
+                    "timeDesc": null,
+                    "endTime": null,
+                    "startAccuracy": null,
+                    "startNote": null,
+                    "endAccuracy": null,
+                    "endNote": null
+                },
+                "death": {
+                    "startTime": null,
+                    "timeDesc": null,
+                    "endTime": null,
+                    "startAccuracy": null,
+                    "startNote": null,
+                    "endAccuracy": null,
+                    "endNote": null
+                },
+                "reignTime": [
+                    "不详"
+                ],
+                "emperor": false,
+                "gender": "female",
+                "imageUrl": "//pic.allhistory.com/T1cVDvByKT1RCvBVdK.jpeg?ch=288&cw=268&cx=0&cy=0",
+                "summary": "<p><b>女节</b>，是轩辕<a data-id=\"591e65ad977fd52c045b359e\" data-type=\"entry\" href=\"/detail/591e65ad977fd52c045b359e\" target=\"_blank\">黄帝</a>的次妃，出自<a data-id=\"592497de55b54278ac05357e\" data-type=\"entry\" href=\"/detail/592497de55b54278ac05357e\" target=\"_blank\">方雷氏</a>，相传为梳子的发明者。</p>\n\n<p><a data-id=\"592417e355b54278ac004116\" data-type=\"entry\" href=\"/detail/592417e355b54278ac004116\" target=\"_blank\">皇甫谧</a>说黄帝元妃西陵氏女就是<a data-id=\"5924142255b54278ac001675\" data-type=\"entry\" href=\"/detail/5924142255b54278ac001675\" target=\"_blank\">嫘祖</a>，生<a data-id=\"59241fee55b54278ac00a4d6\" data-type=\"entry\" href=\"/detail/59241fee55b54278ac00a4d6\" target=\"_blank\">昌意</a>；次妃方雷氏女就是女节，生<a data-id=\"5924174155b54278ac0039e0\" data-type=\"entry\" href=\"/detail/5924174155b54278ac0039e0\" target=\"_blank\">青阳</a>；次妃<a data-id=\"591abdb655b5427dfa016227\" data-type=\"entry\" href=\"/detail/591abdb655b5427dfa016227\" target=\"_blank\">彤鱼氏</a>女，生夷鼓，一名苍林；次妃<a data-id=\"59242bae55b54278ac01394e\" data-type=\"entry\" href=\"/detail/59242bae55b54278ac01394e\" target=\"_blank\">嫫母</a>。《国语》夷鼓、苍林是二人。《<a data-id=\"57c3c62b0bd1be3f7ca0bda3\" data-type=\"entry\" href=\"/detail/57c3c62b0bd1be3f7ca0bda3\" target=\"_blank\">汉书</a>》古今人表<a data-id=\"591abdb655b5427dfa016227\" href=\"/detail/591abdb655b5427dfa016227\" target=\"_blank\">彤鱼氏</a>生夷鼓，<a data-id=\"57ecbaee0bd1bec6708b4567\" data-type=\"entry\" href=\"/detail/57ecbaee0bd1bec6708b4567\" target=\"_blank\">司马迁</a>据《<a data-id=\"59241a0955b54278ac005a9e\" data-type=\"entry\" href=\"/detail/59241a0955b54278ac005a9e\" target=\"_blank\">大戴礼记</a>》，说嫘祖生昌意及玄嚣，玄嚣即青阳。皇甫谧以青阳为<a data-id=\"58f883bb55b54258e70003e8\" data-type=\"entry\" href=\"/detail/58f883bb55b54258e70003e8\" target=\"_blank\">少昊</a>，乃女节所生。</p>\n\n<p>《春秋纬元命苞》说黄帝之时，女节在梦中幻觉如虹下落华渚（今<a data-id=\"5910579855b542257a021c40\" data-type=\"entry\" href=\"/detail/5910579855b542257a021c40\" target=\"_blank\">河北</a>盐山）巨大的<a data-id=\"5924145c55b54278ac001940\" data-type=\"entry\" href=\"/detail/5924145c55b54278ac001940\" target=\"_blank\">流星</a>落在身上，意感而生白帝朱宣。<a data-id=\"5b36f79a303a6540ba6db6e5\" href=\"/detail/5b36f79a303a6540ba6db6e5\" target=\"_blank\">宋均</a>注称朱宣就是少昊帝。</p>\n",
+                "disambiguations": "",
+                "aliases": [
+                    "黄帝次妃"
+                ],
+                "tags": [
+                    "中国上古人物",
+                    "先秦君主配偶"
+                ],
+                "marriage": null,
+                "hasParents": false,
+                "referenceData": "",
+                "referenceUrl": ""
+            }
+        ],
+        "children": [
+            {
+                "authorInfo": {
+                    "id": 0,
+                    "name": "",
+                    "avatar": "",
+                    "grade": 0,
+                    "background": null,
+                    "phone": null,
+                    "avatarFrame": null,
+                    "signature": null,
+                    "identification": null,
+                    "userAllHistoryType": null
+                },
+                "lastEditTime": null,
+                "id": "58f883bb55b54258e70003e8",
+                "name": "少昊",
+                "birth": {
+                    "startTime": "-2422-00-00 00:00:00",
+                    "timeDesc": "",
+                    "endTime": "",
+                    "startAccuracy": "0",
+                    "startNote": "",
+                    "endAccuracy": "0",
+                    "endNote": ""
+                },
+                "death": {
+                    "startTime": "-2322-00-00 00:00:00",
+                    "timeDesc": "",
+                    "endTime": "",
+                    "startAccuracy": "0",
+                    "startNote": "",
+                    "endAccuracy": "0",
+                    "endNote": ""
+                },
+                "reignTime": [
+                    "不详"
+                ],
+                "emperor": false,
+                "gender": "male",
+                "imageUrl": "//img.allhistory.com/5f8db626231c3900011cb2e1.png",
+                "summary": "<p><b>少昊</b>，昊又作<b>皞</b>、<b>皓</b>、<b>颢</b>，又称<b>青阳氏</b>、<b>金天氏</b>、<b>穷桑氏</b>、<b>云阳氏</b>，或称<b>朱宣</b>，<a data-id=\"591e65ad977fd52c045b359e\" data-type=\"entry\" href=\"/detail/591e65ad977fd52c045b359e\" target=\"_blank\">黄帝</a>之子，生于穷桑（今山东省曲阜北），建都于<a data-id=\"591059b955b542257a025032\" data-type=\"entry\" href=\"/detail/591059b955b542257a025032\" target=\"_blank\">曲阜</a>。</p>\n\n<p>传说他能继承<a data-id=\"59241cdc55b54278ac007d5c\" data-type=\"entry\" href=\"/detail/59241cdc55b54278ac007d5c\" target=\"_blank\">太昊</a>的德行，故称少昊或小昊。又&ldquo;鸷&rdquo;，乃手执鹰隼之意，故少昊名&ldquo;鸷&rdquo;（传说少昊养有猛禽鹰隼作为宠物，故名&ldquo;鸷&rdquo; , 亦有另一传说<a data-id=\"5924280855b54278ac010dae\" data-type=\"entry\" href=\"/detail/5924280855b54278ac010dae\" target=\"_blank\">四凶</a>之一<a data-id=\"5924280955b54278ac010daf\" data-type=\"entry\" href=\"/detail/5924280955b54278ac010daf\" target=\"_blank\">穷奇</a>为少昊之宠物），少昊还是殷商始祖帝喾（玄鸟氏）的祖父（另一说帝喾祖父为<a data-id=\"58f883bb55b54258e70003e8\" data-type=\"entry\" href=\"/detail/58f883bb55b54258e70003e8\" target=\"_blank\">玄嚣</a>。）。他曾以鸟作官名，并设有管理手工业和农业的官。活动于<a data-id=\"5910579855b542257a021c44\" data-type=\"entry\" href=\"/detail/5910579855b542257a021c44\" target=\"_blank\">山东</a>西南部一带，擅于治水与农耕。</p>\n\n<p><a data-id=\"591adb1355b5427dfa020268\" data-type=\"entry\" href=\"/detail/591adb1355b5427dfa020268\" target=\"_blank\">顾颉刚</a>认为的少昊氏加入古史系统自<a data-id=\"5924186855b54278ac0046d7\" data-type=\"entry\" href=\"/detail/5924186855b54278ac0046d7\" target=\"_blank\">刘歆</a>始。今有<a data-id=\"591acb2c55b5427dfa0190c5\" data-type=\"entry\" href=\"/detail/591acb2c55b5427dfa0190c5\" target=\"_blank\">少昊陵</a>，位于今<a data-id=\"5910579855b542257a021c44\" data-type=\"entry\" href=\"/detail/5910579855b542257a021c44\" target=\"_blank\">山东</a>省<a data-id=\"591059b955b542257a025032\" data-type=\"entry\" href=\"/detail/591059b955b542257a025032\" target=\"_blank\">曲阜</a>市城东旧县村。</p>\n\n<p>据旧史少昊、青阳、玄嚣是否同一人并无公论。</p>\n\n<p>少昊金天氏，西方之神，金星的化身。在《山海经》中，蓐收是他的助手，少昊表示秋天收割之金神。少昊死后，成为白帝。</p>\n\n<p>《<a data-id=\"58f884cd55b54258e7001ecb\" data-type=\"entry\" href=\"/detail/58f884cd55b54258e7001ecb\" target=\"_blank\">三国史记</a>》说<a data-id=\"591abd9355b5427dfa015f1b\" data-type=\"entry\" href=\"/detail/591abd9355b5427dfa015f1b\" target=\"_blank\">金庾信</a>是黄帝之子少昊的后裔。</p>\n",
+                "disambiguations": "华夏共祖之一",
+                "aliases": [
+                    "金天氏",
+                    "少皓",
+                    "少皞氏",
+                    "玄嚣",
+                    "少皞",
+                    "Shaohao",
+                    "少皋"
+                ],
+                "tags": [
+                    "中国传说时代君主",
+                    "神话传说人物"
+                ],
+                "hasChildren": true,
+                "parents": [
+                    {
+                        "gender": "male",
+                        "id": "591e65ad977fd52c045b359e"
+                    },
+                    {
+                        "gender": "female",
+                        "id": "591abdaf55b5427dfa016192"
+                    }
+                ],
+                "adopted": false,
+                "referenceData": "",
+                "referenceUrl": ""
+            },
+            {
+                "authorInfo": {
+                    "id": 0,
+                    "name": "",
+                    "avatar": "",
+                    "grade": 0,
+                    "background": null,
+                    "phone": null,
+                    "avatarFrame": null,
+                    "signature": null,
+                    "identification": null,
+                    "userAllHistoryType": null
+                },
+                "lastEditTime": null,
+                "id": "59241fee55b54278ac00a4d6",
+                "name": "昌意",
+                "birth": {
+                    "startTime": null,
+                    "timeDesc": null,
+                    "endTime": null,
+                    "startAccuracy": null,
+                    "startNote": null,
+                    "endAccuracy": null,
+                    "endNote": null
+                },
+                "death": {
+                    "startTime": null,
+                    "timeDesc": null,
+                    "endTime": null,
+                    "startAccuracy": null,
+                    "startNote": null,
+                    "endAccuracy": null,
+                    "endNote": null
+                },
+                "reignTime": [
+                    "不详"
+                ],
+                "emperor": false,
+                "gender": "male",
+                "imageUrl": "//pic.allhistory.com/T1srWvBsE_1RCvBVdK.jpeg?ch=355&cw=268&cx=0&cy=0",
+                "summary": "<p><b>昌意</b>，是<a data-id=\"591e65ad977fd52c045b359e\" data-type=\"entry\" href=\"/detail/591e65ad977fd52c045b359e\" target=\"_blank\">黄帝</a>的一个儿子。</p>\n\n<p>黄帝有二十五个儿子，其中有二子为<a data-id=\"5924142255b54278ac001675\" data-type=\"entry\" href=\"/detail/5924142255b54278ac001675\" target=\"_blank\">嫘祖</a>所生，长子为<a data-id=\"58f883bb55b54258e70003e8\" data-type=\"entry\" href=\"/detail/58f883bb55b54258e70003e8\" target=\"_blank\">玄嚣</a>，次子昌意。据载黄帝二十九年，嫘祖于若水（雅砻江）生昌意。黄帝七十七年令昌意降居于四川若水。其后昌意娶蜀山氏女昌仆为妻，生子高阳，即帝<a data-id=\"58f883bb55b54258e70003e7\" data-type=\"entry\" href=\"/detail/58f883bb55b54258e70003e7\" target=\"_blank\">颛顼</a>。后来昌意北迁至中原，建昌意城（今河南乐西北），颛顼后于黄帝崩后继位为部落首领。<sup class=\"sup-reference\" ref-id=\"ref-1\">[1]</sup></p>\n\n<h3><span class=\"mw-headline\" id=\".E6.98.8C.E6.84.8F.E7.9A.84.E5.90.8E.E4.BB.A3\">昌意的后代</span></h3>\n\n<p>二世：昌意，黄帝次子。三世：<a data-id=\"58f883bb55b54258e70003e7\" data-type=\"entry\" href=\"/detail/58f883bb55b54258e70003e7\" target=\"_blank\">颛顼</a>，昌意之子。四世：<a data-id=\"592441ff55b54278ac02143e\" data-type=\"entry\" href=\"/detail/592441ff55b54278ac02143e\" target=\"_blank\">穷蝉</a>，颛顼之子 。五世：<a data-id=\"59244aa755b54278ac028503\" data-type=\"entry\" href=\"/detail/59244aa755b54278ac028503\" target=\"_blank\">敬康</a>，穷蝉之子。六世：<a data-id=\"59244aa755b54278ac028504\" data-type=\"entry\" href=\"/detail/59244aa755b54278ac028504\" target=\"_blank\">句望</a>，敬康之子。七世：<a data-id=\"59244aa755b54278ac028505\" data-type=\"entry\" href=\"/detail/59244aa755b54278ac028505\" target=\"_blank\">桥牛</a>，句望之子。八世：<a data-id=\"5924424155b54278ac02178f\" data-type=\"entry\" href=\"/detail/5924424155b54278ac02178f\" target=\"_blank\">瞽叟</a>，桥牛之子。九世：重华，瞽叟之子，即帝<a data-id=\"58f883bb55b54258e70003e2\" data-type=\"entry\" href=\"/detail/58f883bb55b54258e70003e2\" target=\"_blank\">舜</a>有虞。</p>\n\n<p>另外，夏<a data-id=\"5910547355b542257a01d0b6\" data-type=\"entry\" href=\"/detail/5910547355b542257a01d0b6\" target=\"_blank\">禹</a>（夏朝祖先）之父<a data-id=\"58f883f555b54258e70009e9\" data-type=\"entry\" href=\"/detail/58f883f555b54258e70009e9\" target=\"_blank\">鲧</a>，其父为颛顼，也是昌意的后代。<sup class=\"sup-reference\" ref-id=\"ref-2\">[2]</sup>而根据<a data-id=\"57eccf1a0bd1be0e7a8b4567\" data-type=\"entry\" href=\"/detail/57eccf1a0bd1be0e7a8b4567\" target=\"_blank\">史记</a>记载匈奴与夏人同族，也可能为昌意这一系的后代。《<a data-id=\"5924131d55b54278ac00073d\" data-type=\"entry\" href=\"/detail/5924131d55b54278ac00073d\" target=\"_blank\">山海经</a>&middot;大荒北经》也称:<a data-id=\"59242b0155b54278ac01321f\" data-type=\"entry\" href=\"/detail/59242b0155b54278ac01321f\" target=\"_blank\">犬戎</a>与夏人同祖,皆出于黄帝。</p>\n\n<p>根据史记记载，<a data-id=\"59094c69977fd58437202f57\" data-type=\"entry\" href=\"/detail/59094c69977fd58437202f57\" target=\"_blank\">战国</a>时<a data-id=\"5910586e55b542257a022f73\" data-type=\"entry\" href=\"/detail/5910586e55b542257a022f73\" target=\"_blank\">秦</a>和<a data-id=\"57eb78790bd1be03248b4567\" data-type=\"entry\" href=\"/detail/57eb78790bd1be03248b4567\" target=\"_blank\">赵</a>都是黄帝孙<a data-id=\"58f883bb55b54258e70003e7\" data-type=\"entry\" href=\"/detail/58f883bb55b54258e70003e7\" target=\"_blank\">颛顼</a>曾孙女<a data-id=\"5924466055b54278ac024ef7\" data-type=\"entry\" href=\"/detail/5924466055b54278ac024ef7\" target=\"_blank\">女修</a>后代<a data-id=\"5924311f55b54278ac0178f8\" data-type=\"entry\" href=\"/detail/5924311f55b54278ac0178f8\" target=\"_blank\">大业</a>（即<a data-id=\"592426b155b54278ac00fca3\" data-type=\"entry\" href=\"/detail/592426b155b54278ac00fca3\" target=\"_blank\">皋陶</a>）的后人。</p>\n\n<p>《山海经》记载：&ldquo;有北狄之国。黄帝之孙曰始均，始均生<a data-id=\"5924232a55b54278ac00cfba\" data-type=\"entry\" href=\"/detail/5924232a55b54278ac00cfba\" target=\"_blank\">北狄</a>。&rdquo;这一说法后来被《<a data-id=\"5924130a55b54278ac000668\" data-type=\"entry\" href=\"/detail/5924130a55b54278ac000668\" target=\"_blank\">晋书</a>》及《<a data-id=\"5924175a55b54278ac003af2\" data-type=\"entry\" href=\"/detail/5924175a55b54278ac003af2\" target=\"_blank\">北史</a>》沿用，二书都认为鲜卑始祖也为黄帝：&ldquo;始均为<a data-id=\"5924174b55b54278ac003a61\" data-type=\"entry\" href=\"/detail/5924174b55b54278ac003a61\" target=\"_blank\">鲜卑族</a>始祖。&rdquo;《晋书》称<a data-id=\"5910547f55b542257a01d1b4\" data-type=\"entry\" href=\"/detail/5910547f55b542257a01d1b4\" target=\"_blank\">慕容廆</a>，&ldquo;昌黎棘城鲜卑人也。其先有熊氏之苗裔，世居北夷，号曰<a data-id=\"5924147755b54278ac001a7f\" data-type=\"entry\" href=\"/detail/5924147755b54278ac001a7f\" target=\"_blank\">东胡</a>。&rdquo;</p>\n",
+                "disambiguations": "",
+                "aliases": [],
+                "tags": [
+                    "中国上古人物",
+                    "神话传说人物"
+                ],
+                "hasChildren": true,
+                "parents": [
+                    {
+                        "gender": "male",
+                        "id": "591e65ad977fd52c045b359e"
+                    },
+                    {
+                        "gender": "female",
+                        "id": "5924142255b54278ac001675"
+                    }
+                ],
+                "adopted": false,
+                "referenceData": "",
+                "referenceUrl": ""
+            },
+            {
+                "authorInfo": {
+                    "id": 41522,
+                    "name": "永世轮回",
+                    "avatar": "https://img.allhistory.com/avatar/5fd223c5b9af00080bf76148.png",
+                    "grade": 0,
+                    "background": "",
+                    "phone": null,
+                    "avatarFrame": "",
+                    "signature": "苍苍大鹏，诞自北溟。假精灵鳞，神化以生。如云之翼",
+                    "identification": "",
+                    "userAllHistoryType": null
+                },
+                "lastEditTime": null,
+                "id": "5924690f55b54278ac0404cb",
+                "name": "女魃",
+                "birth": {
+                    "startTime": null,
+                    "timeDesc": null,
+                    "endTime": null,
+                    "startAccuracy": null,
+                    "startNote": null,
+                    "endAccuracy": null,
+                    "endNote": null
+                },
+                "death": {
+                    "startTime": null,
+                    "timeDesc": null,
+                    "endTime": null,
+                    "startAccuracy": null,
+                    "startNote": null,
+                    "endAccuracy": null,
+                    "endNote": null
+                },
+                "reignTime": [],
+                "emperor": false,
+                "gender": "female",
+                "imageUrl": "//pic.allhistory.com/T1oqZvBsJv1RCvBVdK.jpeg?ch=165&cw=220&cx=0&cy=0",
+                "summary": "<p><b>女魃</b>亦称<b>女妭</b>，<a data-id=\"591e65ad977fd52c045b359e\" data-type=\"entry\" href=\"/detail/591e65ad977fd52c045b359e\" target=\"_blank\">黄帝</a>之女，另一说为<b>赤水女子献</b>，本居于昆山共工台，曾在涿鹿之战中帮助黄帝战胜蚩尤，后流落至赤水之北，是中国古代神话传说中的旱神，身份为天女。据《山海经》描写，蚩尤起兵攻打黄帝，黄帝令应龙进攻冀州。蚩尤请来风伯雨师，以狂风骤雨对付应龙部队。于是，黄帝令魃助战，魃成功阻止了大雨，最终助黄帝赢得战争。女魃或与旱魃存在演变关系。</p>\n",
+                "disambiguations": "神话传说的上古神女",
+                "aliases": [
+                    "赤水女子献",
+                    "Nüba",
+                    "女妭",
+                    "魃",
+                    "天女魃"
+                ],
+                "tags": [
+                    "中国上古人物",
+                    "中国女神",
+                    "旱神",
+                    "其他"
+                ],
+                "hasChildren": false,
+                "parents": [
+                    {
+                        "gender": "male",
+                        "id": "591e65ad977fd52c045b359e"
+                    }
+                ],
+                "adopted": false,
+                "referenceData": "",
+                "referenceUrl": ""
+            }
+        ]
+    },
+    "traceReqId": "19fcf438be944a88809d099bfd8ef155.98.17473522584112565"
+}
