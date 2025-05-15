@@ -95,7 +95,7 @@
         let originalOpen = xhr.open;
         xhr.open = function(method, url) {
             // 检查是否是getFamilyInfo请求
-            if (typeof url === 'string' && url.includes('getFTTamilyInfo')) {
+            if (typeof url === 'string' && url.includes('getFamilyInfo')) {
                 console.log('拦截到getFamilyInfo请求:', url);
 
                 // 也可以重写addEventListener来监听load事件
