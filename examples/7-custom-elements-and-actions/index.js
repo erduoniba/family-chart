@@ -452,7 +452,7 @@ function createSaveButton() {
       } else {
         alert('保存失败：' + result.message);
       }
-    }, 'png');
+    }, 'svg');
   });
   
   document.body.appendChild(saveButton);
