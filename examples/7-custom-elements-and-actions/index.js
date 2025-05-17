@@ -102,7 +102,7 @@ function Card(tree, svg, onCardClick) {
         svg,
         card_dim,
         // 显示姓名
-        card_display: [(d) => `${d.data["first name"]} ${d.data["last name"]}`],
+        card_display: [(d) => `${d.data["first name"]}`],
 
         onCardClick,
         // 启用图片显示

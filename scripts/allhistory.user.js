@@ -11,6 +11,9 @@
 
 (function() {
     'use strict';
+    
+    // 存储所有处理后的数据
+    let processedDataArray = [];
 
     // 辅助函数：获取性别
     function getGender(jsonData) {
@@ -43,26 +46,10 @@
             // 处理子女数据
             const children = data.children;
             const childrenIds = [];
-            const childrenData = [];
 
             if (children) {
                 children.forEach(child => {
-                    if (child.emperor === true || 1) {
-                        const childGender = getGender(child);
-                        const childAvatar = getAvatar(child);
-                        const childData = {
-                            data: {
-                                'first name': child.name,
-                                gender: childGender,
-                                avatar: childAvatar,
-                                summary: child.summary
-                            },
-                            id: child.id,
-                            refs: {
-                                father: id
-                            }
-                        };
-                        childrenData.push(childData);
+                    if (child.emperor === true) {
                         childrenIds.push(child.id);
                     }
                 });
@@ -95,20 +82,23 @@
                     spousesIds.push(spouse.id);
                 });
             }
-
+            const aliases = data.aliases;
+            // 处理别名数据
+            const alias = aliases ? aliases[0] : "";
             return {
                 data: {
                     'first name': data.name,
+                    'last name': alias,
                     gender: gender,
                     avatar: avatar,
                     emperor: data.emperor
                 },
                 id: id,
-                refs: {
+                rels: {
                     children: childrenIds,
                     father: parentsIds.father,
                     mother: parentsIds.mother,
-                    spouses: spousesIds
+                    // spouses: spousesIds
                 }
             };
         }
@@ -136,6 +126,10 @@
                         try {
                             const jsonData = JSON.parse(xhr.responseText);
                             const processedData = processData(jsonData);
+                            // 将处理后的数据添加到数组中
+                            if (processedData) {
+                                processedDataArray.push(processedData);
+                            }
                             console.log('处理后的数据:\n', JSON.stringify(processedData, null, 2));
                         } catch (error) {
                             console.error('处理数据时出错:', error);
@@ -241,6 +235,44 @@
 
     // 等待页面加载完成后添加搜索按钮
     window.addEventListener('load', addSearchButtons);
+
+    // 添加打印数据按钮
+    function addPrintDataButton() {
+        const button = document.createElement('button');
+        button.textContent = '打印所有数据';
+        button.style.cssText = `
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 10000;
+        `;
+
+        button.addEventListener('mouseover', () => {
+            button.style.backgroundColor = '#45a049';
+        });
+
+        button.addEventListener('mouseout', () => {
+            button.style.backgroundColor = '#4CAF50';
+        });
+
+        button.onclick = () => {
+            console.log('所有收集的数据:\n', JSON.stringify(processedDataArray, null, 2));
+        };
+
+        document.body.appendChild(button);
+    }
+
+    // 等待页面加载完成后添加按钮
+    window.addEventListener('load', () => {
+        addSearchButtons();
+        addPrintDataButton();
+    });
 
     console.log('AllHistory Family Info Interceptor 已启动');
 })();

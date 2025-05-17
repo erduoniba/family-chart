@@ -1,0 +1,233 @@
+[
+    {
+      "data": {
+        "first name": "努尔哈赤",
+        "last name": "清太祖",
+        "gender": "M",
+        "avatar": "https://pic.allhistory.com/T1nmKvBsbT1RCvBVdK.jpeg?ch=341&cw=341&cx=2&cy=16",
+        "emperor": true
+      },
+      "id": "59104d1155b542257a012381",
+      "rels": {
+        "children": [
+          "587f3842bf6928cf61909f39"
+        ]
+      }
+    },
+    {
+      "data": {
+        "first name": "皇太极",
+        "last name": "后金太宗",
+        "gender": "M",
+        "avatar": "https://pic.allhistory.com/T12vxTBXdT1RCvBVdK.jpeg?ch=300&cw=300&cx=-3&cy=0",
+        "emperor": true
+      },
+      "id": "587f3842bf6928cf61909f39",
+      "rels": {
+        "children": [
+          "57c4e8170bd1be6011a0bda3"
+        ],
+        "father": "59104d1155b542257a012381"
+      }
+    },
+    {
+      "data": {
+        "first name": "顺治帝",
+        "last name": "Shunzhi Emperor",
+        "gender": "M",
+        "avatar": "https://pic.allhistory.com/T1Ytx_By_T1RCvBVdK.jpeg?ch=323&cw=323&cx=0&cy=0",
+        "emperor": true
+      },
+      "id": "57c4e8170bd1be6011a0bda3",
+      "rels": {
+        "children": [
+          "582ab67205c3fbe040030571"
+        ],
+        "father": "587f3842bf6928cf61909f39",
+        "mother": "590af323977fd5cb09202fa4"
+      }
+    },
+    {
+      "data": {
+        "first name": "康熙帝",
+        "last name": "合天弘运文武睿哲恭俭宽裕孝敬诚信功德大成仁皇帝",
+        "gender": "M",
+        "avatar": "https://pic.allhistory.com/T1H9xTBybT1RCvBVdK.png?ch=441&cw=441&cx=114&cy=0",
+        "emperor": true
+      },
+      "id": "582ab67205c3fbe040030571",
+      "rels": {
+        "children": [
+          "586206e5bf69284c4f4a214e"
+        ],
+        "father": "57c4e8170bd1be6011a0bda3",
+        "mother": "591ac24955b5427dfa017185"
+      }
+    },
+    {
+      "data": {
+        "first name": "雍正帝",
+        "last name": "敬天昌运建中表正文武英明宽仁信毅大孝至诚宪皇帝",
+        "gender": "M",
+        "avatar": "https://pic.allhistory.com/T1z5AvBybT1RCvBVdK.jpeg?ch=699&cw=699&cx=-7&cy=0",
+        "emperor": true
+      },
+      "id": "586206e5bf69284c4f4a214e",
+      "rels": {
+        "children": [
+          "57c4f74b0bd1bea213a0bda8"
+        ],
+        "father": "582ab67205c3fbe040030571",
+        "mother": "591ac24255b5427dfa017105"
+      }
+    },
+    {
+      "data": {
+        "first name": "乾隆帝",
+        "last name": "乾隆皇帝",
+        "gender": "M",
+        "avatar": "https://pic.allhistory.com/T1KAWvBXVT1RCvBVdK.jpg",
+        "emperor": true
+      },
+      "id": "57c4f74b0bd1bea213a0bda8",
+      "rels": {
+        "children": [
+          "59104d1155b542257a01237c"
+        ],
+        "father": "586206e5bf69284c4f4a214e",
+        "mother": "591ac24b55b5427dfa0171b7"
+      }
+    },
+    {
+      "data": {
+        "first name": "嘉庆帝",
+        "last name": "爱新觉罗颙琰",
+        "gender": "M",
+        "avatar": "https://pic.allhistory.com/T1FsdvBsxT1RCvBVdK.jpeg?ch=446&cw=446&cx=0&cy=0",
+        "emperor": true
+      },
+      "id": "59104d1155b542257a01237c",
+      "rels": {
+        "children": [
+          "59104d1155b542257a01237d"
+        ],
+        "father": "57c4f74b0bd1bea213a0bda8",
+        "mother": "591ac24555b5427dfa017137"
+      }
+    },
+    {
+      "data": {
+        "first name": "道光帝",
+        "last name": "爱新觉罗·旻宁",
+        "gender": "M",
+        "avatar": "https://img.allhistory.com/60028b90231c390001088f38.png",
+        "emperor": true
+      },
+      "id": "59104d1155b542257a01237d",
+      "rels": {
+        "children": [
+          "59104d1155b542257a01237e",
+          "591adcbf55b5427dfa020cef"
+        ],
+        "father": "59104d1155b542257a01237c",
+        "mother": "591ac24455b5427dfa01711a"
+      }
+    },
+    {
+      "data": {
+        "first name": "咸丰帝",
+        "last name": "奕詝",
+        "gender": "M",
+        "avatar": "https://img.allhistory.com/5f88f8cbfd818d0001011636.jpg",
+        "emperor": true
+      },
+      "id": "59104d1155b542257a01237e",
+      "rels": {
+        "children": [
+          "59104d1155b542257a01237f"
+        ],
+        "father": "59104d1155b542257a01237d",
+        "mother": "591ac24555b5427dfa017136"
+      }
+    },
+    {
+        "data": {
+          "first name": "同治帝",
+          "last name": "载淳",
+          "gender": "M",
+          "avatar": "https://pic.allhistory.com/T1DBWvBTDT1RCvBVdK.jpeg?ch=570&cw=570&cx=22&cy=104",
+          "emperor": true
+        },
+        "id": "59104d1155b542257a01237f",
+        "rels": {
+          "children": [],
+          "father": "59104d1155b542257a01237e",
+          "mother": "591ac24255b5427dfa017103"
+        }
+      },
+      {
+        "data": {
+          "first name": "奕譞",
+          "last name": "醇賢親王",
+          "gender": "M",
+          "avatar": "https://img.allhistory.com/5f6de4f98513910001136cd6.png",
+          "emperor": false
+        },
+        "id": "591adcbf55b5427dfa020cef",
+        "rels": {
+          "children": [
+            "59104d1155b542257a012380",
+            "591adcbc55b5427dfa020cd3"
+          ],
+          "father": "59104d1155b542257a01237d",
+          "mother": "5924184855b54278ac00458d"
+        }
+      },
+    {
+      "data": {
+        "first name": "光绪帝",
+        "last name": "清德宗",
+        "gender": "M",
+        "avatar": "https://pic.allhistory.com/T19MYvBTLv1RCvBVdK.jpeg?ch=494&cw=494&cx=0&cy=22",
+        "emperor": true
+      },
+      "id": "59104d1155b542257a012380",
+      "rels": {
+        "children": [],
+        "father": "591adcbf55b5427dfa020cef",
+        "mother": "591ac25c55b5427dfa01731f"
+      }
+    },
+    {
+      "data": {
+        "first name": "载沣",
+        "last name": "爱新觉罗·载沣",
+        "gender": "M",
+        "avatar": "https://pic.allhistory.com/T1jdWvByLT1RCvBVdK.jpg",
+        "emperor": false
+      },
+      "id": "591adcbc55b5427dfa020cd3",
+      "rels": {
+        "children": [
+          "591ae63355b5427dfa0215c0"
+        ],
+        "father": "591adcbf55b5427dfa020cef",
+        "mother": null
+      }
+    },
+    {
+      "data": {
+        "first name": "溥仪",
+        "last name": "清宪宗",
+        "gender": "M",
+        "avatar": "https://pic.allhistory.com/T1RgWvB5Av1RCvBVdK.jpeg?ch=384&cw=384&cx=3&cy=0",
+        "emperor": true
+      },
+      "id": "591ae63355b5427dfa0215c0",
+      "rels": {
+        "children": [],
+        "father": "591adcbc55b5427dfa020cd3",
+        "mother": "591ac24d55b5427dfa0171e1"
+      }
+    }
+  ]
