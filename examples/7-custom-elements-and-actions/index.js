@@ -73,8 +73,8 @@ function updateTree(data, svg, onCardClick, props) {
     data: treeData,
     main_id,
     single_parent_empty_card: false,
-    node_separation: 180, // 水平间距
-    level_separation: 250, // 垂直间距
+    node_separation: 140, // 水平间距
+    level_separation: 200, // 垂直间距
   });
   // 渲染树形图，使用自定义的Card组件
   f3.view(tree, svg, Card(tree, svg, onCardClick), props || {});
@@ -84,12 +84,12 @@ function updateTree(data, svg, onCardClick, props) {
 function Card(tree, svg, onCardClick) {
   // 定义卡片尺寸和布局参数
   const card_dim = {
-    w: 140,
-    h: 200,
+    w: 110,
+    h: 160,
     text_x: 0,
-    text_y: 150,
-    img_w: 130,
-    img_h: 130,
+    text_y: 115,
+    img_w: 100,
+    img_h: 100,
     img_x: 5,
     img_y: 5,
   };
