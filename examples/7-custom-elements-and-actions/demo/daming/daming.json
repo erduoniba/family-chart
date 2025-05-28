@@ -1,0 +1,1217 @@
+[
+    {
+        "data":
+        {
+            "first name": "朱元璋",
+            "last name": "朱兴宗",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T16obvBXbT1RCvBVdK.jpeg?ch=198&cw=198&cx=0&cy=2",
+            "emperor": true
+        },
+        "id": "57c3ce8c0bd1beaa7ca0bda6",
+        "rels":
+        {
+            "children":
+            [
+                "57c3ced60bd1be587ba0bdac",
+                "582d0a4405c3fb2b44030571",
+                "59104c3255b542257a010f0f",
+                "592430e955b54278ac017664",
+                "591ac28f55b5427dfa017741"
+            ],
+            "spouses":
+            [
+                "591ac24c55b5427dfa0171bd"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "孝慈高皇后",
+            "last name": "Empress Ma (Hongwu)",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1d9KvB5ZT1RCvBVdK.jpg",
+            "emperor": false
+        },
+        "id": "591ac24c55b5427dfa0171bd",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f0f",
+                "57c3ced60bd1be587ba0bdac"
+            ],
+            "father": "5ad451ce0ab73400014b29a7",
+            "spouses":
+            [
+                "57c3ce8c0bd1beaa7ca0bda6"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱标",
+            "last name": "懿文太子",
+            "gender": "M",
+            "avatar": "https://img.allhistory.com/5f59c3be851391000193ea60.JPG",
+            "emperor": true
+        },
+        "id": "59104c3255b542257a010f0f",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f02"
+            ],
+            "father": "57c3ce8c0bd1beaa7ca0bda6",
+            "mother": "591ac24c55b5427dfa0171bd"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "建文帝",
+            "last name": "明惠帝",
+            "gender": "M",
+            "avatar": "https://img.allhistory.com/5f88ef00fd818d00010115fb.png",
+            "emperor": true
+        },
+        "id": "59104c3255b542257a010f02",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "59104c3255b542257a010f0f",
+            "mother": "59243dee55b54278ac01f0ff"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "明成祖",
+            "last name": "燕王朱棣",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T1.9YTByYT1RCvBVdK.png?ch=246&cw=246&cx=3&cy=45",
+            "emperor": true
+        },
+        "id": "57c3ced60bd1be587ba0bdac",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f03"
+            ],
+            "father": "57c3ce8c0bd1beaa7ca0bda6",
+            "mother": "591ac24c55b5427dfa0171bd",
+            "spouses":
+            [
+                "591ac24c55b5427dfa0171be"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "仁孝文皇后",
+            "last name": "仁孝徐皇后",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T12nKvBKET1RCvBVdK.jpg",
+            "emperor": false
+        },
+        "id": "591ac24c55b5427dfa0171be",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f03"
+            ],
+            "father": "58da35e0977fd5ad152d2de9",
+            "spouses":
+            [
+                "57c3ced60bd1be587ba0bdac"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "明仁宗",
+            "last name": "Hongxi Emperor",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T19gdTBy_T1RCvBVdK.jpeg?ch=195&cw=195&cx=26&cy=68",
+            "emperor": true
+        },
+        "id": "59104c3255b542257a010f03",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f05"
+            ],
+            "father": "57c3ced60bd1be587ba0bdac",
+            "mother": "591ac24c55b5427dfa0171be",
+            "spouses":
+            [
+                "591ac24c55b5427dfa0171c0"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "诚孝昭皇后",
+            "last name": "Empress Zhang (Hongxi)",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1zf_vBmhv1RCvBVdK.jpeg?ch=170&cw=170&cx=23&cy=45",
+            "emperor": false
+        },
+        "id": "591ac24c55b5427dfa0171c0",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f05"
+            ],
+            "father": "5924b2f455b54278ac0690fd",
+            "spouses":
+            [
+                "59104c3255b542257a010f03"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "明宣宗",
+            "last name": "宣德帝",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T1LyWCB_DT1RCvBVdK.jpeg?ch=800&cw=800&cx=-5&cy=108",
+            "emperor": true
+        },
+        "id": "59104c3255b542257a010f05",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f0e",
+                "59104c3255b542257a010f06"
+            ],
+            "father": "59104c3255b542257a010f03",
+            "mother": "591ac24c55b5427dfa0171c0",
+            "spouses":
+            [
+                "5924263055b54278ac00f72d",
+                "5924265c55b54278ac00f90a"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "孝恭章皇后",
+            "last name": "孙皇后 (明宣宗)",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1beKvBC_v1RCvBVdK.jpeg?ch=171&cw=171&cx=24&cy=47",
+            "emperor": false
+        },
+        "id": "5924263055b54278ac00f72d",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f06"
+            ],
+            "father": "5b36f97f303a6540ba6ed6f5",
+            "spouses":
+            [
+                "59104c3255b542257a010f05"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "孝翼太后",
+            "last name": "",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T18FWTByJT1RCvBVdK.JPG",
+            "emperor": false
+        },
+        "id": "5924265c55b54278ac00f90a",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f0e"
+            ],
+            "spouses":
+            [
+                "59104c3255b542257a010f05"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "明英宗",
+            "last name": "Emperor Yingzong of Ming",
+            "gender": "M",
+            "avatar": "https://img.allhistory.com/5f86fcd5fd818d0001010b0c.jpg",
+            "emperor": true
+        },
+        "id": "59104c3255b542257a010f06",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f07",
+                "59243e1155b54278ac01f2d3"
+            ],
+            "father": "59104c3255b542257a010f05",
+            "mother": "5924263055b54278ac00f72d",
+            "spouses":
+            [
+                "591ac24c55b5427dfa0171c4"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "孝肃皇后",
+            "last name": "",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1rrEvBCWv1RCvBVdK.jpeg?ch=183&cw=183&cx=18&cy=28",
+            "emperor": true
+        },
+        "id": "591ac24c55b5427dfa0171c4",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f07",
+                "59243e1155b54278ac01f2d3"
+            ],
+            "spouses":
+            [
+                "59104c3255b542257a010f06"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "景泰帝",
+            "last name": "Jingtai Emperor",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T1WJWvB7_T1RCvBVdK.jpg",
+            "emperor": true
+        },
+        "id": "59104c3255b542257a010f0e",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "59104c3255b542257a010f05",
+            "mother": "5924265c55b54278ac00f90a"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "明宪宗",
+            "last name": "Chenghua Emperor",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T1t4bTBybT1RCvBVdK.png?ch=266&cw=266&cx=0&cy=8",
+            "emperor": true
+        },
+        "id": "59104c3255b542257a010f07",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f08",
+                "59104c3255b542257a010f11"
+            ],
+            "father": "59104c3255b542257a010f06",
+            "mother": "591ac24c55b5427dfa0171c4",
+            "spouses":
+            [
+                "5924269355b54278ac00fb38",
+                "591ac24c55b5427dfa0171cb"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "孝穆纪太后",
+            "last name": "",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T13f_vB4Cv1RCvBVdK.jpeg?ch=162&cw=162&cx=26&cy=76",
+            "emperor": true
+        },
+        "id": "5924269355b54278ac00fb38",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f08"
+            ],
+            "spouses":
+            [
+                "59104c3255b542257a010f07"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "孝惠皇后",
+            "last name": "",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1I6EvB5hT1RCvBVdK.jpeg?ch=187&cw=187&cx=14&cy=33",
+            "emperor": true
+        },
+        "id": "591ac24c55b5427dfa0171cb",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f11"
+            ],
+            "spouses":
+            [
+                "59104c3255b542257a010f07"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "明孝宗",
+            "last name": "弘治帝",
+            "gender": "M",
+            "avatar": "https://img.allhistory.com/5f86f603231c390001cfbdba.jpg",
+            "emperor": true
+        },
+        "id": "59104c3255b542257a010f08",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f09"
+            ],
+            "father": "59104c3255b542257a010f07",
+            "mother": "5924269355b54278ac00fb38",
+            "spouses":
+            [
+                "591ac24c55b5427dfa0171bc"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "孝成敬皇后",
+            "last name": "孝康敬皇后",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1RrEvBKKv1RCvBVdK.jpeg?ch=159&cw=159&cx=22&cy=46",
+            "emperor": false
+        },
+        "id": "591ac24c55b5427dfa0171bc",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f09"
+            ],
+            "spouses":
+            [
+                "59104c3255b542257a010f08"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "明武宗",
+            "last name": "Zhengde Emperor",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T15kCvBXVT1RCvBVdK.jpeg?ch=209&cw=209&cx=-1&cy=41",
+            "emperor": true
+        },
+        "id": "59104c3255b542257a010f09",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "59104c3255b542257a010f08",
+            "mother": "591ac24c55b5427dfa0171bc"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱祐杬",
+            "last name": "朱佑杬",
+            "gender": "M",
+            "avatar": "https://img.allhistory.com/5f8da8f3231c3900011cb25b.JPG",
+            "emperor": false
+        },
+        "id": "59104c3255b542257a010f11",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f0a"
+            ],
+            "father": "59104c3255b542257a010f07",
+            "mother": "591ac24c55b5427dfa0171cb",
+            "spouses":
+            [
+                "591ac25355b5427dfa017253"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "慈孝献皇后",
+            "last name": "",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T13f_vB4Cv1RCvBVdK.jpeg?ch=164&cw=164&cx=27&cy=80",
+            "emperor": false
+        },
+        "id": "591ac25355b5427dfa017253",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f0a"
+            ],
+            "spouses":
+            [
+                "59104c3255b542257a010f11"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "明世宗",
+            "last name": "Jiajing Emperor",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T1TFdCBCdT1RCvBVdK.png?ch=375&cw=375&cx=0&cy=64",
+            "emperor": true
+        },
+        "id": "59104c3255b542257a010f0a",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f0b"
+            ],
+            "father": "59104c3255b542257a010f11",
+            "mother": "591ac25355b5427dfa017253",
+            "spouses":
+            [
+                "5924269355b54278ac00fb3c"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "孝恪皇后",
+            "last name": "",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1ZGEvBCCT1RCvBVdK.jpg",
+            "emperor": false
+        },
+        "id": "5924269355b54278ac00fb3c",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f0b"
+            ],
+            "spouses":
+            [
+                "59104c3255b542257a010f0a"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "明穆宗",
+            "last name": "穆宗皇帝",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T12f_vB5Vv1RCvBVdK.jpeg?ch=196&cw=196&cx=29&cy=85",
+            "emperor": true
+        },
+        "id": "59104c3255b542257a010f0b",
+        "rels":
+        {
+            "children":
+            [
+                "59045016977fd57b59a834d3"
+            ],
+            "father": "59104c3255b542257a010f0a",
+            "mother": "5924269355b54278ac00fb3c",
+            "spouses":
+            [
+                "5924269355b54278ac00fb3f"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "孝定太后",
+            "last name": "",
+            "gender": "F",
+            "avatar": "https://img.allhistory.com/5fb8a6f885139100013b5d05.jpg",
+            "emperor": false
+        },
+        "id": "5924269355b54278ac00fb3f",
+        "rels":
+        {
+            "children":
+            [
+                "59045016977fd57b59a834d3"
+            ],
+            "spouses":
+            [
+                "59104c3255b542257a010f0b"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "明神宗",
+            "last name": "万历皇帝",
+            "gender": "M",
+            "avatar": "https://img.allhistory.com/5f8dafd38513910001e392e0.png",
+            "emperor": true
+        },
+        "id": "59045016977fd57b59a834d3",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f10",
+                "585ce8b5bf69283619d84b0f",
+                "591adcca55b5427dfa020d87"
+            ],
+            "father": "59104c3255b542257a010f0b",
+            "mother": "5924269355b54278ac00fb3f",
+            "spouses":
+            [
+                "591ac24d55b5427dfa0171ce",
+                "591ac24d55b5427dfa0171cf"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "郑贵妃",
+            "last name": "郑贵妃 (明神宗)",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1vq_TBybT1RCvBVdK.JPG",
+            "emperor": false
+        },
+        "id": "591ac24d55b5427dfa0171cf",
+        "rels":
+        {
+            "children":
+            [
+                "591adcca55b5427dfa020d87"
+            ],
+            "father": null,
+            "mother": null
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱常洵",
+            "last name": "福恭王",
+            "gender": "M",
+            "avatar": "https://img.allhistory.com/5f887f9285139100017413ea.jpg",
+            "emperor": false
+        },
+        "id": "591adcca55b5427dfa020d87",
+        "rels":
+        {
+            "children":
+            [
+                "5910614e55b542257a0305f1"
+            ],
+            "father": "59045016977fd57b59a834d3",
+            "mother": "591ac24d55b5427dfa0171cf"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "弘光帝",
+            "last name": "朱由崧",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T12HbTB_AT1RCvBVdK.png?ch=275&cw=275&cx=-2&cy=0",
+            "emperor": true
+        },
+        "id": "5910614e55b542257a0305f1",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "591adcca55b5427dfa020d87",
+            "mother": null
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "孝靖太后",
+            "last name": "",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1_KWvByVT1RCvBVdK.JPG",
+            "emperor": false
+        },
+        "id": "591ac24d55b5427dfa0171ce",
+        "rels":
+        {
+            "children":
+            [
+                "585ce8b5bf69283619d84b0f"
+            ],
+            "spouses":
+            [
+                "59045016977fd57b59a834d3"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "明光宗",
+            "last name": "泰昌皇帝",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T1fUWvBsVT1RCvBVdK.jpeg?ch=283&cw=283&cx=0&cy=63",
+            "emperor": true
+        },
+        "id": "585ce8b5bf69283619d84b0f",
+        "rels":
+        {
+            "children":
+            [
+                "585d064fbf6928bf35d84b10",
+                "59104c3255b542257a010f0c"
+            ],
+            "father": "59045016977fd57b59a834d3",
+            "mother": "591ac24d55b5427dfa0171ce",
+            "spouses":
+            [
+                "5924269455b54278ac00fb45",
+                "5924269455b54278ac00fb44"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "孝纯太后",
+            "last name": "",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T16gKvB7ZT1RCvBVdK.jpg",
+            "emperor": false
+        },
+        "id": "5924269455b54278ac00fb45",
+        "rels":
+        {
+            "children":
+            [
+                "585d064fbf6928bf35d84b10"
+            ],
+            "spouses":
+            [
+                "585ce8b5bf69283619d84b0f"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "孝和王太后",
+            "last name": "",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1Q._vB4hT1RCvBVdK.jpeg?ch=165&cw=165&cx=26&cy=98",
+            "emperor": false
+        },
+        "id": "5924269455b54278ac00fb44",
+        "rels":
+        {
+            "children":
+            [
+                "59104c3255b542257a010f0c"
+            ],
+            "spouses":
+            [
+                "585ce8b5bf69283619d84b0f"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "崇祯帝",
+            "last name": "朱由檢",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T1sAWvBXxT1RCvBVdK.jpg",
+            "emperor": true
+        },
+        "id": "585d064fbf6928bf35d84b10",
+        "rels":
+        {
+            "children":
+            [
+                "5910614f55b542257a0305fc",
+                "591ac24d55b5427dfa0171d5",
+                "591ac25855b5427dfa0172c3",
+                "591ac25e55b5427dfa017342",
+                "5924338855b54278ac019767"
+            ],
+            "father": "585ce8b5bf69283619d84b0f",
+            "mother": "5924269455b54278ac00fb45",
+            "spouses":
+            [
+                "591ac24e55b5427dfa0171e9"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "明熹宗",
+            "last name": "Tianqi Emperor",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T1yrEvBsYv1RCvBVdK.jpeg?ch=251&cw=251&cx=-2&cy=68",
+            "emperor": true
+        },
+        "id": "59104c3255b542257a010f0c",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "585ce8b5bf69283619d84b0f",
+            "mother": "5924269455b54278ac00fb44"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "孝节烈皇后",
+            "last name": "Empress Zhou (Ming dynasty)",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1a8WvByVT1RCvBVdK.JPG",
+            "emperor": false
+        },
+        "id": "591ac24e55b5427dfa0171e9",
+        "rels":
+        {
+            "children":
+            [
+                "5910614f55b542257a0305fc",
+                "591ac24d55b5427dfa0171d5",
+                "591ac25855b5427dfa0172c3",
+                "591ac25e55b5427dfa017342",
+                "5924338855b54278ac019767"
+            ],
+            "spouses":
+            [
+                "585d064fbf6928bf35d84b10"
+            ]
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱慈烺",
+            "last name": "明順宗",
+            "gender": "M",
+            "avatar": "https://img.allhistory.com/5f8e52d18513910001e393f7.jpg",
+            "emperor": true
+        },
+        "id": "5910614f55b542257a0305fc",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "585d064fbf6928bf35d84b10",
+            "mother": "591ac24e55b5427dfa0171e9"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "长平公主",
+            "last name": "",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1z1VvBjWT1RCvBVdK.jpeg?ch=121&cw=121&cx=0&cy=0",
+            "emperor": false
+        },
+        "id": "591ac24d55b5427dfa0171d5",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "585d064fbf6928bf35d84b10",
+            "mother": "591ac24e55b5427dfa0171e9"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "坤仪公主",
+            "last name": "",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1bQxvBCCv1RCvBVdK.jpeg?ch=240&cw=210&cx=0&cy=0",
+            "emperor": false
+        },
+        "id": "591ac25855b5427dfa0172c3",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "585d064fbf6928bf35d84b10",
+            "mother": "591ac24e55b5427dfa0171e9"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "昭仁公主",
+            "last name": "",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1Z6EvBgbv1RCvBVdK.jpeg",
+            "emperor": false
+        },
+        "id": "591ac25e55b5427dfa017342",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "585d064fbf6928bf35d84b10",
+            "mother": "591ac24e55b5427dfa0171e9"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱慈炯",
+            "last name": "",
+            "gender": "F",
+            "avatar": "https://pic.allhistory.com/T1UgATBybT1RCvBVdK.jpeg?ch=177&cw=268&cx=0&cy=0",
+            "emperor": false
+        },
+        "id": "5924338855b54278ac019767",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "585d064fbf6928bf35d84b10",
+            "mother": "591ac24e55b5427dfa0171e9"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱桱",
+            "last name": "朱柽",
+            "gender": "M",
+            "avatar": "https://img.allhistory.com/5fdee6b3bc9c0c0001fddb22.png",
+            "emperor": false
+        },
+        "id": "592430e955b54278ac017664",
+        "rels":
+        {
+            "children":
+            [
+                "5924370455b54278ac01c272"
+            ],
+            "father": "57c3ce8c0bd1beaa7ca0bda6"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱琼炟",
+            "last name": "唐憲王",
+            "gender": "M",
+            "avatar": null,
+            "emperor": false
+        },
+        "id": "5924370455b54278ac01c272",
+        "rels":
+        {
+            "children":
+            [
+                "5924370355b54278ac01c270"
+            ],
+            "father": "592430e955b54278ac017664",
+            "mother": null
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱芝址",
+            "last name": "唐莊王",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T1EFKTBCVT1RCvBVdK.jpeg?ch=303&cw=166&cx=0&cy=0",
+            "emperor": false
+        },
+        "id": "5924370355b54278ac01c270",
+        "rels":
+        {
+            "children":
+            [
+                "59243a3f55b54278ac01ce68"
+            ],
+            "father": "5924370455b54278ac01c272",
+            "mother": null
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱弥钳",
+            "last name": "唐恭王",
+            "gender": "M",
+            "avatar": null,
+            "emperor": false
+        },
+        "id": "59243a3f55b54278ac01ce68",
+        "rels":
+        {
+            "children":
+            [
+                "592436f255b54278ac01c18f"
+            ],
+            "father": "5924370355b54278ac01c270",
+            "mother": null
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱宇温",
+            "last name": "朱宇溫",
+            "gender": "M",
+            "avatar": "https://img.allhistory.com/5ff7db64231c390001ca1daf.PNG",
+            "emperor": false
+        },
+        "id": "592436f255b54278ac01c18f",
+        "rels":
+        {
+            "children":
+            [
+                "592436ec55b54278ac01c14a"
+            ],
+            "father": "59243a3f55b54278ac01ce68",
+            "mother": null
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱宙栐",
+            "last name": "明順帝",
+            "gender": "M",
+            "avatar": "https://img.allhistory.com/607bcdfbeacd00235e18b770.jpg",
+            "emperor": true
+        },
+        "id": "592436ec55b54278ac01c14a",
+        "rels":
+        {
+            "children":
+            [
+                "592436ec55b54278ac01c144"
+            ],
+            "father": "592436f255b54278ac01c18f",
+            "mother": "59243e2a55b54278ac01f3f9"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱硕熿",
+            "last name": "端皇帝",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T18mEvB4WT1RCvBVdK.jpeg",
+            "emperor": false
+        },
+        "id": "592436ec55b54278ac01c144",
+        "rels":
+        {
+            "children":
+            [
+                "592436ec55b54278ac01c145"
+            ],
+            "father": "592436ec55b54278ac01c14a",
+            "mother": "59243e2a55b54278ac01f3fa"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱器墭",
+            "last name": "宣皇帝",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T1lVKvBXdT1RCvBVdK.jpeg?ch=204&cw=247&cx=0&cy=0",
+            "emperor": false
+        },
+        "id": "592436ec55b54278ac01c145",
+        "rels":
+        {
+            "children":
+            [
+                "5910614e55b542257a0305f2",
+                "5910614e55b542257a0305f6"
+            ],
+            "father": "592436ec55b54278ac01c144",
+            "mother": "59243e2a55b54278ac01f3fb"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "隆武帝",
+            "last name": "明绍宗",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T1FkVvBXdT1RCvBVdK.jpeg?ch=545&cw=545&cx=0&cy=0",
+            "emperor": true
+        },
+        "id": "5910614e55b542257a0305f6",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "592436ec55b54278ac01c145",
+            "mother": "59243e2a55b54278ac01f3fc"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "绍武帝",
+            "last name": "",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T13SEvB5Dv1RCvBVdK.jpeg?ch=199&cw=199&cx=0&cy=0",
+            "emperor": true
+        },
+        "id": "5910614e55b542257a0305f2",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "592436ec55b54278ac01c145"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱常瀛",
+            "last name": "常瀛",
+            "gender": "M",
+            "avatar": null,
+            "emperor": true
+        },
+        "id": "59104c3255b542257a010f10",
+        "rels":
+        {
+            "children":
+            [
+                "5910614e55b542257a0305f5"
+            ],
+            "father": "59045016977fd57b59a834d3"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "永历帝",
+            "last name": "明昭宗",
+            "gender": "M",
+            "avatar": "https://pic.allhistory.com/T1TNATB5AT1RCvBVdK.jpeg",
+            "emperor": true
+        },
+        "id": "5910614e55b542257a0305f5",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "59104c3255b542257a010f10"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "沐英",
+            "last name": "Mu Ying",
+            "gender": "M",
+            "avatar": "https://img.allhistory.com/5f87c512231c390001cfc0e5.png",
+            "emperor": false
+        },
+        "id": "591ac28f55b5427dfa017741",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "57c3ce8c0bd1beaa7ca0bda6",
+            "mother": null
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱桱",
+            "last name": "朱柽",
+            "gender": "M",
+            "avatar": "https://img.allhistory.com/5fdee6b3bc9c0c0001fddb22.png",
+            "emperor": false
+        },
+        "id": "592430e955b54278ac017664",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "57c3ce8c0bd1beaa7ca0bda6",
+            "mother": "5ad452c90ab73400014bfcb3"
+        }
+    },
+    {
+        "data":
+        {
+            "first name": "朱权",
+            "last name": "臞仙",
+            "gender": "M",
+            "avatar": "https://img.allhistory.com/5f03df31d7f8a70001bea196.jpg",
+            "emperor": true
+        },
+        "id": "582d0a4405c3fb2b44030571",
+        "rels":
+        {
+            "children":
+            [],
+            "father": "57c3ce8c0bd1beaa7ca0bda6",
+            "mother": "5ad451560ab73400014ab82b"
+        }
+    }
+]

@@ -211,9 +211,9 @@ export function CardImage({d, image, card_dim, maleIcon, femaleIcon}) {
 
   // 获取用户名称首字母
   function getInitials(data) {
-    const firstName = data["first name"] ? data["first name"].charAt(0).toUpperCase() : "";
-    const lastName = data["last name"] ? data["last name"] : "";
-    return firstName + lastName;
+    const firstName = data["first name"] ? data["first name"] : "";
+    // const lastName = data["last name"] ? data["last name"] : "";
+    return firstName;
   }
 }
 
