@@ -4,7 +4,13 @@
 这种方式提供了一个统一的入口点来访问模块的所有功能，同时保持了良好的命名空间隔离。
 */
 import f3 from "../../src/index.js";
-import { handlePersonList, handleAddPerson, handleEditPerson, handleSaveSVGAsImage, handleUpdateCardImage } from './personNodeHandler.js';
+import {
+  handlePersonList,
+  handleAddPerson,
+  handleEditPerson,
+  handleSaveSVGAsImage,
+  handleUpdateCardImage,
+} from "./personNodeHandler.js";
 
 // 初始化数据加载
 handlePersonList({}, refresh);
@@ -16,10 +22,10 @@ let main_id, tree, svg;
 function refresh(data) {
   // 创建SVG容器
   svg = f3.createSvg(document.querySelector("#FamilyChart"));
-  
+
   // 从缓存中获取 main_id
   if (!main_id) {
-    main_id = localStorage.getItem('family_chart_main_id');
+    main_id = localStorage.getItem("family_chart_main_id");
   }
 
   if (window.personNodeHandler == null) {
@@ -40,7 +46,7 @@ function onCardClick(e, d) {
   updateMainId(d.data.id);
 
   const props = {
-    tree_position: 'fit',
+    tree_position: "fit",
     transition_time: 1000,
   };
   updateTree(treeData, svg, onCardClick, props);
@@ -49,17 +55,17 @@ function onCardClick(e, d) {
 // 更新主节点ID的函数
 export function updateMainId(_main_id, refreshTree = false) {
   main_id = _main_id;
-  
+
   // 将 main_id 保存到 localStorage 中进行缓存
   if (_main_id) {
-    localStorage.setItem('family_chart_main_id', _main_id);
+    localStorage.setItem("family_chart_main_id", _main_id);
   }
 
   if (refreshTree) {
     // 更新树形图
     const props = {
       initial: false,
-      tree_position: 'main_to_middle',
+      tree_position: "main_to_middle",
       transition_time: 1000,
     };
     updateTree(treeData, svg, onCardClick, props);
@@ -132,35 +138,37 @@ function Card(tree, svg, onCardClick) {
   function addRelative(d) {
     console.log("add relative", d);
     const parent = d.d.data;
-    
+
     const params = {
       currentId: parent.id,
       gender: parent.data.gender === "M" ? "M" : "F",
-      addType: parent.rels.mother && parent.rels.father ? 1 : 0
+      addType: parent.rels.mother && parent.rels.father ? 1 : 0,
     };
-    
+
     handleAddPerson(params, addPersonAction);
-    
+
     function addPersonAction(nData) {
       // 创建新的家庭成员数据
       const rels = {
         spouses: [],
         children: [],
       };
-  
+
       // 获取当前节点的配偶关系
       const spouses = parent.rels.spouses || [];
-      const id =  nData.id ? nData.id : generateUUID();
+      const id = nData.id ? nData.id : generateUUID();
       // 创建新成员并设置属性
-      const person = {id: id, data: nData || {}, rels: rels || {}}
+      const person = { id: id, data: nData || {}, rels: rels || {} };
       // 更新关系数据
-      const currentData = [...new Set([
-        ...tree.data.map(item => item.data),
-        ...tree.data_stash.map(item => item)
-      ])];
-  
+      const currentData = [
+        ...new Set([
+          ...tree.data.map((item) => item.data),
+          ...tree.data_stash.map((item) => item),
+        ]),
+      ];
+
       // 根据添加类型处理关系
-      if (nData.relationType === 'spouse') {
+      if (nData.relationType === "spouse") {
         // 添加配偶
         if (!rels.spouses.includes(parent.id)) {
           rels.spouses = [parent.id];
@@ -169,24 +177,26 @@ function Card(tree, svg, onCardClick) {
         if (!parent.rels.spouses.includes(person.id)) {
           parent.rels.spouses.push(person.id);
         }
-      } else if (nData.relationType === 'child') {
+      } else if (nData.relationType === "child") {
         // 添加子女
         if (parent.data.gender === "M") {
           rels.father = parent.id;
         } else {
           rels.mother = parent.id;
         }
-      } else if (nData.relationType === 'parent') {
+      } else if (nData.relationType === "parent") {
         // 添加父母
         if (nData.gender === "M") {
           rels.children = [parent.id];
           parent.rels.father = person.id;
-          
+
           // 如果已有母亲，建立配偶关系
           if (parent.rels.mother) {
             rels.spouses = [parent.rels.mother];
             // 在母亲节点中也添加配偶关系
-            const mother = currentData.find(item => item.id === parent.rels.mother);
+            const mother = currentData.find(
+              (item) => item.id === parent.rels.mother
+            );
             if (mother) {
               mother.rels = mother.rels || {};
               mother.rels.spouses = mother.rels.spouses || [];
@@ -198,12 +208,14 @@ function Card(tree, svg, onCardClick) {
         } else {
           rels.children = [parent.id];
           parent.rels.mother = person.id;
-          
+
           // 如果已有父亲，建立配偶关系
           if (parent.rels.father) {
             rels.spouses = [parent.rels.father];
             // 在父亲节点中也添加配偶关系
-            const father = currentData.find(item => item.id === parent.rels.father);
+            const father = currentData.find(
+              (item) => item.id === parent.rels.father
+            );
             if (father) {
               father.rels = father.rels || {};
               father.rels.spouses = father.rels.spouses || [];
@@ -214,18 +226,18 @@ function Card(tree, svg, onCardClick) {
           }
         }
       }
-  
+
       person.to_add = false;
       updateMainId(parent.id);
-  
-      if (nData.relationType === 'child') {
+
+      if (nData.relationType === "child") {
         // 更新父母的子女关系
         updateParentChildrenRels(parent, person.id);
       }
-  
+
       // 更新数据并重新渲染
       currentData.push(person);
-      
+
       // 更新数据并重新渲染树形图
       const props = {
         initial: false,
@@ -256,11 +268,11 @@ function Card(tree, svg, onCardClick) {
   function cardEditForm(d) {
     console.log("card cardEditForm", d);
     const person = d.datum;
-    
+
     const params = {
       currentId: person.id,
     };
-    
+
     handleEditPerson(params, (nData) => {
       if (nData["editType"] == "delete") {
         deletePersonAction(nData["personIds"]);
@@ -268,50 +280,56 @@ function Card(tree, svg, onCardClick) {
       }
       editPersonAction(nData);
     });
-    
+
     function deletePersonAction(personIds) {
       if (!personIds || personIds.length === 0) {
         return;
       }
 
       // 获取当前数据
-      const currentData = [...new Set([
-        ...tree.data.map(item => item.data),
-        ...tree.data_stash.map(item => item)
-      ])];
-      
+      const currentData = [
+        ...new Set([
+          ...tree.data.map((item) => item.data),
+          ...tree.data_stash.map((item) => item),
+        ]),
+      ];
+
       // 过滤掉要删除的数据
-      const filteredData = currentData.filter(item => {
+      const filteredData = currentData.filter((item) => {
         // 检查节点ID是否在要删除的列表中
         if (personIds.includes(item.id)) {
           return false;
         }
-        
+
         // 检查并更新关系
         if (item.rels) {
           // 移除子女关系
           if (item.rels.children) {
-            item.rels.children = item.rels.children.filter(childId => !personIds.includes(childId));
+            item.rels.children = item.rels.children.filter(
+              (childId) => !personIds.includes(childId)
+            );
           }
-          
+
           // 移除配偶关系
           if (item.rels.spouses) {
-            item.rels.spouses = item.rels.spouses.filter(spouseId => !personIds.includes(spouseId));
+            item.rels.spouses = item.rels.spouses.filter(
+              (spouseId) => !personIds.includes(spouseId)
+            );
           }
-          
+
           // 移除父母关系
           if (item.rels.father && personIds.includes(item.rels.father)) {
             delete item.rels.father;
           }
-          
+
           if (item.rels.mother && personIds.includes(item.rels.mother)) {
             delete item.rels.mother;
           }
         }
-        
+
         return true;
       });
-      
+
       // 更新数据并重新渲染树形图
       const props = {
         initial: false,
@@ -319,14 +337,16 @@ function Card(tree, svg, onCardClick) {
         transition_time: 1000,
       };
       updateTree(filteredData, svg, onCardClick, props);
-}
+    }
 
     function editPersonAction(nData) {
       // 获取当前数据并创建新的数据数组
-      const currentData = [...new Set([
-        ...tree.data.map(item => item.data),
-        ...tree.data_stash.map(item => item)
-      ])];
+      const currentData = [
+        ...new Set([
+          ...tree.data.map((item) => item.data),
+          ...tree.data_stash.map((item) => item),
+        ]),
+      ];
 
       // 找到要更新的节点
       const nodeToUpdate = currentData.find((node) => node.id === person.id);
@@ -341,7 +361,7 @@ function Card(tree, svg, onCardClick) {
         "first name": nData["first name"],
         "last name": nData["last name"],
         birthday: nData.birthday,
-        avatar: nData.avatar
+        avatar: nData.avatar,
       };
       nodeToUpdate.to_add = false;
 
@@ -353,7 +373,7 @@ function Card(tree, svg, onCardClick) {
       };
       updateTree(currentData, svg, onCardClick, props);
     }
-}
+  }
 
   // 卡片更新处理函数
   function onCardUpdate(d) {
@@ -387,7 +407,7 @@ function Card(tree, svg, onCardClick) {
     const card_main_outline = d3.select(this).select(".card-main-outline");
     card_main_outline.style("stroke", "#fff");
     card_main_outline.style("stroke-width", "16px");
-          
+
     const card_image = d3.select(this).select(".card_image");
     card_image.on("click", function (event, d) {
       console.log("card image clicked", d);
@@ -399,13 +419,12 @@ function Card(tree, svg, onCardClick) {
         const imageData = JSON.parse(result);
         if (imageData.imageData) {
           // 更新图片源
-          card_image.select('image')
-          .attr('href', imageData.imageData);
+          card_image.select("image").attr("href", imageData.imageData);
         }
       } catch (error) {
-        console.error('处理图片数据失败:', error);
+        console.error("处理图片数据失败:", error);
       }
-    })
+    });
   }
 }
 
@@ -414,46 +433,50 @@ function Card(tree, svg, onCardClick) {
  */
 function createSaveButton() {
   // 如果已存在保存按钮，先移除
-  const existingButton = document.querySelector('#saveChartButton');
+  const existingButton = document.querySelector("#saveChartButton");
   if (existingButton) {
     existingButton.remove();
   }
 
-  const saveButton = document.createElement('button');
-  saveButton.id = 'saveChartButton';
-  saveButton.textContent = window.personNodeHandler ? '保存家谱图' : '下载家谱图';
-  
+  const saveButton = document.createElement("button");
+  saveButton.id = "saveChartButton";
+  saveButton.textContent = window.personNodeHandler
+    ? "保存家谱图"
+    : "下载家谱图";
+
   // 设置按钮样式
   Object.assign(saveButton.style, {
-    position: 'fixed',
-    top: '20px',
-    right: '20px',
-    padding: '8px 16px',
-    backgroundColor: '#4CAF50',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer'
+    position: "fixed",
+    top: "20px",
+    right: "20px",
+    padding: "8px 16px",
+    backgroundColor: "#4CAF50",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
   });
-  
+
   // 添加悬停效果
-  saveButton.addEventListener('mouseover', () => {
-    saveButton.style.backgroundColor = '#45a049';
+  saveButton.addEventListener("mouseover", () => {
+    saveButton.style.backgroundColor = "#45a049";
   });
-  
-  saveButton.addEventListener('mouseout', () => {
-    saveButton.style.backgroundColor = '#4CAF50';
+
+  saveButton.addEventListener("mouseout", () => {
+    saveButton.style.backgroundColor = "#4CAF50";
   });
-  
-  saveButton.addEventListener('click', () => {
+
+  saveButton.addEventListener("click", () => {
     handleSaveSVGAsImage((result) => {
       if (result.success) {
-        alert(window.personNodeHandler ? '家谱图保存成功！' : '家谱图下载成功！');
+        alert(
+          window.personNodeHandler ? "家谱图保存成功！" : "家谱图下载成功！"
+        );
       } else {
-        alert('保存失败：' + result.message);
+        alert("保存失败：" + result.message);
       }
-    }, 'svg');
+    }, "svg");
   });
-  
+
   document.body.appendChild(saveButton);
 }
