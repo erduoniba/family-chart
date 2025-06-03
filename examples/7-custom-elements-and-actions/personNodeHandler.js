@@ -515,4 +515,5 @@ function personSelect(params) {
 
 function changeRelatreeMode(isSimpleTree) {
   console.log("切换关系树模式", isSimpleTree);
+  updateMainId(null, true, isSimpleTree);
 }

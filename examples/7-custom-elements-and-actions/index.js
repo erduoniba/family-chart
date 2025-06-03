@@ -17,7 +17,7 @@ handlePersonList({}, refresh);
 
 // 定义全局变量
 export let treeData;
-let main_id, tree, svg;
+let main_id, tree, svg, isSimpleTree;
 
 function refresh(data) {
   // 创建SVG容器
@@ -28,6 +28,10 @@ function refresh(data) {
     main_id = localStorage.getItem("family_chart_main_id");
   }
 
+  if (isSimpleTree == null) {
+    isSimpleTree = localStorage.getItem("family_chart_isSimpleTree") == 1 ? true : false;
+  }
+
   if (window.personNodeHandler == null) {
     // 添加保存按钮
     createSaveButton();
@@ -36,6 +40,7 @@ function refresh(data) {
   // 初始化树形图
   const props = {
     initial: true,
+    tree_position: "fit",
     transition_time: 0,
   };
   updateTree(data, svg, onCardClick, props);
@@ -53,12 +58,15 @@ function onCardClick(e, d) {
 }
 
 // 更新主节点ID的函数
-export function updateMainId(_main_id, refreshTree = false) {
-  main_id = _main_id;
-
-  // 将 main_id 保存到 localStorage 中进行缓存
-  if (_main_id) {
+export function updateMainId(_main_id, refreshTree = false, _isSimpleTree = null) {
+  if (_main_id != null) {
+    // 将 main_id 保存到 localStorage 中进行缓存
+    main_id = _main_id;
     localStorage.setItem("family_chart_main_id", _main_id);
+  }
+  if (_isSimpleTree != null) {
+    isSimpleTree = _isSimpleTree;
+    localStorage.setItem("family_chart_isSimpleTree", isSimpleTree ? 1 : 0);
   }
 
   if (refreshTree) {
@@ -79,8 +87,8 @@ function updateTree(data, svg, onCardClick, props) {
     data: treeData,
     main_id,
     single_parent_empty_card: false,
-    node_separation: 140, // 水平间距
-    level_separation: 200, // 垂直间距
+    node_separation: isSimpleTree ? 70 : 140, // 水平间距
+    level_separation: isSimpleTree ? 55 : 200, // 垂直间距
   });
   // 渲染树形图，使用自定义的Card组件
   f3.view(tree, svg, Card(tree, svg, onCardClick), props || {});
@@ -90,14 +98,15 @@ function updateTree(data, svg, onCardClick, props) {
 function Card(tree, svg, onCardClick) {
   // 定义卡片尺寸和布局参数
   const card_dim = {
-    w: 110,
-    h: 170,
+    w: isSimpleTree ? 60 : 110,
+    h: isSimpleTree ? 40 : 170,
     text_x: 0,
-    text_y: 115,
-    img_w: 100,
-    img_h: 100,
+    text_y: isSimpleTree ? 10: 115,
+    img_w: isSimpleTree ? 60 : 100,
+    img_h: isSimpleTree ? 0 : 100,
     img_x: 5,
     img_y: 5,
+    isSimpleTree: isSimpleTree
   };
 
   // Card 函数返回另一个函数，这个内部函数接收一个参数 d，可能代表节点数据。
@@ -112,19 +121,19 @@ function Card(tree, svg, onCardClick) {
 
         onCardClick,
         // 启用图片显示
-        img: true,
+        img: !isSimpleTree,
         // 启用迷你树形图
-        mini_tree: true,
+        mini_tree: !isSimpleTree,
         onMiniTreeClick: onCardClick,
 
         // 启用卡片编辑表单
-        cardEditForm: true,
+        cardEditForm: !isSimpleTree,
 
         // 接收点击编辑的事件回调
-        cardEditForm: cardEditForm,
+        cardEditForm: isSimpleTree ? null : cardEditForm,
 
         // 接收点击添加的事件回调
-        addRelative: addRelative,
+        addRelative: isSimpleTree ? null : addRelative,
 
         onCardUpdate,
       })
@@ -377,11 +386,12 @@ function Card(tree, svg, onCardClick) {
 
   // 卡片更新处理函数
   function onCardUpdate(d) {
-    const rxy = "10px";
+    const rxy = isSimpleTree ? "5px" :"10px";
 
     const card_outline = d3.select(this).select(".card-outline");
     card_outline.attr("rx", rxy);
     card_outline.attr("ry", rxy);
+    card_outline.style("stroke-width", isSimpleTree ? "3px" : "8px");
 
     const card_body_rect = d3
       .select(this)
@@ -396,17 +406,15 @@ function Card(tree, svg, onCardClick) {
     text_overflow_mask.attr("ry", rxy);
     text_overflow_mask.attr("width", card_dim.w);
 
-    // const text = d3.select(this).select(".card-inner .card-text");
-    // text.attr("text-anchor", "middle");
-    // text.attr("font-size", "14px");
-    // text.attr("font-weight", "bold");
-    // const tspan = text.select("tspan");
-    // tspan.attr("x", (card_dim.w - card_dim.text_x) / 2);
+    const text = d3.select(this).select(".card-inner .card-text");
+    const tspan = text.selectAll("tspan");
+    tspan.attr("font-size", isSimpleTree? "10px" : "14px");
+
 
     // 卡片的边框视图
     const card_main_outline = d3.select(this).select(".card-main-outline");
     card_main_outline.style("stroke", "#fff");
-    card_main_outline.style("stroke-width", "16px");
+    card_main_outline.style("stroke-width", isSimpleTree ? "6px" : "16px");
 
     const card_image = d3.select(this).select(".card_image");
     card_image.on("click", function (event, d) {

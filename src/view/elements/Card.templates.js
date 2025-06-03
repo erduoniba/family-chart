@@ -22,7 +22,7 @@ export function CardText({d,card_dim,card_display}) {
       if (!text) return [];
       
       // 根据卡片宽度计算每行最大字符数
-      const maxWidth = card_dim.w - 10; // 留出边距
+      const maxWidth = card_dim.w + (card_dim.isSimpleTree ? 30 : -10); // 留出边距
       const avgCharWidth = 8; // 平均字符宽度，根据字体大小调整
       let maxCharsPerLine = Math.floor(maxWidth / avgCharWidth);
 
@@ -70,12 +70,13 @@ export function CardText({d,card_dim,card_display}) {
         return splitText(content);
       }).flat();
       
-      let dy = 18;
+      let dy = card_dim.isSimpleTree ? 13 : 18;
       if (textLines.length > 1) {
-        dy = 10;
+        dy = card_dim.isSimpleTree ? 6 : 10;
       }
+      let offsetx = card_dim.isSimpleTree ? 0 : 3;
       displayContent = textLines.map((line, i) => 
-        `<tspan x="${card_dim.img_w/2+3}" dy="${i === 0 ? dy : lineHeight}px">${line}</tspan>`
+        `<tspan x="${card_dim.img_w/2 + offsetx}" dy="${i === 0 ? dy : lineHeight}px">${line}</tspan>`
       ).join('');
     } else {
       // 处理单个文本内容
@@ -83,7 +84,7 @@ export function CardText({d,card_dim,card_display}) {
       const textLines = splitText(content);
       
       displayContent = textLines.map((line, i) => 
-        `<tspan x="${card_dim.img_w/2}" dy="${i === 0 ? dy : lineHeight}px">${line}</tspan>`
+        `<tspan x="${card_dim.img_w/2 + offsetx}" dy="${i === 0 ? dy : lineHeight}px">${line}</tspan>`
       ).join('');
     }
     
@@ -91,7 +92,7 @@ export function CardText({d,card_dim,card_display}) {
     <g>
       <g class="card-text" clip-path="url(#card_text_clip)">
         <g transform="translate(${card_dim.text_x}, ${card_dim.text_y})">
-          <text x="${card_dim.img_w/2}"  fill="#ffffff" font-size="14px" text-anchor="middle" dominant-baseline="middle">
+          <text x="${card_dim.img_w/2}" fill="#ffffff" font-size="14px" text-anchor="middle" dominant-baseline="middle">
             ${displayContent}
           </text>
         </g>
