@@ -91,7 +91,7 @@ function Card(tree, svg, onCardClick) {
   // 定义卡片尺寸和布局参数
   const card_dim = {
     w: 110,
-    h: 160,
+    h: 170,
     text_x: 0,
     text_y: 115,
     img_w: 100,

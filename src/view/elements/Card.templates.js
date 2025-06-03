@@ -15,18 +15,83 @@ export function CardBody({d,card_dim,card_display}) {
 
 // 隐藏文字颜色的背景
 export function CardText({d,card_dim,card_display}) {
-  return {template: (`
+  // 使用IIFE来封装辅助函数和逻辑
+  const template = (() => {
+    // 文本分割辅助函数，参考generateNameAvatar的实现
+    const splitText = (text) => {
+      if (!text) return [];
+      
+      // 根据卡片宽度计算每行最大字符数
+      const maxWidth = card_dim.w - 10; // 留出边距
+      const avgCharWidth = 8; // 平均字符宽度，根据字体大小调整
+      const maxCharsPerLine = Math.floor(maxWidth / avgCharWidth);
+      
+      const maxLines = 2; // 最多显示两行
+      const lines = [];
+      let remainingText = String(text);
+      
+      for (let i = 0; i < maxLines; i++) {
+        if (!remainingText) break;
+        
+        let line = remainingText.substring(0, maxCharsPerLine);
+        
+        // 最后一行添加省略号
+        if (i === maxLines - 1 && remainingText.length > maxCharsPerLine) {
+          line = line.substring(0, maxCharsPerLine - 3) + '...';
+        }
+        
+        lines.push(line);
+        remainingText = remainingText.substring(line.length);
+        
+        // 如果没有更多文本，退出循环
+        if (!remainingText) break;
+      }
+      
+      return lines;
+    };
+    
+    // 处理显示内容
+    let displayContent = '';
+    const lineHeight = 16; // 行高
+    
+    if (Array.isArray(card_display)) {
+      // 处理数组类型的显示内容
+      const textLines = card_display.map(cd => {
+        const content = cd(d.data);
+        return splitText(content);
+      }).flat();
+      
+      let dy = 12;
+      if (textLines.length > 1) {
+        dy = 6;
+      }
+      displayContent = textLines.map((line, i) => 
+        `<tspan x="${card_dim.img_w/2+3}" dy="${i === 0 ? dy : lineHeight}px">${line}</tspan>`
+      ).join('');
+    } else {
+      // 处理单个文本内容
+      const content = card_display(d.data);
+      const textLines = splitText(content);
+      
+      displayContent = textLines.map((line, i) => 
+        `<tspan x="${card_dim.img_w/2}" dy="${i === 0 ? 0 : lineHeight}px">${line}</tspan>`
+      ).join('');
+    }
+    
+    return `
     <g>
       <g class="card-text" clip-path="url(#card_text_clip)">
         <g transform="translate(${card_dim.text_x}, ${card_dim.text_y})">
-          <text fill="#ffffff" font-size="14px">
-            ${Array.isArray(card_display) ? card_display.map(cd => `<tspan x="${0}" dy="${14}">${cd(d.data)}</tspan>`).join('\n') : card_display(d.data)}
+          <text x="${card_dim.img_w/2}"  fill="#ffffff" font-size="14px" text-anchor="middle" dominant-baseline="middle">
+            ${displayContent}
           </text>
         </g>
       </g>
     </g>
-  `)
-  }
+    `;
+  })();
+  
+  return {template};
 }
 
 // export function CardText({d,card_dim,card_display}) {
