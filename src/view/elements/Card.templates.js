@@ -24,7 +24,16 @@ export function CardText({d,card_dim,card_display}) {
       // 根据卡片宽度计算每行最大字符数
       const maxWidth = card_dim.w - 10; // 留出边距
       const avgCharWidth = 8; // 平均字符宽度，根据字体大小调整
-      const maxCharsPerLine = Math.floor(maxWidth / avgCharWidth);
+      let maxCharsPerLine = Math.floor(maxWidth / avgCharWidth);
+
+      // 检测文本是否包含CJK字符（中文、日文、韩文等）
+      const hasCJK = /[\u4E00-\u9FFF\u3040-\u30FF\u3130-\u318F\uAC00-\uD7AF]/.test(text);
+        // CJK字符宽度通常是拉丁字符的两倍，因此需要减少每行字符数
+      if (hasCJK) {
+        maxCharsPerLine = Math.floor(maxWidth / 14); // 假设CJK字符宽度约24px
+      } else {
+        maxCharsPerLine = Math.floor(maxWidth / 7); // 假设拉丁字符宽度约12px
+      }
       
       const maxLines = 2; // 最多显示两行
       const lines = [];
@@ -61,9 +70,9 @@ export function CardText({d,card_dim,card_display}) {
         return splitText(content);
       }).flat();
       
-      let dy = 12;
+      let dy = 18;
       if (textLines.length > 1) {
-        dy = 6;
+        dy = 10;
       }
       displayContent = textLines.map((line, i) => 
         `<tspan x="${card_dim.img_w/2+3}" dy="${i === 0 ? dy : lineHeight}px">${line}</tspan>`
@@ -74,7 +83,7 @@ export function CardText({d,card_dim,card_display}) {
       const textLines = splitText(content);
       
       displayContent = textLines.map((line, i) => 
-        `<tspan x="${card_dim.img_w/2}" dy="${i === 0 ? 0 : lineHeight}px">${line}</tspan>`
+        `<tspan x="${card_dim.img_w/2}" dy="${i === 0 ? dy : lineHeight}px">${line}</tspan>`
       ).join('');
     }
     
@@ -260,10 +269,25 @@ export function CardImage({d, image, card_dim, maleIcon, femaleIcon}) {
   function generateNameAvatar(d, card_dim) {
     const bgColor = "rgba(255, 192, 203, 0.0)";
     const fullText = getInitials(d.data.data);
-    const maxLines = 3;
-    const maxCharsPerLine = 7; // 根据实际字体大小调整
+    const maxLines = 3; // 修改为两行
+    
+    // 根据文本特性动态计算每行字符数
+    let maxCharsPerLine;
+    
+    // 检测文本是否包含CJK字符（中文、日文、韩文等）
+    const hasCJK = /[\u4E00-\u9FFF\u3040-\u30FF\u3130-\u318F\uAC00-\uD7AF]/.test(fullText);
+    
+    // CJK字符宽度通常是拉丁字符的两倍，因此需要减少每行字符数
+    if (hasCJK) {
+      maxCharsPerLine = Math.floor(card_dim.img_w / 20); // 假设CJK字符宽度约24px
+    } else {
+      maxCharsPerLine = Math.floor(card_dim.img_w / 10); // 假设拉丁字符宽度约12px
+    }
+    
+    // 确保至少有最小字符数
+    maxCharsPerLine = Math.max(maxCharsPerLine, 3);
   
-    // 智能分割文本（最多3行）
+    // 智能分割文本
     const lines = [];
     let remainingText = fullText;
     
@@ -274,11 +298,16 @@ export function CardImage({d, image, card_dim, maleIcon, femaleIcon}) {
       
       // 最后一行添加省略号
       if (i === maxLines - 1 && remainingText.length > maxCharsPerLine) {
-        line = line.substring(0, maxCharsPerLine - 3) + '...';
+        // 对于CJK字符，省略号占用更少的空间
+        const ellipsisLength = hasCJK ? 1 : 3;
+        line = line.substring(0, maxCharsPerLine - ellipsisLength) + (hasCJK ? '…' : '...');
       }
       
       lines.push(line);
       remainingText = remainingText.substring(line.length);
+      
+      // 如果已经处理完所有文本，跳出循环
+      if (!remainingText) break;
     }
   
     // 生成SVG
@@ -292,7 +321,7 @@ export function CardImage({d, image, card_dim, maleIcon, femaleIcon}) {
             text-anchor="middle" 
             dominant-baseline="middle" 
             fill="#ffffff"
-            font-size="24px">
+            font-size="20px">
         ${lines.map((line, i) => 
           `<tspan x="${card_dim.img_w/2}" dy="${i === 0 ? 0 : '1.2em'}">${line}</tspan>`
         ).join('')}
