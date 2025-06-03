@@ -20,7 +20,32 @@ export function CardText({d,card_dim,card_display}) {
       <g class="card-text" clip-path="url(#card_text_clip)">
         <g transform="translate(${card_dim.text_x}, ${card_dim.text_y})">
           <text fill="#ffffff">
-            ${Array.isArray(card_display) ? card_display.map(cd => `<tspan x="${0}" dy="${14}">${cd(d.data)}</tspan>`).join('\n') : card_display(d.data)}
+            ${(() => {
+              if (Array.isArray(card_display)) {
+                return card_display.map(cd => `<tspan x="${0}" dy="${14}">${cd(d.data)}</tspan>`).join('\n');
+              } else {
+                // 获取文本内容
+                const content = card_display(d.data);
+                // 估算每行能容纳的字符数
+                const maxCharsPerLine = Math.floor((card_dim.w - card_dim.text_x) / 8);
+                
+                if (content.length <= maxCharsPerLine) {
+                  // 文本长度不超过一行，直接返回
+                  return `<tspan x="${0}" dy="${14}">${content}</tspan>`;
+                } else {
+                  // 将文本分为两行
+                  const firstLine = content.substring(0, maxCharsPerLine);
+                  let secondLine = content.substring(maxCharsPerLine);
+                  
+                  // 如果第二行文本过长，添加省略号
+                  if (secondLine.length > maxCharsPerLine) {
+                    secondLine = secondLine.substring(0, maxCharsPerLine - 1) + '…';
+                  }
+                  
+                  return `<tspan x="${0}" dy="${14}">${firstLine}</tspan>\n<tspan x="${0}" dy="${14}">${secondLine}</tspan>`;
+                }
+              }
+            })()}
           </text>
         </g>
       </g>
@@ -193,21 +218,48 @@ export function CardImage({d, image, card_dim, maleIcon, femaleIcon}) {
 
   // 生成用户名称头像
   function generateNameAvatar(d, card_dim) {
-    const gender = d.data.data.gender;
-    const bgColor = "rgba(255, 192, 203, 0.0)"
+    const bgColor = "rgba(255, 192, 203, 0.0)";
+    const fullText = getInitials(d.data.data);
+    const maxLines = 3;
+    const maxCharsPerLine = 7; // 根据实际字体大小调整
+  
+    // 智能分割文本（最多3行）
+    const lines = [];
+    let remainingText = fullText;
     
+    for (let i = 0; i < maxLines; i++) {
+      if (!remainingText) break;
+      
+      let line = remainingText.substring(0, maxCharsPerLine);
+      
+      // 最后一行添加省略号
+      if (i === maxLines - 1 && remainingText.length > maxCharsPerLine) {
+        line = line.substring(0, maxCharsPerLine - 3) + '...';
+      }
+      
+      lines.push(line);
+      remainingText = remainingText.substring(line.length);
+    }
+  
+    // 生成SVG
     return `<g class="name-avatar">
-      <rect rx="10" ry="10" height="${card_dim.img_h}" width="${card_dim.img_w}" 
-            fill="${bgColor}" style="stroke: #ffffff; stroke-width: 2px;" />
-      <text x="${card_dim.img_w/2}" y="${card_dim.img_h/2}" 
+      <rect rx="10" ry="10" 
+            height="${card_dim.img_h}" width="${card_dim.img_w}" 
+            fill="${bgColor}" 
+            style="stroke: #ffffff; stroke-width: 2px;" />
+      <text x="${card_dim.img_w/2}" 
+            y="${card_dim.img_h/2 - (lines.length > 1 ? 20 : 0)}" 
             text-anchor="middle" 
             dominant-baseline="middle" 
             fill="#ffffff"
             font-size="24px">
-        ${getInitials(d.data.data)}
+        ${lines.map((line, i) => 
+          `<tspan x="${card_dim.img_w/2}" dy="${i === 0 ? 0 : '1.2em'}">${line}</tspan>`
+        ).join('')}
       </text>
-    </g>`
+    </g>`;
   }
+  
 
   // 获取用户名称首字母
   function getInitials(data) {

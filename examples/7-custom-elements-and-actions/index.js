@@ -396,12 +396,12 @@ function Card(tree, svg, onCardClick) {
     text_overflow_mask.attr("ry", rxy);
     text_overflow_mask.attr("width", card_dim.w);
 
-    const text = d3.select(this).select(".card-inner .card-text");
-    text.attr("text-anchor", "middle");
-    text.attr("font-size", "14px");
-    text.attr("font-weight", "bold");
-    const tspan = text.select("tspan");
-    tspan.attr("x", (card_dim.w - card_dim.text_x) / 2);
+    // const text = d3.select(this).select(".card-inner .card-text");
+    // text.attr("text-anchor", "middle");
+    // text.attr("font-size", "14px");
+    // text.attr("font-weight", "bold");
+    // const tspan = text.select("tspan");
+    // tspan.attr("x", (card_dim.w - card_dim.text_x) / 2);
 
     // 卡片的边框视图
     const card_main_outline = d3.select(this).select(".card-main-outline");
