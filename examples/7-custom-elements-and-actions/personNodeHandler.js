@@ -7,6 +7,7 @@ import f3 from "../../src/index.js";
 window.handleSaveSVGAsImage = handleSaveSVGAsImage;
 window.handleTreNodes = handleTreNodes;
 window.personSelect = personSelect;
+window.changeRelatreeMode = changeRelatreeMode;
 
 // 通用回调处理函数
 function createCallback(callbackName, callback) {
@@ -510,4 +511,8 @@ function handleTreNodes(params) {
 function personSelect(params) {
   let main_id = params.mainId;
   updateMainId(main_id, true);
+}
+
+function changeRelatreeMode(isSimpleTree) {
+  console.log("切换关系树模式", isSimpleTree);
 }
