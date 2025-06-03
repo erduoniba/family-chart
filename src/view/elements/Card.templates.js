@@ -19,33 +19,8 @@ export function CardText({d,card_dim,card_display}) {
     <g>
       <g class="card-text" clip-path="url(#card_text_clip)">
         <g transform="translate(${card_dim.text_x}, ${card_dim.text_y})">
-          <text fill="#ffffff">
-            ${(() => {
-              if (Array.isArray(card_display)) {
-                return card_display.map(cd => `<tspan x="${0}" dy="${14}">${cd(d.data)}</tspan>`).join('\n');
-              } else {
-                // 获取文本内容
-                const content = card_display(d.data);
-                // 估算每行能容纳的字符数
-                const maxCharsPerLine = Math.floor((card_dim.w - card_dim.text_x) / 8);
-                
-                if (content.length <= maxCharsPerLine) {
-                  // 文本长度不超过一行，直接返回
-                  return `<tspan x="${0}" dy="${14}">${content}</tspan>`;
-                } else {
-                  // 将文本分为两行
-                  const firstLine = content.substring(0, maxCharsPerLine);
-                  let secondLine = content.substring(maxCharsPerLine);
-                  
-                  // 如果第二行文本过长，添加省略号
-                  if (secondLine.length > maxCharsPerLine) {
-                    secondLine = secondLine.substring(0, maxCharsPerLine - 1) + '…';
-                  }
-                  
-                  return `<tspan x="${0}" dy="${14}">${firstLine}</tspan>\n<tspan x="${0}" dy="${14}">${secondLine}</tspan>`;
-                }
-              }
-            })()}
+          <text fill="#ffffff" font-size="14px">
+            ${Array.isArray(card_display) ? card_display.map(cd => `<tspan x="${0}" dy="${14}">${cd(d.data)}</tspan>`).join('\n') : card_display(d.data)}
           </text>
         </g>
       </g>
