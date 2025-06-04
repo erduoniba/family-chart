@@ -15,18 +15,93 @@ export function CardBody({d,card_dim,card_display}) {
 
 // 隐藏文字颜色的背景
 export function CardText({d,card_dim,card_display}) {
-  return {template: (`
+  // 使用IIFE来封装辅助函数和逻辑
+  const template = (() => {
+    // 文本分割辅助函数，参考generateNameAvatar的实现
+    const splitText = (text) => {
+      if (!text) return [];
+      
+      // 根据卡片宽度计算每行最大字符数
+      const maxWidth = card_dim.w + (card_dim.isSimpleTree ? 30 : -10); // 留出边距
+      const avgCharWidth = 8; // 平均字符宽度，根据字体大小调整
+      let maxCharsPerLine = Math.floor(maxWidth / avgCharWidth);
+
+      // 检测文本是否包含CJK字符（中文、日文、韩文等）
+      const hasCJK = /[\u4E00-\u9FFF\u3040-\u30FF\u3130-\u318F\uAC00-\uD7AF]/.test(text);
+        // CJK字符宽度通常是拉丁字符的两倍，因此需要减少每行字符数
+      if (hasCJK) {
+        maxCharsPerLine = Math.floor(maxWidth / 14); // 假设CJK字符宽度约24px
+      } else {
+        maxCharsPerLine = Math.floor(maxWidth / 7); // 假设拉丁字符宽度约12px
+      }
+      
+      const maxLines = 2; // 最多显示两行
+      const lines = [];
+      let remainingText = String(text);
+      
+      for (let i = 0; i < maxLines; i++) {
+        if (!remainingText) break;
+        
+        let line = remainingText.substring(0, maxCharsPerLine);
+        
+        // 最后一行添加省略号
+        if (i === maxLines - 1 && remainingText.length > maxCharsPerLine) {
+          line = line.substring(0, maxCharsPerLine - 3) + '...';
+        }
+        
+        lines.push(line);
+        remainingText = remainingText.substring(line.length);
+        
+        // 如果没有更多文本，退出循环
+        if (!remainingText) break;
+      }
+      
+      return lines;
+    };
+    
+    // 处理显示内容
+    let displayContent = '';
+    const lineHeight = 16; // 行高
+    
+    if (Array.isArray(card_display)) {
+      // 处理数组类型的显示内容
+      const textLines = card_display.map(cd => {
+        const content = cd(d.data);
+        return splitText(content);
+      }).flat();
+      
+      let dy = card_dim.isSimpleTree ? 13 : 18;
+      if (textLines.length > 1) {
+        dy = card_dim.isSimpleTree ? 6 : 10;
+      }
+      let offsetx = card_dim.isSimpleTree ? 0 : 3;
+      displayContent = textLines.map((line, i) => {
+        return `<tspan x="${card_dim.img_w/2 + offsetx}" dy="${i === 0 ? dy : lineHeight}px">${line}</tspan>`
+      }).join('');
+    } else {
+      // 处理单个文本内容
+      const content = card_display(d.data);
+      const textLines = splitText(content);
+      
+      displayContent = textLines.map((line, i) => 
+        `<tspan x="${card_dim.img_w/2 + offsetx}" dy="${i === 0 ? dy : lineHeight}px">${line}</tspan>`
+      ).join('');
+    }
+    
+    return `
     <g>
-      <g class="card-text" clip-path="url(#card_text_clip)">
+      <g class="card-text">
         <g transform="translate(${card_dim.text_x}, ${card_dim.text_y})">
-          <text fill="#ffffff">
-            ${Array.isArray(card_display) ? card_display.map(cd => `<tspan x="${0}" dy="${14}">${cd(d.data)}</tspan>`).join('\n') : card_display(d.data)}
+          <text x="${card_dim.img_w/2}" fill="#ffffff" font-size="14px" text-anchor="middle" dominant-baseline="middle">
+            ${displayContent}
           </text>
         </g>
       </g>
     </g>
-  `)
-  }
+    `;
+  })();
+  
+  return {template};
 }
 
 // export function CardText({d,card_dim,card_display}) {
@@ -193,21 +268,68 @@ export function CardImage({d, image, card_dim, maleIcon, femaleIcon}) {
 
   // 生成用户名称头像
   function generateNameAvatar(d, card_dim) {
-    const gender = d.data.data.gender;
-    const bgColor = "rgba(255, 192, 203, 0.0)"
+    const bgColor = "rgba(255, 192, 203, 0.0)";
+    const fullText = getInitials(d.data.data);
+    const maxLines = 3; // 修改为两行
     
+    // 根据文本特性动态计算每行字符数
+    let maxCharsPerLine;
+    
+    // 检测文本是否包含CJK字符（中文、日文、韩文等）
+    const hasCJK = /[\u4E00-\u9FFF\u3040-\u30FF\u3130-\u318F\uAC00-\uD7AF]/.test(fullText);
+    
+    // CJK字符宽度通常是拉丁字符的两倍，因此需要减少每行字符数
+    if (hasCJK) {
+      maxCharsPerLine = Math.floor(card_dim.img_w / 20); // 假设CJK字符宽度约24px
+    } else {
+      maxCharsPerLine = Math.floor(card_dim.img_w / 10); // 假设拉丁字符宽度约12px
+    }
+    
+    // 确保至少有最小字符数
+    maxCharsPerLine = Math.max(maxCharsPerLine, 3);
+  
+    // 智能分割文本
+    const lines = [];
+    let remainingText = fullText;
+    
+    for (let i = 0; i < maxLines; i++) {
+      if (!remainingText) break;
+      
+      let line = remainingText.substring(0, maxCharsPerLine);
+      
+      // 最后一行添加省略号
+      if (i === maxLines - 1 && remainingText.length > maxCharsPerLine) {
+        // 对于CJK字符，省略号占用更少的空间
+        const ellipsisLength = hasCJK ? 1 : 3;
+        line = line.substring(0, maxCharsPerLine - ellipsisLength) + (hasCJK ? '…' : '...');
+      }
+      
+      lines.push(line);
+      remainingText = remainingText.substring(line.length);
+      
+      // 如果已经处理完所有文本，跳出循环
+      if (!remainingText) break;
+    }
+  
+    // 生成SVG
     return `<g class="name-avatar">
-      <rect rx="10" ry="10" height="${card_dim.img_h}" width="${card_dim.img_w}" 
-            fill="${bgColor}" style="stroke: #ffffff; stroke-width: 2px;" />
-      <text x="${card_dim.img_w/2}" y="${card_dim.img_h/2}" 
+      <rect rx="10" ry="10" 
+            height="${card_dim.img_h}" width="${card_dim.img_w}" 
+            fill="${bgColor}" 
+            style="stroke: #ffffff; stroke-width: 2px;" />
+      <text x="${card_dim.img_w/2}" 
+            y="${card_dim.img_h/2 - (lines.length > 1 ? 20 : 0)}" 
             text-anchor="middle" 
             dominant-baseline="middle" 
             fill="#ffffff"
-            font-size="24px">
-        ${getInitials(d.data.data)}
+            font-size="20px">
+        ${lines.map((line, i) => 
+          `<tspan x="${card_dim.img_w/2}" dy="${i === 0 ? 0 : '1.2em'}">${line}</tspan>`
+        ).join('')}
       </text>
-    </g>`
+    </g>`;
   }
+  
 
   // 获取用户名称首字母
   function getInitials(data) {

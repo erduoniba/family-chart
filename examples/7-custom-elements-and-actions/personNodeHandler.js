@@ -7,6 +7,7 @@ import f3 from "../../src/index.js";
 window.handleSaveSVGAsImage = handleSaveSVGAsImage;
 window.handleTreNodes = handleTreNodes;
 window.personSelect = personSelect;
+window.changeRelatreeMode = changeRelatreeMode;
 
 // 通用回调处理函数
 function createCallback(callbackName, callback) {
@@ -23,7 +24,7 @@ export function handlePersonList(params, callback) {
     personNodeHandler.personList(params, "personNodeHandlerCallback");
   } else {
     // 本地测试模式，从 JSON 文件加载数据
-    fetch("./demo/daming/daming.json")
+    fetch("./data.json")
       .then((r) => r.json())
       .then(callback);
   }
@@ -510,4 +511,9 @@ function handleTreNodes(params) {
 function personSelect(params) {
   let main_id = params.mainId;
   updateMainId(main_id, true);
+}
+
+function changeRelatreeMode(isSimpleTree) {
+  console.log("切换关系树模式", isSimpleTree);
+  updateMainId(null, true, isSimpleTree);
 }
