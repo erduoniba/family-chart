@@ -75,9 +75,9 @@ export function CardText({d,card_dim,card_display}) {
         dy = card_dim.isSimpleTree ? 6 : 10;
       }
       let offsetx = card_dim.isSimpleTree ? 0 : 3;
-      displayContent = textLines.map((line, i) => 
-        `<tspan x="${card_dim.img_w/2 + offsetx}" dy="${i === 0 ? dy : lineHeight}px">${line}</tspan>`
-      ).join('');
+      displayContent = textLines.map((line, i) => {
+        return `<tspan x="${card_dim.img_w/2 + offsetx}" dy="${i === 0 ? dy : lineHeight}px">${line}</tspan>`
+      }).join('');
     } else {
       // 处理单个文本内容
       const content = card_display(d.data);
@@ -90,7 +90,7 @@ export function CardText({d,card_dim,card_display}) {
     
     return `
     <g>
-      <g class="card-text" clip-path="url(#card_text_clip)">
+      <g class="card-text">
         <g transform="translate(${card_dim.text_x}, ${card_dim.text_y})">
           <text x="${card_dim.img_w/2}" fill="#ffffff" font-size="14px" text-anchor="middle" dominant-baseline="middle">
             ${displayContent}
