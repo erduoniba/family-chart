@@ -265,7 +265,7 @@ export function CardImage({d, image, card_dim, maleIcon, femaleIcon}) {
         }      
       </g>
 
-      ${rankName ? `<rect x="2" y="2" width="${card_dim.w - card_dim.img_x * 2 - 4}" height="16" fill="#000000" fill-opacity="0.5" rx="8" ry="8" /> 
+      ${rankName ? `<rect x="2" y="2" width="${card_dim.w - card_dim.img_x * 2 - 4}" height="16" fill="#000000" fill-opacity="0.4" rx="8" ry="8" /> 
         <text x="${card_dim.w/2 - card_dim.img_x - 1}" y="${14}" text-anchor="middle" font-size="12px">${d.data.data["rankName"]}</text>` : null}
     </g>
   `)})
