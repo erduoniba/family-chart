@@ -371,6 +371,7 @@ function Card(tree, svg, onCardClick) {
         "last name": nData["last name"],
         birthday: nData.birthday,
         avatar: nData.avatar,
+        rankName: nData.rankName,
       };
       nodeToUpdate.to_add = false;
 

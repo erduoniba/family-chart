@@ -7,7 +7,7 @@ export function CardBody({d,card_dim,card_display}) {
   return {template: (`
     <g class="card-body">
       <rect width="${card_dim.w}" height="${card_dim.h}" class="card-body-rect" fill="${bgColor}" />
-      ${CardText({d,card_dim,card_display}).template}
+      ${CardText({d,card_dim,card_display}).template}      
     </g>
   `)
   }
@@ -250,6 +250,7 @@ export function LinkBreakIconWrapper({d,card_dim}) {
 }
 
 export function CardImage({d, image, card_dim, maleIcon, femaleIcon}) {
+  const rankName = d.data.data["rankName"];
   return ({template: (`
     <g style="transform: translate(${card_dim.img_x}px,${card_dim.img_y}px);" class="card_image">
       <defs>
@@ -263,6 +264,9 @@ export function CardImage({d, image, card_dim, maleIcon, femaleIcon}) {
           : generateNameAvatar(d, card_dim)
         }      
       </g>
+
+      ${rankName ? `<rect x="2" y="2" width="${card_dim.w - card_dim.img_x * 2 - 4}" height="16" fill="#000000" fill-opacity="0.5" rx="8" ry="8" /> 
+        <text x="${card_dim.w/2 - card_dim.img_x - 1}" y="${14}" text-anchor="middle" font-size="12px">${d.data.data["rankName"]}</text>` : null}
     </g>
   `)})
 
