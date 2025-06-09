@@ -87,6 +87,13 @@ export function CardText({d,card_dim,card_display}) {
         `<tspan x="${card_dim.img_w/2 + offsetx}" dy="${i === 0 ? dy : lineHeight}px">${line}</tspan>`
       ).join('');
     }
+
+    const rankName = d.data.data["rankName"];
+    let rankNameHtml = null;
+    if (card_dim.isSimpleTree && rankName) {
+      rankNameHtml = `<rect x="2" y="0" width="${card_dim.w - 4}" height="12" fill="#000000" fill-opacity="0.4" rx="6" ry="6" /> 
+        <text x="${card_dim.w/2 - 1}" y="${8}" text-anchor="middle" font-size="8px">${d.data.data["rankName"]}</text>`
+    }
     
     return `
     <g>
@@ -97,6 +104,7 @@ export function CardText({d,card_dim,card_display}) {
           </text>
         </g>
       </g>
+      ${rankNameHtml}
     </g>
     `;
   })();
