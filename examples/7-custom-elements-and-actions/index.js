@@ -372,6 +372,7 @@ function Card(tree, svg, onCardClick) {
         birthday: nData.birthday,
         avatar: nData.avatar,
         rankName: nData.rankName,
+        emperor: nData.emperor,
       };
       nodeToUpdate.to_add = false;
 
@@ -416,6 +417,13 @@ function Card(tree, svg, onCardClick) {
     const card_main_outline = d3.select(this).select(".card-main-outline");
     card_main_outline.style("stroke", "#fff");
     card_main_outline.style("stroke-width", isSimpleTree ? "6px" : "16px");
+    if (d.data.data.emperor) {
+      card_outline.style("stroke", "#FFD700");
+      card_main_outline.style("stroke", "#FFD700");
+    } else {
+      card_outline.style("stroke", "#FFFFFF");
+      card_main_outline.style("stroke", "#FFFFFF");
+    }
 
     const card_image = d3.select(this).select(".card_image");
     card_image.on("click", function (event, d) {
