@@ -29,6 +29,10 @@ export function Card(props) {
       appendElement(cardElements.cardEdit(d, props), this.querySelector('.card-inner'))
       appendElement(cardElements.cardAdd(d, props), this.querySelector('.card-inner'))
     }
+    
+    if (props.onViewPerson) {
+      appendElement(cardElements.cardView(d, props), this.querySelector('.card-inner'))
+    }
 
     if (props.onCardUpdates) props.onCardUpdates.map(fn => fn.call(this, d))
     if (props.onCardUpdate) props.onCardUpdate.call(this, d)

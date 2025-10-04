@@ -101,7 +101,7 @@ function Card(tree, svg, onCardClick) {
     w: isSimpleTree ? 60 : 110,
     h: isSimpleTree ? 40 : 170,
     text_x: 0,
-    text_y: isSimpleTree ? 10: 115,
+    text_y: isSimpleTree ? 10: 108,
     img_w: isSimpleTree ? 60 : 100,
     img_h: isSimpleTree ? 0 : 100,
     img_x: 5,
@@ -134,6 +134,9 @@ function Card(tree, svg, onCardClick) {
 
         // 接收点击添加的事件回调
         addRelative: isSimpleTree ? null : addRelative,
+
+        // 接收点击查看的事件回调
+        onViewPerson: isSimpleTree ? null : onViewPerson,
 
         onCardUpdate,
       })
@@ -383,6 +386,39 @@ function Card(tree, svg, onCardClick) {
         transition_time: 1000,
       };
       updateTree(currentData, svg, onCardClick, props);
+    }
+  }
+
+  /**
+   * 处理查看人物详情
+   * @param {Object} params - 包含节点数据的参数对象
+   */
+  function onViewPerson(params) {
+    const d = params.d;
+    const nodeData = d.data;
+    console.log("查看人物详情:", nodeData);
+    
+    const personId = nodeData.id;
+    const personData = nodeData.data;
+    
+    // 准备传递给原生的参数
+    const viewParams = {
+      personId: personId,
+      firstName: personData["first name"] || "",
+      lastName: personData["last name"] || "",
+      gender: personData.gender || "",
+      birthday: personData.birthday || "",
+      avatar: personData.avatar || "",
+      rankName: personData.rankName || "",
+      emperor: personData.emperor || false
+    };
+    
+    // 如果存在原生接口，调用原生方法
+    if (window.personNodeHandler && typeof window.personNodeHandler.viewPersonDetail === 'function') {
+      window.personNodeHandler.viewPersonDetail(viewParams);
+    } else {
+      // 本地测试模式 - 显示简单的alert
+      alert(`查看人物详情:\n姓名: ${viewParams.firstName} ${viewParams.lastName}\n性别: ${viewParams.gender}\n生日: ${viewParams.birthday}`);
     }
   }
 

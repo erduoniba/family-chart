@@ -8,7 +8,8 @@ import {
   LinkBreakIconWrapper,
   MiniTree,
   PencilIcon,
-  PlusIcon
+  PlusIcon,
+  ViewIcon
 } from "./Card.templates.js"
 
 const CardElements = {
@@ -18,6 +19,7 @@ const CardElements = {
   cardImage,
   cardEdit: cardEditIcon,
   cardAdd: cardAddIcon,
+  cardView: cardViewIcon,
 }
 export default CardElements
 
@@ -71,7 +73,7 @@ function cardImage(d, props) {
 function cardEditIcon(d, props) {
   if (d.data.to_add) return
   const card_dim = props.card_dim;
-  const g = d3.create('svg:g').html(PencilIcon({card_dim, x: card_dim.w-46, y: card_dim.h-20}).template)
+  const g = d3.create('svg:g').html(PencilIcon({card_dim, x: card_dim.w-50, y: card_dim.h-24}).template)
   g.on("click", (e) => {e.stopPropagation();cardEdit(props.store, {d, cardEditForm: props.cardEditForm})})
 
   return g.node()
@@ -80,8 +82,17 @@ function cardEditIcon(d, props) {
 function cardAddIcon(d, props) {
   if (d.data.to_add) return
   const card_dim = props.card_dim;
-  const g = d3.create('svg:g').html(PlusIcon({card_dim, x: card_dim.w-26, y: card_dim.h-20}).template)
+  const g = d3.create('svg:g').html(PlusIcon({card_dim, x: card_dim.w-26, y: card_dim.h-25}).template)
   g.on("click", (e) => {e.stopPropagation();props.addRelative({d})})
+
+  return g.node()
+}
+
+function cardViewIcon(d, props) {
+  if (d.data.to_add) return
+  const card_dim = props.card_dim;
+  const g = d3.create('svg:g').html(ViewIcon({card_dim, x: 16, y: card_dim.h-26}).template)
+  g.on("click", (e) => {e.stopPropagation();if(props.onViewPerson) props.onViewPerson({d})})
 
   return g.node()
 }
