@@ -385,6 +385,13 @@ ci-info@^3.2.0:
   resolved "https://registry.npmjs.org/ci-info/-/ci-info-3.9.0.tgz"
   integrity sha512-NIxF55hv4nSqQswkAeiOi1r83xy8JldOFDTWiug55KBu9Jnblncd2U6ViHmYgHf01TPZS77NJBhBMKdWj9HQMQ==
 
+clean-css@^5.3.3:
+  version "5.3.3"
+  resolved "https://registry.npmjs.org/clean-css/-/clean-css-5.3.3.tgz"
+  integrity sha512-D5J+kHaVb/wKSFcyyV75uCn8fiY4sV38XJoe4CUyGQ+mOU/fMVYUdH1hJC+CJQ5uY3EnW27SbJYS4X8BiLrAFg==
+  dependencies:
+    source-map "~0.6.0"
+
 clean-stack@^2.0.0:
   version "2.2.0"
   resolved "https://registry.npmjs.org/clean-stack/-/clean-stack-2.2.0.tgz"
@@ -1806,7 +1813,7 @@ source-map-support@~0.5.20:
     buffer-from "^1.0.0"
     source-map "^0.6.0"
 
-source-map@^0.6.0:
+source-map@^0.6.0, source-map@~0.6.0:
   version "0.6.1"
   resolved "https://registry.npmjs.org/source-map/-/source-map-0.6.1.tgz"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
@@ -1933,7 +1940,7 @@ tar-stream@^3.0.0:
     fast-fifo "^1.2.0"
     streamx "^2.15.0"
 
-terser@^5.0.0:
+terser@^5.0.0, terser@^5.39.0:
   version "5.39.0"
   resolved "https://registry.npmjs.org/terser/-/terser-5.39.0.tgz"
   integrity sha512-LBAhFyLho16harJoWMg/nZsQYgTrg5jXOn2nCYjRUcZZEdE3qa2zb8QEDRUGVZBW4rlazf2fxkg8tztybTaqWw==
