@@ -1,0 +1,785 @@
+[
+  {
+    "id": "lin_demao",
+    "data": {
+      "first name": "曾祖父",
+      "last name": "林德茂",
+      "birthday": "1920-02-11",
+      "gender": "M",
+      "avatar": "",
+      "city": "苏州",
+      "occupation": "木匠",
+      "note": "家族中最早可追溯的一代。"
+    },
+    "rels": {
+      "spouses": [
+        "zhou_shufen"
+      ],
+      "children": [
+        "lin_zhisong"
+      ]
+    }
+  },
+  {
+    "id": "zhou_shufen",
+    "data": {
+      "first name": "曾祖母",
+      "last name": "周淑芬",
+      "birthday": "1923-08-04",
+      "gender": "F",
+      "avatar": "",
+      "city": "苏州",
+      "occupation": "裁缝",
+      "note": "负责保存早年家族相片和手写谱记。"
+    },
+    "rels": {
+      "spouses": [
+        "lin_demao"
+      ],
+      "children": [
+        "lin_zhisong"
+      ]
+    }
+  },
+  {
+    "id": "lin_zhisong",
+    "data": {
+      "first name": "爷爷",
+      "last name": "林志松",
+      "birthday": "1946-03-18",
+      "gender": "M",
+      "avatar": "",
+      "city": "苏州",
+      "occupation": "机械厂工程师",
+      "note": "父系祖辈代表。"
+    },
+    "rels": {
+      "father": "lin_demao",
+      "mother": "zhou_shufen",
+      "spouses": [
+        "gu_yuehua"
+      ],
+      "children": [
+        "lin_jingchuan",
+        "lin_junhao"
+      ]
+    }
+  },
+  {
+    "id": "gu_yuehua",
+    "data": {
+      "first name": "奶奶",
+      "last name": "顾月华",
+      "birthday": "1948-09-06",
+      "gender": "F",
+      "avatar": "",
+      "city": "苏州",
+      "occupation": "中学教师",
+      "note": "负责家庭聚会和节日安排。"
+    },
+    "rels": {
+      "spouses": [
+        "lin_zhisong"
+      ],
+      "children": [
+        "lin_jingchuan",
+        "lin_junhao"
+      ]
+    }
+  },
+  {
+    "id": "su_wenqian",
+    "data": {
+      "first name": "外公",
+      "last name": "苏文谦",
+      "birthday": "1947-01-22",
+      "gender": "M",
+      "avatar": "",
+      "city": "杭州",
+      "occupation": "建筑设计师",
+      "note": "母系祖辈代表。"
+    },
+    "rels": {
+      "spouses": [
+        "zhao_jingyi"
+      ],
+      "children": [
+        "chen_yaning",
+        "su_yunlan"
+      ]
+    }
+  },
+  {
+    "id": "zhao_jingyi",
+    "data": {
+      "first name": "外婆",
+      "last name": "赵静宜",
+      "birthday": "1949-11-09",
+      "gender": "F",
+      "avatar": "",
+      "city": "杭州",
+      "occupation": "儿科护士",
+      "note": "母系家庭联络人。"
+    },
+    "rels": {
+      "spouses": [
+        "su_wenqian"
+      ],
+      "children": [
+        "chen_yaning",
+        "su_yunlan"
+      ]
+    }
+  },
+  {
+    "id": "lin_jingchuan",
+    "data": {
+      "first name": "爸爸",
+      "last name": "林景川",
+      "birthday": "1971-05-12",
+      "gender": "M",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "项目经理",
+      "note": "我的父亲。"
+    },
+    "rels": {
+      "father": "lin_zhisong",
+      "mother": "gu_yuehua",
+      "spouses": [
+        "chen_yaning"
+      ],
+      "children": [
+        "lin_ruotong",
+        "lin_chengyuan",
+        "lin_haoran"
+      ]
+    }
+  },
+  {
+    "id": "chen_yaning",
+    "data": {
+      "first name": "妈妈",
+      "last name": "陈雅宁",
+      "birthday": "1973-08-30",
+      "gender": "F",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "医院行政主管",
+      "note": "我的母亲。"
+    },
+    "rels": {
+      "father": "su_wenqian",
+      "mother": "zhao_jingyi",
+      "spouses": [
+        "lin_jingchuan"
+      ],
+      "children": [
+        "lin_ruotong",
+        "lin_chengyuan",
+        "lin_haoran"
+      ]
+    }
+  },
+  {
+    "id": "lin_junhao",
+    "data": {
+      "first name": "叔叔",
+      "last name": "林君浩",
+      "birthday": "1976-02-16",
+      "gender": "M",
+      "avatar": "",
+      "city": "南京",
+      "occupation": "汽车维修主管",
+      "note": "爸爸的弟弟。"
+    },
+    "rels": {
+      "father": "lin_zhisong",
+      "mother": "gu_yuehua",
+      "spouses": [
+        "xu_liya"
+      ],
+      "children": [
+        "lin_muchen"
+      ]
+    }
+  },
+  {
+    "id": "xu_liya",
+    "data": {
+      "first name": "婶婶",
+      "last name": "许丽雅",
+      "birthday": "1978-10-03",
+      "gender": "F",
+      "avatar": "",
+      "city": "南京",
+      "occupation": "社区工作者",
+      "note": "叔叔的配偶。"
+    },
+    "rels": {
+      "spouses": [
+        "lin_junhao"
+      ],
+      "children": [
+        "lin_muchen"
+      ]
+    }
+  },
+  {
+    "id": "su_yunlan",
+    "data": {
+      "first name": "阿姨",
+      "last name": "苏云岚",
+      "birthday": "1978-06-09",
+      "gender": "F",
+      "avatar": "",
+      "city": "杭州",
+      "occupation": "小学音乐教师",
+      "note": "妈妈的妹妹。"
+    },
+    "rels": {
+      "father": "su_wenqian",
+      "mother": "zhao_jingyi",
+      "spouses": [
+        "he_ziyang"
+      ],
+      "children": [
+        "he_jiayi"
+      ]
+    }
+  },
+  {
+    "id": "he_ziyang",
+    "data": {
+      "first name": "姨父",
+      "last name": "何子阳",
+      "birthday": "1977-12-01",
+      "gender": "M",
+      "avatar": "",
+      "city": "杭州",
+      "occupation": "程序员",
+      "note": "阿姨的配偶。"
+    },
+    "rels": {
+      "spouses": [
+        "su_yunlan"
+      ],
+      "children": [
+        "he_jiayi"
+      ]
+    }
+  },
+  {
+    "id": "lin_ruotong",
+    "data": {
+      "first name": "姐姐",
+      "last name": "林若彤",
+      "birthday": "1991-04-12",
+      "gender": "F",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "室内设计师",
+      "note": "与我同代的姐姐。"
+    },
+    "rels": {
+      "father": "lin_jingchuan",
+      "mother": "chen_yaning",
+      "spouses": [
+        "gu_haoyu"
+      ],
+      "children": [
+        "gu_nianan"
+      ]
+    }
+  },
+  {
+    "id": "gu_haoyu",
+    "data": {
+      "first name": "姐夫",
+      "last name": "顾浩宇",
+      "birthday": "1990-09-17",
+      "gender": "M",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "金融分析师",
+      "note": "姐姐的配偶。"
+    },
+    "rels": {
+      "spouses": [
+        "lin_ruotong"
+      ],
+      "children": [
+        "gu_nianan"
+      ]
+    }
+  },
+  {
+    "id": "wang_zhonghe",
+    "data": {
+      "first name": "奶奶",
+      "last name": "王家奶奶",
+      "birthday": "1944-02-18",
+      "gender": "F",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "退休会计",
+      "note": "爱人父系祖辈。"
+    },
+    "rels": {
+      "spouses": [
+        "wang_shude"
+      ],
+      "children": [
+        "wang_guowei",
+        "wang_guoqiang"
+      ]
+    }
+  },
+  {
+    "id": "wang_shude",
+    "data": {
+      "first name": "爷爷",
+      "last name": "王树德",
+      "birthday": "1941-07-06",
+      "gender": "M",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "退休电工",
+      "note": "爱人父系祖辈。"
+    },
+    "rels": {
+      "spouses": [
+        "wang_zhonghe"
+      ],
+      "children": [
+        "wang_guowei",
+        "wang_guoqiang"
+      ]
+    }
+  },
+  {
+    "id": "liu_yongnian",
+    "data": {
+      "first name": "外公",
+      "last name": "刘永年",
+      "birthday": "1943-09-22",
+      "gender": "M",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "退休车间主任",
+      "note": "爱人母系祖辈。"
+    },
+    "rels": {
+      "spouses": [
+        "sun_meiyun"
+      ],
+      "children": [
+        "liu_fang",
+        "liu_min"
+      ]
+    }
+  },
+  {
+    "id": "sun_meiyun",
+    "data": {
+      "first name": "外婆",
+      "last name": "孙美云",
+      "birthday": "1946-12-13",
+      "gender": "F",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "退休护士",
+      "note": "爱人母系祖辈。"
+    },
+    "rels": {
+      "spouses": [
+        "liu_yongnian"
+      ],
+      "children": [
+        "liu_fang",
+        "liu_min"
+      ]
+    }
+  },
+  {
+    "id": "wang_guowei",
+    "data": {
+      "first name": "岳父",
+      "last name": "王国伟",
+      "birthday": "1968-01-15",
+      "gender": "M",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "设备总监",
+      "note": "爱人的父亲。"
+    },
+    "rels": {
+      "father": "wang_shude",
+      "mother": "wang_zhonghe",
+      "spouses": [
+        "liu_fang"
+      ],
+      "children": [
+        "wang_xinyi",
+        "wang_xinlei"
+      ]
+    }
+  },
+  {
+    "id": "liu_fang",
+    "data": {
+      "first name": "岳母",
+      "last name": "刘芳",
+      "birthday": "1970-05-28",
+      "gender": "F",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "财务主管",
+      "note": "爱人的母亲。"
+    },
+    "rels": {
+      "father": "liu_yongnian",
+      "mother": "sun_meiyun",
+      "spouses": [
+        "wang_guowei"
+      ],
+      "children": [
+        "wang_xinyi",
+        "wang_xinlei"
+      ]
+    }
+  },
+  {
+    "id": "wang_guoqiang",
+    "data": {
+      "first name": "伯父",
+      "last name": "王国强",
+      "birthday": "1971-10-10",
+      "gender": "M",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "物流经理",
+      "note": "岳父的哥哥。"
+    },
+    "rels": {
+      "father": "wang_shude",
+      "mother": "wang_zhonghe",
+      "spouses": [
+        "zheng_liqin"
+      ],
+      "children": [
+        "wang_yutong"
+      ]
+    }
+  },
+  {
+    "id": "zheng_liqin",
+    "data": {
+      "first name": "伯母",
+      "last name": "郑丽琴",
+      "birthday": "1973-04-07",
+      "gender": "F",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "社区医生",
+      "note": "伯父的配偶。"
+    },
+    "rels": {
+      "spouses": [
+        "wang_guoqiang"
+      ],
+      "children": [
+        "wang_yutong"
+      ]
+    }
+  },
+  {
+    "id": "liu_min",
+    "data": {
+      "first name": "姨妈",
+      "last name": "刘敏",
+      "birthday": "1975-11-05",
+      "gender": "F",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "银行职员",
+      "note": "岳母的妹妹。"
+    },
+    "rels": {
+      "father": "liu_yongnian",
+      "mother": "sun_meiyun",
+      "spouses": [
+        "zhou_jianming"
+      ],
+      "children": [
+        "zhou_xiaotong"
+      ]
+    }
+  },
+  {
+    "id": "zhou_jianming",
+    "data": {
+      "first name": "姨父",
+      "last name": "周建明",
+      "birthday": "1974-08-16",
+      "gender": "M",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "中学教师",
+      "note": "姨妈的配偶。"
+    },
+    "rels": {
+      "spouses": [
+        "liu_min"
+      ],
+      "children": [
+        "zhou_xiaotong"
+      ]
+    }
+  },
+  {
+    "id": "lin_chengyuan",
+    "data": {
+      "first name": "我",
+      "last name": "林承远",
+      "birthday": "1993-04-17",
+      "gender": "M",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "产品经理",
+      "note": "当前图谱主节点。"
+    },
+    "rels": {
+      "father": "lin_jingchuan",
+      "mother": "chen_yaning",
+      "spouses": [
+        "wang_xinyi"
+      ],
+      "children": [
+        "lin_chenxi",
+        "lin_zhimeng"
+      ]
+    }
+  },
+  {
+    "id": "wang_xinyi",
+    "data": {
+      "first name": "爱人",
+      "last name": "王欣怡",
+      "birthday": "1994-12-02",
+      "gender": "F",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "品牌策划",
+      "note": "我的配偶。"
+    },
+    "rels": {
+      "father": "wang_guowei",
+      "mother": "liu_fang",
+      "spouses": [
+        "lin_chengyuan"
+      ],
+      "children": [
+        "lin_chenxi",
+        "lin_zhimeng"
+      ]
+    }
+  },
+  {
+    "id": "wang_xinlei",
+    "data": {
+      "first name": "小舅子",
+      "last name": "王鑫磊",
+      "birthday": "1998-03-09",
+      "gender": "M",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "动画设计师",
+      "note": "爱人的弟弟。"
+    },
+    "rels": {
+      "father": "wang_guowei",
+      "mother": "liu_fang",
+      "spouses": [
+        "lin_feifei"
+      ],
+      "children": [
+        "wang_chenhao"
+      ]
+    }
+  },
+  {
+    "id": "lin_feifei",
+    "data": {
+      "first name": "弟媳",
+      "last name": "林菲菲",
+      "birthday": "1999-01-21",
+      "gender": "F",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "插画师",
+      "note": "小舅子的配偶。"
+    },
+    "rels": {
+      "spouses": [
+        "wang_xinlei"
+      ],
+      "children": [
+        "wang_chenhao"
+      ]
+    }
+  },
+  {
+    "id": "lin_haoran",
+    "data": {
+      "first name": "弟弟",
+      "last name": "林浩然",
+      "birthday": "1998-07-25",
+      "gender": "M",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "交互设计师",
+      "note": "与我同代的弟弟。"
+    },
+    "rels": {
+      "father": "lin_jingchuan",
+      "mother": "chen_yaning"
+    }
+  },
+  {
+    "id": "wang_yutong",
+    "data": {
+      "first name": "堂姐",
+      "last name": "王雨桐",
+      "birthday": "1996-02-14",
+      "gender": "F",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "护士",
+      "note": "爱人伯父的女儿。"
+    },
+    "rels": {
+      "father": "wang_guoqiang",
+      "mother": "zheng_liqin"
+    }
+  },
+  {
+    "id": "zhou_xiaotong",
+    "data": {
+      "first name": "表弟",
+      "last name": "周晓彤",
+      "birthday": "2004-06-27",
+      "gender": "M",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "大学生",
+      "note": "爱人姨妈的儿子。"
+    },
+    "rels": {
+      "father": "zhou_jianming",
+      "mother": "liu_min"
+    }
+  },
+  {
+    "id": "wang_chenhao",
+    "data": {
+      "first name": "外甥",
+      "last name": "王宸昊",
+      "birthday": "2025-01-08",
+      "gender": "M",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "婴幼儿",
+      "note": "小舅子的儿子。"
+    },
+    "rels": {
+      "father": "wang_xinlei",
+      "mother": "lin_feifei"
+    }
+  },
+  {
+    "id": "lin_muchen",
+    "data": {
+      "first name": "堂弟",
+      "last name": "林沐辰",
+      "birthday": "2003-01-19",
+      "gender": "M",
+      "avatar": "",
+      "city": "南京",
+      "occupation": "大学生",
+      "note": "叔叔的儿子，我的堂弟。"
+    },
+    "rels": {
+      "father": "lin_junhao",
+      "mother": "xu_liya"
+    }
+  },
+  {
+    "id": "he_jiayi",
+    "data": {
+      "first name": "表妹",
+      "last name": "何佳怡",
+      "birthday": "2006-09-03",
+      "gender": "F",
+      "avatar": "",
+      "city": "杭州",
+      "occupation": "中学生",
+      "note": "阿姨的女儿，我的表妹。"
+    },
+    "rels": {
+      "father": "he_ziyang",
+      "mother": "su_yunlan"
+    }
+  },
+  {
+    "id": "gu_nianan",
+    "data": {
+      "first name": "外甥女",
+      "last name": "顾念安",
+      "birthday": "2021-05-08",
+      "gender": "F",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "幼儿园学生",
+      "note": "姐姐的女儿。"
+    },
+    "rels": {
+      "father": "gu_haoyu",
+      "mother": "lin_ruotong"
+    }
+  },
+  {
+    "id": "lin_chenxi",
+    "data": {
+      "first name": "儿子",
+      "last name": "林辰熙",
+      "birthday": "2022-04-08",
+      "gender": "M",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "幼儿园学生",
+      "note": "我的长子。"
+    },
+    "rels": {
+      "father": "lin_chengyuan",
+      "mother": "wang_xinyi"
+    }
+  },
+  {
+    "id": "lin_zhimeng",
+    "data": {
+      "first name": "女儿",
+      "last name": "林知梦",
+      "birthday": "2024-09-30",
+      "gender": "F",
+      "avatar": "",
+      "city": "上海",
+      "occupation": "婴幼儿",
+      "note": "我的次女。"
+    },
+    "rels": {
+      "father": "lin_chengyuan",
+      "mother": "wang_xinyi"
+    }
+  }
+]

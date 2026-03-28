@@ -24,7 +24,7 @@ export function handlePersonList(params, callback) {
     personNodeHandler.personList(params, "personNodeHandlerCallback");
   } else {
     // 本地测试模式，从 JSON 文件加载数据
-    fetch("./data.json")
+    fetch("./demo/five-generations/five-generations.json")
       .then((r) => r.json())
       .then(callback);
   }

@@ -12,6 +12,8 @@ import {
   handleUpdateCardImage,
 } from "./personNodeHandler.js";
 
+const DEFAULT_MAIN_ID = "lin_chengyuan";
+
 // 初始化数据加载
 handlePersonList({}, refresh);
 
@@ -26,6 +28,12 @@ function refresh(data) {
   // 从缓存中获取 main_id
   if (!main_id) {
     main_id = localStorage.getItem("family_chart_main_id");
+  }
+
+  if (!data.find((person) => person.id === main_id)) {
+    updateMainId(
+      data.find((person) => person.id === DEFAULT_MAIN_ID)?.id || data[0]?.id
+    );
   }
 
   if (isSimpleTree == null) {
