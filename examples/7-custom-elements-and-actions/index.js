@@ -13,13 +13,14 @@ import {
 } from "./personNodeHandler.js";
 
 const DEFAULT_MAIN_ID = "lin_chengyuan";
+const SHOW_ALL_PERSONS_STORAGE_KEY = "family_chart_show_all_persons";
 
 // 初始化数据加载
 handlePersonList({}, refresh);
 
 // 定义全局变量
 export let treeData;
-let main_id, tree, svg, isSimpleTree;
+let main_id, tree, svg, isSimpleTree, showAllPersons;
 
 function refresh(data) {
   // 创建SVG容器
@@ -39,6 +40,10 @@ function refresh(data) {
   if (isSimpleTree == null) {
     isSimpleTree = localStorage.getItem("family_chart_isSimpleTree") == 1 ? true : false;
   }
+  if (showAllPersons == null) {
+    showAllPersons =
+      localStorage.getItem(SHOW_ALL_PERSONS_STORAGE_KEY) == 1 ? true : false;
+  }
 
   if (window.personNodeHandler == null) {
     // 添加保存按钮
@@ -55,7 +60,17 @@ function refresh(data) {
 }
 
 function onCardClick(e, d) {
-  // 更新主节点ID并重新渲染树形图
+  if (showAllPersons) {
+    updateMainId(d.data.id);
+    updateShowAllPersons(false, false);
+    updateTree(treeData, svg, onCardClick, {
+      initial: false,
+      tree_position: "main_to_middle",
+      transition_time: 1000,
+    });
+    return;
+  }
+
   updateMainId(d.data.id);
 
   const props = {
@@ -81,25 +96,491 @@ export function updateMainId(_main_id, refreshTree = false, _isSimpleTree = null
     // 更新树形图
     const props = {
       initial: false,
-      tree_position: "main_to_middle",
+      tree_position: showAllPersons ? "fit" : "main_to_middle",
       transition_time: 1000,
     };
     updateTree(treeData, svg, onCardClick, props);
   }
 }
 
+export function updateShowAllPersons(_showAllPersons, refreshTree = false) {
+  if (_showAllPersons == null) return;
+  showAllPersons = _showAllPersons;
+  localStorage.setItem(SHOW_ALL_PERSONS_STORAGE_KEY, showAllPersons ? 1 : 0);
+
+  if (refreshTree) {
+    updateTree(treeData, svg, onCardClick, {
+      initial: false,
+      tree_position: "fit",
+      transition_time: 1000,
+    });
+  }
+}
+
+export function getCurrentRenderTree(overrideMainId = main_id) {
+  return showAllPersons
+    ? buildFullTreeLayout({
+        data: treeData,
+        main_id: overrideMainId,
+        node_separation: isSimpleTree ? 98 : 168,
+        level_separation: isSimpleTree ? 92 : 230,
+      })
+    : f3.CalculateTree({
+        data: treeData,
+        main_id: overrideMainId,
+        single_parent_empty_card: false,
+        node_separation: isSimpleTree ? 70 : 140,
+        level_separation: isSimpleTree ? 55 : 200,
+      });
+}
+
 function updateTree(data, svg, onCardClick, props) {
   treeData = data;
-  // 根据数据和主节点ID计算树形结构
-  tree = f3.CalculateTree({
-    data: treeData,
-    main_id,
-    single_parent_empty_card: false,
-    node_separation: isSimpleTree ? 70 : 140, // 水平间距
-    level_separation: isSimpleTree ? 55 : 200, // 垂直间距
-  });
+  tree = getCurrentRenderTree(main_id);
   // 渲染树形图，使用自定义的Card组件
   f3.view(tree, svg, Card(tree, svg, onCardClick), props || {});
+}
+
+function buildFullTreeLayout({
+  data,
+  main_id,
+  node_separation = 180,
+  level_separation = 220,
+}) {
+  const data_stash = data.map((person) => ({
+    ...person,
+    rels: {
+      ...person.rels,
+      spouses: [...(person.rels?.spouses || [])],
+      children: [...(person.rels?.children || [])],
+    },
+  }));
+  const personById = new Map(data_stash.map((person) => [person.id, person]));
+  const clusters = buildClusters();
+  const clustersByLevel = groupClustersByLevel(clusters);
+
+  initializeTopLevel();
+  for (let i = 1; i < clustersByLevel.length; i++) {
+    layoutLevel(clustersByLevel[i], clustersByLevel[i - 1]);
+  }
+  for (let i = clustersByLevel.length - 2; i >= 0; i--) {
+    tightenLevel(clustersByLevel[i], clustersByLevel[i + 1]);
+  }
+  normalizeLevels();
+
+  const nodes = buildNodes(clusters);
+  const tree = Array.from(nodes.values());
+  const xExtent = extent(tree.map((node) => node.x));
+  const yExtent = extent(tree.map((node) => node.y));
+
+  return {
+    data: tree,
+    data_stash,
+    dim: {
+      width: xExtent[1] - xExtent[0] + node_separation,
+      height: yExtent[1] - yExtent[0] + level_separation,
+      x_off: -xExtent[0] + node_separation / 2,
+      y_off: -yExtent[0] + level_separation / 2,
+    },
+    main_id,
+    is_horizontal: false,
+  };
+
+  function buildClusters() {
+    const visited = new Set();
+    const clusterByPersonId = new Map();
+    const result = [];
+
+    data_stash.forEach((person) => {
+      if (visited.has(person.id)) return;
+      const stack = [person.id];
+      const ids = [];
+
+      while (stack.length > 0) {
+        const currentId = stack.pop();
+        if (visited.has(currentId) || !personById.has(currentId)) continue;
+        visited.add(currentId);
+        ids.push(currentId);
+        const current = personById.get(currentId);
+        (current.rels.spouses || []).forEach((spouseId) => {
+          if (personById.has(spouseId)) stack.push(spouseId);
+        });
+      }
+
+      const persons = ids
+        .map((id) => personById.get(id))
+        .sort(compareWithinCluster);
+      const width =
+        persons.length > 1 ? (persons.length - 1) * (node_separation * 0.92) : 0;
+      const cluster = {
+        id: ids.slice().sort().join("|"),
+        level: 0,
+        persons,
+        width,
+        centerX: 0,
+        targetX: 0,
+        familyKey: "",
+        childOrder: 0,
+        parentClusterIds: [],
+      };
+      persons.forEach((member) => clusterByPersonId.set(member.id, cluster));
+      result.push(cluster);
+    });
+
+    result.forEach((cluster) => {
+      const parentClusterIds = new Set();
+      cluster.persons.forEach((person) => {
+        [person.rels.father, person.rels.mother]
+          .filter(Boolean)
+          .forEach((parentId) => {
+            const parentCluster = clusterByPersonId.get(parentId);
+            if (parentCluster && parentCluster.id !== cluster.id) {
+              parentClusterIds.add(parentCluster.id);
+            }
+          });
+      });
+      cluster.parentClusterIds = Array.from(parentClusterIds);
+    });
+
+    const clusterMap = new Map(result.map((cluster) => [cluster.id, cluster]));
+    const indegree = new Map(result.map((cluster) => [cluster.id, cluster.parentClusterIds.length]));
+    const childrenByCluster = new Map(result.map((cluster) => [cluster.id, []]));
+    result.forEach((cluster) => {
+      cluster.parentClusterIds.forEach((parentClusterId) => {
+        childrenByCluster.get(parentClusterId)?.push(cluster.id);
+      });
+    });
+
+    const mainCluster = clusterByPersonId.get(main_id) || result[0];
+    if (mainCluster) {
+      result.forEach((cluster) => {
+        cluster.level = null;
+      });
+
+      const queue = [mainCluster.id];
+      mainCluster.level = 0;
+
+      while (queue.length > 0) {
+        const clusterId = queue.shift();
+        const cluster = clusterMap.get(clusterId);
+        const currentLevel = cluster.level ?? 0;
+
+        cluster.parentClusterIds.forEach((parentClusterId) => {
+          const parentCluster = clusterMap.get(parentClusterId);
+          if (!parentCluster) return;
+          const nextLevel = currentLevel - 1;
+          if (parentCluster.level == null || parentCluster.level > nextLevel) {
+            parentCluster.level = nextLevel;
+            queue.push(parentClusterId);
+          }
+        });
+
+        (childrenByCluster.get(clusterId) || []).forEach((childClusterId) => {
+          const childCluster = clusterMap.get(childClusterId);
+          if (!childCluster) return;
+          const nextLevel = currentLevel + 1;
+          if (childCluster.level == null || childCluster.level < nextLevel) {
+            childCluster.level = nextLevel;
+            queue.push(childClusterId);
+          }
+        });
+      }
+    }
+
+    const unresolvedRoots = result
+      .filter((cluster) => cluster.level == null && cluster.parentClusterIds.length === 0)
+      .map((cluster) => cluster.id);
+
+    while (unresolvedRoots.length > 0) {
+      const rootId = unresolvedRoots.shift();
+      const rootCluster = clusterMap.get(rootId);
+      if (!rootCluster || rootCluster.level != null) continue;
+      rootCluster.level = 0;
+      const queue = [rootId];
+      while (queue.length > 0) {
+        const clusterId = queue.shift();
+        const cluster = clusterMap.get(clusterId);
+        const childIds = childrenByCluster.get(clusterId) || [];
+        childIds.forEach((childId) => {
+          const childCluster = clusterMap.get(childId);
+          if (!childCluster) return;
+          childCluster.level = Math.max(childCluster.level ?? 0, (cluster.level ?? 0) + 1);
+          indegree.set(childId, (indegree.get(childId) || 0) - 1);
+          if (indegree.get(childId) === 0) queue.push(childId);
+        });
+      }
+    }
+
+    const minLevel = Math.min(...result.map((cluster) => cluster.level ?? 0));
+    result.forEach((cluster) => {
+      cluster.level = (cluster.level ?? 0) - minLevel;
+    });
+
+    result.forEach((cluster) => {
+      cluster.familyKey = getFamilyKey(cluster, clusterByPersonId);
+      cluster.childOrder = getChildOrder(cluster, clusterByPersonId);
+    });
+
+    return result;
+  }
+
+  function groupClustersByLevel(allClusters) {
+    const grouped = [];
+    allClusters.forEach((cluster) => {
+      if (!grouped[cluster.level]) grouped[cluster.level] = [];
+      grouped[cluster.level].push(cluster);
+    });
+
+    return grouped.filter(Boolean);
+  }
+
+  function initializeTopLevel() {
+    const topLevel = clustersByLevel[0] || [];
+    const gap = node_separation * 1.15;
+    let cursor = 0;
+
+    topLevel
+      .sort((a, b) => compareClusters(a, b))
+      .forEach((cluster, index) => {
+        const halfWidth = cluster.width / 2;
+        cluster.centerX = cursor + halfWidth;
+        cluster.targetX = cluster.centerX;
+        cursor += cluster.width;
+        if (index < topLevel.length - 1) cursor += gap;
+      });
+
+    const midpoint = cursor / 2;
+    topLevel.forEach((cluster) => {
+      cluster.centerX -= midpoint;
+      cluster.targetX = cluster.centerX;
+    });
+  }
+
+  function layoutLevel(levelClusters, prevLevelClusters) {
+    const familyGap = node_separation * 1.35;
+    const siblingGap = node_separation * 0.95;
+    const prevById = new Map(prevLevelClusters.map((cluster) => [cluster.id, cluster]));
+    const families = new Map();
+
+    levelClusters.forEach((cluster) => {
+      if (!families.has(cluster.familyKey)) {
+        families.set(cluster.familyKey, []);
+      }
+      families.get(cluster.familyKey).push(cluster);
+    });
+
+    const orderedFamilies = Array.from(families.entries())
+      .map(([key, familyClusters]) => ({
+        key,
+        clusters: familyClusters.sort((a, b) => a.childOrder - b.childOrder || compareClusters(a, b)),
+        anchorX: getFamilyAnchorX(familyClusters, prevById),
+      }))
+      .sort((a, b) => a.anchorX - b.anchorX);
+
+    let previousRight = null;
+    orderedFamilies.forEach((family) => {
+      const familyWidth = family.clusters.reduce((sum, cluster, index) => {
+        return sum + cluster.width + (index < family.clusters.length - 1 ? siblingGap : 0);
+      }, 0);
+      let left = family.anchorX - familyWidth / 2;
+      if (previousRight != null) {
+        left = Math.max(left, previousRight + familyGap);
+      }
+
+      let cursor = left;
+      family.clusters.forEach((cluster, index) => {
+        cluster.centerX = cursor + cluster.width / 2;
+        cluster.targetX = cluster.centerX;
+        cursor += cluster.width;
+        if (index < family.clusters.length - 1) cursor += siblingGap;
+      });
+      previousRight = left + familyWidth;
+    });
+
+    recenter(levelClusters);
+  }
+
+  function tightenLevel(levelClusters, childLevelClusters) {
+    const childByFamily = new Map();
+    childLevelClusters.forEach((cluster) => {
+      if (!childByFamily.has(cluster.familyKey)) {
+        childByFamily.set(cluster.familyKey, []);
+      }
+      childByFamily.get(cluster.familyKey).push(cluster.centerX);
+    });
+
+    levelClusters.forEach((cluster) => {
+      const childCenters = [];
+      data_stash.forEach((person) => {
+        if (!cluster.persons.some((member) => member.id === person.id)) return;
+        (person.rels.children || []).forEach((childId) => {
+          const childCluster = childLevelClusters.find((candidate) =>
+            candidate.persons.some((member) => member.id === childId)
+          );
+          if (childCluster) childCenters.push(childCluster.centerX);
+        });
+      });
+      if (childCenters.length > 0) {
+        cluster.centerX =
+          cluster.centerX * 0.55 +
+          (childCenters.reduce((sum, value) => sum + value, 0) / childCenters.length) *
+            0.45;
+      }
+    });
+
+    levelClusters.sort((a, b) => a.centerX - b.centerX);
+    enforceMinGap(levelClusters, node_separation * 1.05);
+    recenter(levelClusters);
+  }
+
+  function normalizeLevels() {
+    clustersByLevel.forEach((levelClusters) => {
+      levelClusters.sort((a, b) => a.centerX - b.centerX);
+      enforceMinGap(levelClusters, node_separation * 1.05);
+      recenter(levelClusters);
+    });
+  }
+
+  function buildNodes(allClusters) {
+    const nodesById = new Map();
+    const spouseGap = node_separation * 0.92;
+
+    allClusters.forEach((cluster) => {
+      const baseX = cluster.centerX - cluster.width / 2;
+      cluster.persons.forEach((person, index) => {
+        nodesById.set(person.id, {
+          data: person,
+          x: baseX + index * spouseGap,
+          y: cluster.level * level_separation,
+          depth: cluster.level,
+          main: person.id === main_id,
+          all_rels_displayed: true,
+        });
+      });
+    });
+
+    nodesById.forEach((node) => {
+      const spouses = (node.data.rels.spouses || [])
+        .map((spouseId) => nodesById.get(spouseId))
+        .filter(Boolean);
+      const children = (node.data.rels.children || [])
+        .map((childId) => nodesById.get(childId))
+        .filter(Boolean);
+      const parents = [node.data.rels.father, node.data.rels.mother]
+        .filter(Boolean)
+        .map((parentId) => nodesById.get(parentId))
+        .filter(Boolean);
+
+      if (children.length > 0) node.children = children;
+      if (parents.length > 0) node.parents = parents;
+
+      const spouseAnchors = [node.x, ...spouses.map((spouse) => spouse.x)];
+      node.sx =
+        spouseAnchors.reduce((sum, value) => sum + value, 0) / spouseAnchors.length;
+      node.sy = node.y;
+
+      if (parents.length > 0) {
+        node.psx =
+          parents.reduce((sum, parent) => sum + parent.sx, 0) / parents.length;
+        node.psy = parents[0].y;
+      } else {
+        node.psx = node.x;
+        node.psy = node.y;
+      }
+    });
+
+    return nodesById;
+  }
+
+  function getFamilyAnchorX(familyClusters, prevById) {
+    const anchors = familyClusters.flatMap((cluster) =>
+      cluster.parentClusterIds
+        .map((parentClusterId) => prevById.get(parentClusterId))
+        .filter(Boolean)
+        .map((parentCluster) => parentCluster.centerX)
+    );
+
+    if (anchors.length === 0) return 0;
+    return anchors.reduce((sum, value) => sum + value, 0) / anchors.length;
+  }
+
+  function enforceMinGap(levelClusters, gap) {
+    let previousRight = null;
+    levelClusters.forEach((cluster) => {
+      const halfWidth = cluster.width / 2;
+      if (previousRight != null) {
+        cluster.centerX = Math.max(cluster.centerX, previousRight + gap + halfWidth);
+      }
+      previousRight = cluster.centerX + halfWidth;
+    });
+  }
+
+  function recenter(levelClusters) {
+    if (levelClusters.length === 0) return;
+    const left = levelClusters[0].centerX - levelClusters[0].width / 2;
+    const right =
+      levelClusters[levelClusters.length - 1].centerX +
+      levelClusters[levelClusters.length - 1].width / 2;
+    const mid = (left + right) / 2;
+    levelClusters.forEach((cluster) => {
+      cluster.centerX -= mid;
+    });
+  }
+
+  function compareClusters(a, b) {
+    return (
+      a.childOrder - b.childOrder ||
+      a.familyKey.localeCompare(b.familyKey, "zh-Hans-CN") ||
+      compareWithinCluster(a.persons[0], b.persons[0])
+    );
+  }
+
+  function compareWithinCluster(a, b) {
+    const genderOrder = { M: 0, F: 1 };
+    const genderDiff =
+      (genderOrder[a.data.gender] ?? 9) - (genderOrder[b.data.gender] ?? 9);
+    if (genderDiff !== 0) return genderDiff;
+    return a.data["first name"].localeCompare(
+      b.data["first name"],
+      "zh-Hans-CN"
+    );
+  }
+
+  function getFamilyKey(cluster, clusterByPersonId) {
+    const parentClusterIds = new Set();
+    cluster.persons.forEach((person) => {
+      [person.rels.father, person.rels.mother]
+        .filter(Boolean)
+        .forEach((parentId) => {
+          const parentCluster = clusterByPersonId.get(parentId);
+          if (parentCluster) parentClusterIds.add(parentCluster.id);
+        });
+    });
+    const parentKey = Array.from(parentClusterIds).sort().join("|");
+    return parentKey || `root::${cluster.id}`;
+  }
+
+  function getChildOrder(cluster, clusterByPersonId) {
+    let best = Number.MAX_SAFE_INTEGER;
+    cluster.persons.forEach((person) => {
+      const parent =
+        personById.get(person.rels.father) || personById.get(person.rels.mother);
+      if (!parent?.rels?.children) return;
+      const siblingClusterOrder = parent.rels.children
+        .map((childId) => clusterByPersonId.get(childId)?.id)
+        .filter(Boolean)
+        .filter((value, index, arr) => arr.indexOf(value) === index);
+      const index = siblingClusterOrder.indexOf(cluster.id);
+      if (index >= 0) best = Math.min(best, index);
+    });
+    return Number.isFinite(best) ? best : 0;
+  }
+
+  function extent(values) {
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    return [min, max];
+  }
 }
 
 // 自定义卡片组件

@@ -1,13 +1,17 @@
 import { generateUUID } from "../../src/CreateTree/newPerson.js";
 
-import { treeData, updateMainId } from "./index.js";
-import f3 from "../../src/index.js";
+import {
+  updateMainId,
+  updateShowAllPersons,
+  getCurrentRenderTree,
+} from "./index.js";
 
 // 将函数挂载到 window 对象
 window.handleSaveSVGAsImage = handleSaveSVGAsImage;
 window.handleTreNodes = handleTreNodes;
 window.personSelect = personSelect;
 window.changeRelatreeMode = changeRelatreeMode;
+window.changeFullRelatreeMode = changeFullRelatreeMode;
 
 // 通用回调处理函数
 function createCallback(callbackName, callback) {
@@ -484,10 +488,7 @@ export function handleUpdateCardImage(d, callback) {
 
 function handleTreNodes(params) {
   let main_id = params.mainId;
-  const nodes = f3.CalculateTree({
-    data: treeData,
-    main_id,
-  }).data;
+  const nodes = getCurrentRenderTree(main_id).data;
 
   // 按深度分组节点
   const nodesByDepth = {};
@@ -516,4 +517,9 @@ function personSelect(params) {
 function changeRelatreeMode(isSimpleTree) {
   console.log("切换关系树模式", isSimpleTree);
   updateMainId(null, true, isSimpleTree);
+}
+
+function changeFullRelatreeMode(showAllPersons) {
+  console.log("切换全量展示模式", showAllPersons);
+  updateShowAllPersons(!!showAllPersons, true);
 }
