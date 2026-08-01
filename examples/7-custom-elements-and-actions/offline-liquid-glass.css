@@ -1,0 +1,159 @@
+:root {
+  color-scheme: dark;
+  background: #08111f;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  color: rgba(255, 255, 255, 0.96);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(76, 138, 255, 0.62), transparent 31%),
+    radial-gradient(circle at 88% 14%, rgba(137, 90, 255, 0.5), transparent 27%),
+    radial-gradient(circle at 52% 100%, rgba(45, 202, 177, 0.3), transparent 36%),
+    linear-gradient(145deg, #142743 0%, #0b1425 45%, #182842 100%);
+}
+
+body::before,
+body::after {
+  position: fixed;
+  z-index: -1;
+  width: 48vmax;
+  height: 48vmax;
+  content: "";
+  border-radius: 50%;
+  filter: blur(48px);
+  opacity: 0.48;
+  pointer-events: none;
+}
+
+body::before {
+  top: -28vmax;
+  left: -16vmax;
+  background: #5b9cff;
+}
+
+body::after {
+  right: -26vmax;
+  bottom: -30vmax;
+  background: #5ee0c2;
+}
+
+#FamilyChart.offline-liquid-glass {
+  --female-color: rgba(242, 134, 178, 0.66);
+  --male-color: rgba(91, 159, 255, 0.64);
+  --background-color: rgba(20, 33, 55, 0.6);
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100dvh;
+  margin: 0;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.96);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+  background: rgba(9, 20, 38, 0.2);
+}
+
+#FamilyChart.offline-liquid-glass svg.main_svg {
+  overflow: visible;
+}
+
+#FamilyChart.offline-liquid-glass .link {
+  stroke: rgba(232, 244, 255, 0.56);
+  stroke-linecap: round;
+  filter: drop-shadow(0 1px 1px rgba(1, 8, 20, 0.32));
+}
+
+#FamilyChart.offline-liquid-glass .card-body-rect,
+#FamilyChart.offline-liquid-glass .text-overflow-mask {
+  stroke: rgba(255, 255, 255, 0.3);
+  stroke-width: 1px;
+  filter: drop-shadow(0 10px 18px rgba(0, 9, 28, 0.22));
+}
+
+#FamilyChart.offline-liquid-glass .card-genderless .card-body-rect,
+#FamilyChart.offline-liquid-glass .card-genderless .text-overflow-mask {
+  fill: rgba(196, 211, 232, 0.56);
+}
+
+#FamilyChart.offline-liquid-glass .card-inner {
+  filter: drop-shadow(0 10px 18px rgba(0, 9, 28, 0.24));
+}
+
+#FamilyChart.offline-liquid-glass .card_add .card-body-rect {
+  fill: rgba(255, 255, 255, 0.18);
+  stroke: rgba(255, 255, 255, 0.68);
+}
+
+#FamilyChart.offline-liquid-glass .card_add_relative,
+#FamilyChart.offline-liquid-glass .card_edit.pencil_icon,
+#FamilyChart.offline-liquid-glass .card_view.view_icon {
+  color: rgba(255, 255, 255, 0.94);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+#FamilyChart.offline-liquid-glass .card_add_relative:hover,
+#FamilyChart.offline-liquid-glass .card_edit.pencil_icon:hover,
+#FamilyChart.offline-liquid-glass .card_view.view_icon:hover {
+  color: #fff;
+}
+
+.offline-glass-button {
+  position: fixed;
+  z-index: 10;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.98);
+  font: 600 15px/1 -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", sans-serif;
+  letter-spacing: 0.01em;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.12));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.44), 0 8px 24px rgba(0, 8, 28, 0.26);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.offline-glass-button:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0.18));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.56), 0 12px 28px rgba(0, 8, 28, 0.32);
+}
+
+.offline-glass-button:active {
+  transform: scale(0.96);
+}
+
+.offline-glass-button:focus-visible {
+  outline: 3px solid rgba(159, 209, 255, 0.9);
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .offline-glass-button {
+    top: max(12px, env(safe-area-inset-top));
+    right: max(12px, env(safe-area-inset-right));
+    min-height: 40px;
+    padding: 9px 14px;
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .offline-glass-button {
+    transition: none;
+  }
+}

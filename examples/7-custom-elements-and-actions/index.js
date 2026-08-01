@@ -940,14 +940,14 @@ function Card(tree, svg, onCardClick) {
 
     // 卡片的边框视图
     const card_main_outline = d3.select(this).select(".card-main-outline");
-    card_main_outline.style("stroke", "#fff");
+    card_main_outline.style("stroke", "rgba(255, 255, 255, 0.88)");
     card_main_outline.style("stroke-width", isSimpleTree ? "6px" : "16px");
     if (d.data.data.emperor) {
-      card_outline.style("stroke", "#FFD700");
-      card_main_outline.style("stroke", "#FFD700");
+      card_outline.style("stroke", "rgba(255, 215, 0, 0.9)");
+      card_main_outline.style("stroke", "rgba(255, 215, 0, 0.9)");
     } else {
-      card_outline.style("stroke", "#FFFFFF");
-      card_main_outline.style("stroke", "#FFFFFF");
+      card_outline.style("stroke", "rgba(255, 255, 255, 0.66)");
+      card_main_outline.style("stroke", "rgba(255, 255, 255, 0.88)");
     }
 
     const card_image = d3.select(this).select(".card_image");
@@ -985,28 +985,8 @@ function createSaveButton() {
   saveButton.textContent = window.personNodeHandler
     ? "保存家谱图"
     : "下载家谱图";
-
-  // 设置按钮样式
-  Object.assign(saveButton.style, {
-    position: "fixed",
-    top: "20px",
-    right: "20px",
-    padding: "8px 16px",
-    backgroundColor: "#4CAF50",
-    color: "white",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  });
-
-  // 添加悬停效果
-  saveButton.addEventListener("mouseover", () => {
-    saveButton.style.backgroundColor = "#45a049";
-  });
-
-  saveButton.addEventListener("mouseout", () => {
-    saveButton.style.backgroundColor = "#4CAF50";
-  });
+  saveButton.className = "offline-glass-button";
+  saveButton.setAttribute("aria-label", saveButton.textContent);
 
   saveButton.addEventListener("click", () => {
     handleSaveSVGAsImage((result) => {

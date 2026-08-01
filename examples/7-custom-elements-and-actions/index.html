@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport"
       content="width=device-width,initial-scale=1.0,viewport-fit=cover" />
-    <title>custom-elements-and-actions</title>
+    <title>家谱图</title>
     <script src="../plugins/d3.v6.js"></script>
     <script src="../plugins/umd.min.js"></script>
     <link rel="stylesheet" href="../../src/styles/family-chart.css">
+    <link rel="stylesheet" href="./offline-liquid-glass.css">
 
   </head>
   <body>
-    <div id="FamilyChart" class="f3"
-      style="width:100%;height:100vh;margin:0;background-color:transparent;color:#fff;position:fixed;top:0;left:0;right:0;bottom:0;"></div>
+    <div id="FamilyChart" class="f3 offline-liquid-glass" aria-label="家谱图"></div>
     <script src="index.js" type="module"></script>
   </body>
 </html>
