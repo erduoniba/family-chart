@@ -3,6 +3,7 @@ import { generateUUID } from "../../src/CreateTree/newPerson.js";
 import {
   updateMainId,
   updateShowAllPersons,
+  updateGenderFilter,
   getCurrentRenderTree,
 } from "./index.js";
 
@@ -12,6 +13,7 @@ window.handleTreNodes = handleTreNodes;
 window.personSelect = personSelect;
 window.changeRelatreeMode = changeRelatreeMode;
 window.changeFullRelatreeMode = changeFullRelatreeMode;
+window.changeGenderFilter = changeGenderFilter;
 
 // 通用回调处理函数
 function createCallback(callbackName, callback) {
@@ -522,4 +524,9 @@ function changeRelatreeMode(isSimpleTree) {
 function changeFullRelatreeMode(showAllPersons) {
   console.log("切换全量展示模式", showAllPersons);
   updateShowAllPersons(!!showAllPersons, true);
+}
+
+function changeGenderFilter(genderFilter) {
+  console.log("切换图谱人物筛选", genderFilter);
+  updateGenderFilter(genderFilter, true);
 }

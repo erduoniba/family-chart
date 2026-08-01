@@ -14,13 +14,14 @@ import {
 
 const DEFAULT_MAIN_ID = "lin_chengyuan";
 const SHOW_ALL_PERSONS_STORAGE_KEY = "family_chart_show_all_persons";
+const GENDER_FILTER_STORAGE_KEY = "family_chart_gender_filter";
 
 // 初始化数据加载
 handlePersonList({}, refresh);
 
 // 定义全局变量
 export let treeData;
-let main_id, tree, svg, isSimpleTree, showAllPersons;
+let main_id, tree, svg, isSimpleTree, showAllPersons, genderFilter;
 
 function refresh(data) {
   // 创建SVG容器
@@ -45,6 +46,11 @@ function refresh(data) {
   if (showAllPersons == null) {
     showAllPersons =
       localStorage.getItem(SHOW_ALL_PERSONS_STORAGE_KEY) == 1 ? true : false;
+  }
+  if (genderFilter == null) {
+    genderFilter = normalizeGenderFilter(
+      localStorage.getItem(GENDER_FILTER_STORAGE_KEY)
+    );
   }
 
   if (window.personNodeHandler == null) {
@@ -119,16 +125,29 @@ export function updateShowAllPersons(_showAllPersons, refreshTree = false) {
   }
 }
 
-export function getCurrentRenderTree(overrideMainId = main_id) {
+export function updateGenderFilter(_genderFilter, refreshTree = false) {
+  genderFilter = normalizeGenderFilter(_genderFilter);
+  localStorage.setItem(GENDER_FILTER_STORAGE_KEY, genderFilter);
+
+  if (refreshTree && Array.isArray(treeData)) {
+    updateTree(treeData, svg, onCardClick, {
+      initial: false,
+      tree_position: "fit",
+      transition_time: 600,
+    });
+  }
+}
+
+export function getCurrentRenderTree(overrideMainId = main_id, data = filteredTreeData()) {
   return showAllPersons
     ? buildFullTreeLayout({
-        data: treeData,
+        data,
         main_id: overrideMainId,
         node_separation: isSimpleTree ? 98 : 168,
         level_separation: isSimpleTree ? 92 : 230,
       })
     : f3.CalculateTree({
-        data: treeData,
+        data,
         main_id: overrideMainId,
         single_parent_empty_card: false,
         node_separation: isSimpleTree ? 70 : 140,
@@ -138,9 +157,71 @@ export function getCurrentRenderTree(overrideMainId = main_id) {
 
 function updateTree(data, svg, onCardClick, props) {
   treeData = data;
-  tree = getCurrentRenderTree(main_id);
+  const displayedData = filteredTreeData();
+
+  if (displayedData.length === 0) {
+    showGenderEmptyState();
+    return;
+  }
+
+  hideGenderEmptyState();
+  if (!displayedData.some((person) => person.id === main_id)) {
+    updateMainId(displayedData[0].id);
+  }
+
+  const chartContainer = document.querySelector("#FamilyChart");
+  if (!chartContainer.querySelector("#f3Canvas")) {
+    svg = f3.createSvg(chartContainer);
+  }
+
+  tree = getCurrentRenderTree(main_id, displayedData);
   // 渲染树形图，使用自定义的Card组件
   f3.view(tree, svg, Card(tree, svg, onCardClick), props || {});
+}
+
+function normalizeGenderFilter(value) {
+  return value === "male" || value === "female" ? value : "all";
+}
+
+function filteredTreeData() {
+  if (genderFilter === "all") return treeData;
+
+  const visibleGender = genderFilter === "male" ? "M" : "F";
+  const visibleIds = new Set(
+    treeData
+      .filter((person) => person.data?.gender === visibleGender)
+      .map((person) => person.id)
+  );
+
+  return treeData
+    .filter((person) => visibleIds.has(person.id))
+    .map((person) => ({
+      ...person,
+      rels: {
+        ...person.rels,
+        father: visibleIds.has(person.rels?.father) ? person.rels.father : undefined,
+        mother: visibleIds.has(person.rels?.mother) ? person.rels.mother : undefined,
+        spouses: (person.rels?.spouses || []).filter((id) => visibleIds.has(id)),
+        children: (person.rels?.children || []).filter((id) => visibleIds.has(id)),
+      },
+    }));
+}
+
+function showGenderEmptyState() {
+  const chartContainer = document.querySelector("#FamilyChart");
+  chartContainer.querySelector("#f3Canvas")?.remove();
+  let emptyState = document.querySelector("#genderFilterEmptyState");
+  if (!emptyState) {
+    emptyState = document.createElement("div");
+    emptyState.id = "genderFilterEmptyState";
+    emptyState.style.cssText = "position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--text-color, #1d1d1f);font:500 16px -apple-system,BlinkMacSystemFont,sans-serif;text-align:center;padding:24px;";
+    chartContainer.appendChild(emptyState);
+  }
+  emptyState.textContent = genderFilter === "male" ? "暂无男性人物" : "暂无女性人物";
+}
+
+function hideGenderEmptyState() {
+  document.querySelector("#genderFilterEmptyState")?.remove();
 }
 
 function buildFullTreeLayout({
