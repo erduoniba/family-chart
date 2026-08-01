@@ -24,7 +24,9 @@ let main_id, tree, svg, isSimpleTree, showAllPersons;
 
 function refresh(data) {
   // 创建SVG容器
-  svg = f3.createSvg(document.querySelector("#FamilyChart"));
+  const chartContainer = document.querySelector("#FamilyChart");
+  chartContainer.querySelector("#f3Canvas")?.remove();
+  svg = f3.createSvg(chartContainer);
 
   // 从缓存中获取 main_id
   if (!main_id) {
@@ -913,12 +915,12 @@ function Card(tree, svg, onCardClick) {
 
   // 卡片更新处理函数
   function onCardUpdate(d) {
-    const rxy = isSimpleTree ? "5px" :"10px";
+    const rxy = isSimpleTree ? "6px" : "12px";
 
     const card_outline = d3.select(this).select(".card-outline");
     card_outline.attr("rx", rxy);
     card_outline.attr("ry", rxy);
-    card_outline.style("stroke-width", isSimpleTree ? "3px" : "8px");
+    card_outline.style("stroke-width", isSimpleTree ? "1.5px" : "2px");
 
     const card_body_rect = d3
       .select(this)
@@ -941,7 +943,7 @@ function Card(tree, svg, onCardClick) {
     // 卡片的边框视图
     const card_main_outline = d3.select(this).select(".card-main-outline");
     card_main_outline.style("stroke", "rgba(255, 255, 255, 0.88)");
-    card_main_outline.style("stroke-width", isSimpleTree ? "6px" : "16px");
+    card_main_outline.style("stroke-width", isSimpleTree ? "2.5px" : "3.5px");
     if (d.data.data.emperor) {
       card_outline.style("stroke", "rgba(255, 215, 0, 0.9)");
       card_main_outline.style("stroke", "rgba(255, 215, 0, 0.9)");
@@ -989,16 +991,42 @@ function createSaveButton() {
   saveButton.setAttribute("aria-label", saveButton.textContent);
 
   saveButton.addEventListener("click", () => {
+    if (saveButton.disabled) return;
+
+    const idleLabel = saveButton.textContent;
+    saveButton.disabled = true;
+    saveButton.classList.add("is-saving");
+    saveButton.textContent = "正在导出";
+
     handleSaveSVGAsImage((result) => {
+      saveButton.disabled = false;
+      saveButton.classList.remove("is-saving");
+      saveButton.textContent = idleLabel;
+
       if (result.success) {
-        alert(
-          window.personNodeHandler ? "家谱图保存成功！" : "家谱图下载成功！"
+        showFeedback(
+          window.personNodeHandler ? "家谱图已保存" : "家谱图已开始下载",
+          "success"
         );
       } else {
-        alert("保存失败：" + result.message);
+        showFeedback("导出失败：" + result.message, "error");
       }
     }, "svg");
   });
 
   document.body.appendChild(saveButton);
+}
+
+function showFeedback(message, type) {
+  const toast = document.querySelector("#offlineToast");
+  if (!toast) return;
+
+  window.clearTimeout(showFeedback.timeoutId);
+  toast.textContent = message;
+  toast.dataset.type = type;
+  toast.classList.add("is-visible");
+
+  showFeedback.timeoutId = window.setTimeout(() => {
+    toast.classList.remove("is-visible");
+  }, 2800);
 }

@@ -10,6 +10,7 @@ const fs = require('fs');
 const execSync = require('child_process').execSync;
 const archiver = require('archiver');
 const path = require('path');
+const crypto = require('crypto');
 
 // 引入压缩工具
 const terser = require('terser');
@@ -24,7 +25,12 @@ const CONFIG = {
   VERSION_FILE: path.join(__dirname, 'version.json'),
   EXAMPLE_7_DIR: '7-custom-elements-and-actions',
   EXAMPLE_7_FILES: ['index.html', 'index.js', 'personNodeHandler.js', 'offline-liquid-glass.css'],
-  PLUGIN_FILES: ['d3.v6.js', 'umd.min.js']
+  PLUGIN_FILES: ['d3.v6.js', 'umd.min.js'],
+  RELA_TREE: {
+    RESOURCES_DIR: path.resolve(__dirname, '../../RelaTree/RelationShip/Resources'),
+    PROJECT_FILE: path.resolve(__dirname, '../../RelaTree/RelaTree.xcodeproj/project.pbxproj'),
+    WEB_VIEW_CONTROLLER: path.resolve(__dirname, '../../RelaTree/RelationShip/Modules/WebView/HDWebViewController.swift')
+  }
 };
 
 /**
@@ -150,33 +156,118 @@ function getNextVersion() {
 function createZipArchive(tempDirPath, zipFilePath) {
   console.log('📦 开始创建ZIP压缩包...');
 
-  const output = fs.createWriteStream(zipFilePath);
-  const archive = archiver('zip', {
-    zlib: { level: CONFIG.COMPRESSION_LEVEL }
+  return new Promise((resolve, reject) => {
+    const output = fs.createWriteStream(zipFilePath);
+    const archive = archiver('zip', {
+      zlib: { level: CONFIG.COMPRESSION_LEVEL }
+    });
+
+    output.on('close', () => {
+      try {
+        const stats = fs.statSync(zipFilePath);
+        const fileSizeInBytes = stats.size;
+        const fileSizeInMB = (fileSizeInBytes / (1024 * 1024)).toFixed(2);
+
+        const versionFile = path.join(__dirname, 'version.json');
+        const versionData = JSON.parse(fs.readFileSync(versionFile, 'utf8'));
+        versionData.lastZipSize = `${fileSizeInMB}MB`;
+        fs.writeFileSync(versionFile, JSON.stringify(versionData, null, 2));
+
+        fs.rmSync(tempDirPath, { recursive: true, force: true });
+
+        console.log(`✅ ZIP文件已创建: ${zipFilePath}`);
+        console.log(`📊 文件大小: ${fileSizeInMB}MB`);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
+
+    output.on('error', reject);
+    archive.on('error', reject);
+    archive.pipe(output);
+    archive.directory(tempDirPath, false);
+    archive.finalize();
+  });
+}
+
+function createXcodeIdentifier(seed) {
+  return crypto.createHash('sha1').update(seed).digest('hex').slice(0, 24).toUpperCase();
+}
+
+function updateRelaTreeProject(zipFileName) {
+  const { PROJECT_FILE } = CONFIG.RELA_TREE;
+  const fileReferenceId = createXcodeIdentifier(`${zipFileName}:file`);
+  const buildFileId = createXcodeIdentifier(`${zipFileName}:build`);
+  let project = fs.readFileSync(PROJECT_FILE, 'utf8');
+
+  // 删除所有历史离线包的文件引用、资源组引用和 Build Phase 引用。
+  project = project.replace(/^.*family-chart-\d{10}\.zip.*\n/gm, '');
+
+  project = insertProjectEntry(
+    project,
+    '/* Begin PBXBuildFile section */\n',
+    `\t\t${buildFileId} /* ${zipFileName} in Resources */ = {isa = PBXBuildFile; fileRef = ${fileReferenceId} /* ${zipFileName} */; };\n`
+  );
+  project = insertProjectEntry(
+    project,
+    '/* Begin PBXFileReference section */\n',
+    `\t\t${fileReferenceId} /* ${zipFileName} */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "${zipFileName}"; sourceTree = "<group>"; };\n`
+  );
+  project = insertProjectEntry(
+    project,
+    '\t\tAD6C8BB62D630AEF00DE3AAB /* Resources */ = {\n\t\t\tisa = PBXGroup;\n\t\t\tchildren = (\n',
+    `\t\t\t\t${fileReferenceId} /* ${zipFileName} */,\n`
+  );
+  project = insertProjectEntry(
+    project,
+    '\t\tAD6C8B6C2D59F0C000DE3AAB /* Resources */ = {\n\t\t\tisa = PBXResourcesBuildPhase;\n\t\t\tbuildActionMask = 2147483647;\n\t\t\tfiles = (\n',
+    `\t\t\t\t${buildFileId} /* ${zipFileName} in Resources */,\n`
+  );
+
+  fs.writeFileSync(PROJECT_FILE, project);
+}
+
+function insertProjectEntry(project, marker, entry) {
+  if (!project.includes(marker)) {
+    throw new Error(`未找到 Xcode 项目结构标记: ${marker.split('\n')[0]}`);
+  }
+  return project.replace(marker, `${marker}${entry}`);
+}
+
+function updateRelaTreeOfflineZipName(zipBaseName) {
+  const { WEB_VIEW_CONTROLLER } = CONFIG.RELA_TREE;
+  const source = fs.readFileSync(WEB_VIEW_CONTROLLER, 'utf8');
+  const updated = source.replace(
+    /(private\s+let\s+offlineZipName\s*=\s*")[^"]+(")/,
+    `$1${zipBaseName}$2`
+  );
+
+  if (updated === source) {
+    throw new Error('未找到 HDWebViewController.swift 中的 offlineZipName');
+  }
+  fs.writeFileSync(WEB_VIEW_CONTROLLER, updated);
+}
+
+function syncRelaTreeOfflinePackage(version, zipFilePath) {
+  const { RESOURCES_DIR, PROJECT_FILE, WEB_VIEW_CONTROLLER } = CONFIG.RELA_TREE;
+  const zipBaseName = `family-chart-${version}`;
+  const zipFileName = `${zipBaseName}.zip`;
+  const destination = path.join(RESOURCES_DIR, zipFileName);
+
+  [RESOURCES_DIR, PROJECT_FILE, WEB_VIEW_CONTROLLER].forEach(target => {
+    if (!fs.existsSync(target)) throw new Error(`未找到 RelaTree 发布目标: ${target}`);
   });
 
-  archive.pipe(output);
-  archive.directory(tempDirPath, false);
+  fs.copyFileSync(zipFilePath, destination);
+  fs.readdirSync(RESOURCES_DIR)
+    .filter(file => /^family-chart-\d{10}\.zip$/.test(file) && file !== zipFileName)
+    .forEach(file => fs.rmSync(path.join(RESOURCES_DIR, file), { force: true }));
 
-  // 监听压缩完成事件，获取文件大小并更新到version.json
-  output.on('close', () => {
-    const stats = fs.statSync(zipFilePath);
-    const fileSizeInBytes = stats.size;
-    const fileSizeInMB = (fileSizeInBytes / (1024 * 1024)).toFixed(2);
+  updateRelaTreeProject(zipFileName);
+  updateRelaTreeOfflineZipName(zipBaseName);
 
-    const versionFile = path.join(__dirname, 'version.json');
-    const versionData = JSON.parse(fs.readFileSync(versionFile, 'utf8'));
-    versionData.lastZipSize = `${fileSizeInMB}MB`;
-    fs.writeFileSync(versionFile, JSON.stringify(versionData, null, 2));
-
-    // 删除临时目录
-    fs.rmSync(tempDirPath, { recursive: true, force: true });
-
-    console.log(`✅ ZIP文件已创建: ${zipFilePath}`);
-    console.log(`📊 文件大小: ${fileSizeInMB}MB`);
-  });
-
-  return archive.finalize();
+  console.log(`✅ RelaTree 离线包已同步: ${destination}`);
 }
 
 /**
@@ -255,7 +346,7 @@ async function processDirectory(dir) {
 }
 
 // 在 afterRollup 函数中添加压缩步骤
-function afterRollup() {
+async function afterRollup() {
   console.log('📝 开始后处理任务...');
   
   const version = getNextVersion();
@@ -292,20 +383,18 @@ function afterRollup() {
 
   // 添加压缩步骤
   console.log('🔍 开始压缩 JavaScript 和 CSS 文件...');
-  processDirectory(tempDirPath)
-    .then(() => {
-      console.log('✅ 文件压缩完成');
-      // 创建ZIP压缩包
-      createZipArchive(tempDirPath, zipFilePath);
-    })
-    .catch(error => {
-      console.error('❌ 文件压缩过程中出错:', error);
-      // 即使压缩出错，仍然创建ZIP压缩包
-      createZipArchive(tempDirPath, zipFilePath);
-    });
+  try {
+    await processDirectory(tempDirPath);
+    console.log('✅ 文件压缩完成');
+  } catch (error) {
+    console.error('❌ 文件压缩过程中出错:', error);
+  }
+
+  await createZipArchive(tempDirPath, zipFilePath);
+  syncRelaTreeOfflinePackage(version, zipFilePath);
 }
 
 // 按顺序执行构建流程
 beforeRollup();
 // rollup();
-afterRollup();
+afterRollup().catch(error => handleError(error, '离线包发布到 RelaTree 失败'));
